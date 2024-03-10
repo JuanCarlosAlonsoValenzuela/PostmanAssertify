@@ -1,0 +1,17 @@
+pptname;invariant;invariantType;variables;postmanAssertion;tp
+/&searchByIdOrTitle&200&Ratings():::EXIT;return.Source one of { "Internet Movie Database", "Metacritic", "Rotten Tomatoes" };daikon.inv.unary.string.OneOfString;(return.Source);warning: method daikon.inv.unary.string.OneOfString.format(OutputFormat:Postman) needs to be implemented: return.Source one of { "Internet Movie Database", "Metacritic", "Rotten Tomatoes" };1
+/&searchByIdOrTitle&200():::EXIT;input.i == return.imdbID;daikon.inv.binary.twoString.StringEqual;(input.i, return.imdbID);warning: method daikon.inv.binary.twoString.StringEqual.format(OutputFormat:Postman) needs to be implemented: input.i == return.imdbID;1
+/&searchByIdOrTitle&200():::EXIT;return.Response == "True";daikon.inv.unary.string.OneOfString;(return.Response);warning: method daikon.inv.unary.string.OneOfString.format(OutputFormat:Postman) needs to be implemented: return.Response == "True";1
+/&searchByIdOrTitle&200():::EXIT;LENGTH(return.Response)==4;daikon.inv.unary.string.FixedLengthString;(return.Response);TODO: IMPLEMENT POSTMAN ASSERTION;1
+/&searchByIdOrTitle&200():::EXIT;LENGTH(return.Released)==11;daikon.inv.unary.string.FixedLengthString;(return.Released);TODO: IMPLEMENT POSTMAN ASSERTION;1
+/&searchByIdOrTitle&200():::EXIT;return.Poster is Url;daikon.inv.unary.string.IsUrl;(return.Poster);TODO: IMPLEMENT POSTMAN ASSERTION;1
+/&searchByIdOrTitle&200():::EXIT;return.Metascore is Numeric;daikon.inv.unary.string.IsNumeric;(return.Metascore);TODO: IMPLEMENT POSTMAN ASSERTION;1
+/&searchByIdOrTitle&200():::EXIT;LENGTH(return.imdbRating)==3;daikon.inv.unary.string.FixedLengthString;(return.imdbRating);TODO: IMPLEMENT POSTMAN ASSERTION;1
+/&searchByIdOrTitle&200():::EXIT;return.imdbRating is Numeric;daikon.inv.unary.string.IsNumeric;(return.imdbRating);TODO: IMPLEMENT POSTMAN ASSERTION;1
+/&searchByIdOrTitle&200():::EXIT;return.imdbVotes is Numeric;daikon.inv.unary.string.IsNumeric;(return.imdbVotes);TODO: IMPLEMENT POSTMAN ASSERTION;1
+/&searchByIdOrTitle&200():::EXIT;return.Type one of { "episode", "movie", "series" };daikon.inv.unary.string.OneOfString;(return.Type);warning: method daikon.inv.unary.string.OneOfString.format(OutputFormat:Postman) needs to be implemented: return.Type one of { "episode", "movie", "series" };1
+/&searchByIdOrTitle&200():::EXIT;LENGTH(return.DVD)==11;daikon.inv.unary.string.FixedLengthString;(return.DVD);TODO: IMPLEMENT POSTMAN ASSERTION;1
+/&searchByIdOrTitle&200():::EXIT;return.Episode is Numeric;daikon.inv.unary.string.IsNumeric;(return.Episode);TODO: IMPLEMENT POSTMAN ASSERTION;1
+/&searchByIdOrTitle&200():::EXIT;return.Season is Numeric;daikon.inv.unary.string.IsNumeric;(return.Season);TODO: IMPLEMENT POSTMAN ASSERTION;1
+/&searchByIdOrTitle&200():::EXIT;LENGTH(return.seriesID)==9;daikon.inv.unary.string.FixedLengthString;(return.seriesID);TODO: IMPLEMENT POSTMAN ASSERTION;1
+/&searchByIdOrTitle&200():::EXIT;return.totalSeasons is Numeric;daikon.inv.unary.string.IsNumeric;(return.totalSeasons);TODO: IMPLEMENT POSTMAN ASSERTION;1
