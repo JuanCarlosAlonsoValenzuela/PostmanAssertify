@@ -8,10 +8,25 @@
     <artifactId>PostmanAssertionGenerator</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <developers>
+        <developer>
+            <id>JuanCarlosAlonsoValenzuela</id>
+            <name>Juan Carlos Alonso Valenzuela</name>
+            <email>javalenzuela@us.es</email>
+            <url>www.javalenzuela.com</url>
+            <organization>University of Seville</organization>
+            <organizationUrl>http://www.us.es</organizationUrl>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
+
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <junit.platform.version>1.5.2</junit.platform.version>
     </properties>
 
     <dependencies>
@@ -21,6 +36,20 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-csv</artifactId>
             <version>1.10.0</version>
+        </dependency>
+
+        <!-- jUnit 5 -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.7.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-runner</artifactId>
+            <version>${junit.platform.version}</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>

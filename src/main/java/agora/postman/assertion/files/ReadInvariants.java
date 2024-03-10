@@ -1,4 +1,4 @@
-package agora.postman.assertion;
+package agora.postman.assertion.files;
 
 import agora.postman.assertion.files.InvariantDataFileManager;
 import agora.postman.assertion.model.InvariantData;
