@@ -1,7 +1,6 @@
 package agora.postman.assertion.files;
 
-import agora.postman.assertion.files.InvariantDataFileManager;
-import agora.postman.assertion.model.InvariantData;
+import agora.postman.assertion.model.Invariant;
 
 import java.io.IOException;
 import java.util.List;
@@ -13,7 +12,7 @@ import static agora.postman.assertion.files.CSVManager.readCSV;
  */
 public class ReadInvariants {
 
-    public static List<InvariantData> getInvariantsDataFromPath(String invariantsPath) {
+    public static List<Invariant> getInvariantsDataFromPath(String invariantsPath) {
 
         // Read the csv file as a list of rows
         List<List<String>> rows = readCSV(invariantsPath, true, ';');
@@ -29,7 +28,7 @@ public class ReadInvariants {
             e.printStackTrace();
         }
 
-        List<InvariantData> invariantsData = invariantDataFileManager.getInvariantsData(rows);
+        List<Invariant> invariantsData = invariantDataFileManager.getInvariantsData(rows);
 
         return invariantsData;
 

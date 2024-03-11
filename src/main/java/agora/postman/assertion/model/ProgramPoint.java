@@ -1,5 +1,6 @@
 package agora.postman.assertion.model;
 
+import javax.sound.sampled.Port;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,16 +17,23 @@ import static agora.postman.assertion.Main.HIERARCHY_SEPARATOR;
  */
 public class ProgramPoint {
 
+    private String pptname;
     private PptType pptType;
     private String endpoint;
     private String operationId;
     private int responseCode;
     private List<String> variableHierarchy;
 
+    // Invariants of this nesting level
+    private List<Invariant> invariants;
+    // Program points that are nested inside this one
+    private List<ProgramPoint> nestedProgramPoints;
+
     // TODO: Take ARRAY_HIERARCHY_SEPARATOR (GitHub and RESTCountries) into account
     public ProgramPoint(String pptname){
         List<String> pptnameComponents = Arrays.stream(pptname.split(HIERARCHY_SEPARATOR)).toList();
 
+        this.pptname = pptname;
         this.pptType = getPptType(pptname);
         this.endpoint = pptnameComponents.get(0);
         this.operationId = pptnameComponents.get(1);
@@ -34,6 +42,31 @@ public class ProgramPoint {
         // The input are the elements of the list that contain the nested variables
         this.variableHierarchy = getVariableHierarchy(pptnameComponents.subList(3, pptnameComponents.size()));
 
+        this.invariants = new ArrayList<>();
+        this.nestedProgramPoints = new ArrayList<>();
+
+    }
+
+    // TODO: Take ARRAY_HIERARCHY_SEPARATOR (GitHub and RESTCountries) into account
+    public ProgramPoint(String pptname, List<Invariant> invariants){
+        List<String> pptnameComponents = Arrays.stream(pptname.split(HIERARCHY_SEPARATOR)).toList();
+
+        this.pptname = pptname;
+        this.pptType = getPptType(pptname);
+        this.endpoint = pptnameComponents.get(0);
+        this.operationId = pptnameComponents.get(1);
+        this.responseCode = getResponseCode(pptnameComponents.get(2));     // TODO: Can contain %array, create test
+
+        // The input are the elements of the list that contain the nested variables
+        this.variableHierarchy = getVariableHierarchy(pptnameComponents.subList(3, pptnameComponents.size()));
+
+        this.invariants = invariants;
+        this.nestedProgramPoints = new ArrayList<>();
+
+    }
+
+    public String getPptname() {
+        return pptname;
     }
 
     public PptType getPptType() {
@@ -54,6 +87,39 @@ public class ProgramPoint {
 
     public List<String> getVariableHierarchy() {
         return variableHierarchy;
+    }
+
+    public List<Invariant> getInvariants() {
+        return invariants;
+    }
+
+    public List<ProgramPoint> getNestedProgramPoints() {
+        return nestedProgramPoints;
+    }
+
+    public void addInvariant(Invariant invariant) {
+        this.invariants.add(invariant);
+    }
+
+    public void addNestedProgramPoint(ProgramPoint nestedProgramPoint) {
+        this.nestedProgramPoints.add(nestedProgramPoint);
+    }
+
+    // Get base variable (check for non null responses)
+
+    /**
+     * @return Postman code accessing to the base variable of the nesting level of the current program point. All the
+     * variables involved in the invariants of this nesting level are properties of this base variable.
+     */
+    public String getNestingLevelBaseVariable() {
+        // Get the API response as JSON
+        String res = "response = pm.response.json();\n";
+
+        // TODO: Implement if %array
+        // TODO: Implement nesting levels
+        // TODO: If the property is called "response"
+
+        return res;
     }
 
     @Override

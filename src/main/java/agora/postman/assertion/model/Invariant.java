@@ -4,9 +4,9 @@ import java.util.List;
 
 /**
  * @author Juan C. Alonso
+ * Stores information about an invariant reported by AGORA
  */
-public class InvariantData {
-    // TODO: Rename to simply invariant?
+public class Invariant {
 
     private String pptname;
     private String invariant;
@@ -14,7 +14,7 @@ public class InvariantData {
     private List<String> variables;
     private String postmanAssertion;
 
-    public InvariantData(String pptname, String invariant, String invariantType, List<String> variables, String postmanAssertion) {
+    public Invariant(String pptname, String invariant, String invariantType, List<String> variables, String postmanAssertion) {
         this.pptname = pptname;
         this.invariant = invariant;
         this.invariantType = invariantType;
