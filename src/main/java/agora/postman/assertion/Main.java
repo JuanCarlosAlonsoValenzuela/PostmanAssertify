@@ -22,7 +22,7 @@ public class Main {
 
         // TODO: Manage exceptions of this project properly
         // Read invariants from file
-        List<Invariant> invariants = getInvariantsDataFromPath("src/main/resources/test3.csv");
+        List<Invariant> invariants = getInvariantsDataFromPath("src/main/resources/test2.csv");
 
         // Get unique pptnames
         // TODO: There can be multiple status codes and multiple API operations
@@ -69,48 +69,15 @@ public class Main {
          * 3.- Generate all the test cases.
           */
 
-//        System.out.println("######################################################");
-//        for(String nestingLevel: orderedNestingLevels) {
-//
-//            ProgramPoint targetProgramPoint = null;
-//
-//            // Locate the program point object
-//            for(ProgramPoint programPoint: allProgramPoints) {
-//
-//                // TODO: Change this if
-//                List<String> nestingLevelList = Arrays.asList(nestingLevel.split(HIERARCHY_SEPARATOR));
-//                nestingLevelList = nestingLevelList.subList(1, nestingLevelList.size());
-//                if(nestingLevelList.equals(programPoint.getVariableHierarchy())) {
-//                    targetProgramPoint = programPoint;
-//                    break;
-//                }
-//            }
-//
-//            // TODO: Open and close brackets: {}
-//            // Locate the ¿base variable? Rename of the current nesting level, independently of the presence of a program point with invariants
-////            String programPointBaseVariable = getProgramPointBaseVariable(null, nestingLevel);
-//
-//            if(targetProgramPoint != null) {
-//                // TODO: Implement tests
-//            }
-//
-//            System.out.println(nestingLevel);
-//            System.out.println("For the " + nestingLevel + " nesting level, the target program point is " + targetProgramPoint);
-//            System.out.println("\n");
-//            // If the program point exists, locate the base variable
-//
-//            // Once the variable is located, implement all the tests
-//        }
-
-
-
-
-
 
     }
 
-    // TODO: Document
+    // TODO: Document.
+    // TODO: Make everything happen inside this method.
+    // TODO: I think I won't be needing the "results" list anymore
     private static List<String> programPointsDepthSearch(Tree<String> tree, List<String> parents, List<String> results, String parentBaseVariable) {
+
+        boolean isArray = true;
 
         String data = tree.getData();
 
@@ -118,25 +85,80 @@ public class Main {
         updatedParents.add(data);
 
         String result = String.join(HIERARCHY_SEPARATOR, updatedParents);
+
         results.add(result);
 
-        System.out.println(result);
 
-        String baseVariable;
-        if(parents.isEmpty()) {
-            baseVariable = "response = pm.response.json();";
-            parentBaseVariable = "response";
-        } else {
-            baseVariable = parentBaseVariable + "_" + data + " = " + parentBaseVariable + "." + data;
-            parentBaseVariable = parentBaseVariable + "_" + data;
-        }
-        System.out.println("\tBase variable: " + baseVariable);
+
+        // Print initial lines of the nesting level
+        parentBaseVariable = generateNestingLevelInitialLines(parents, parentBaseVariable, data, result);
+
 
         for(Tree<String> child: tree.getChildren()) {
             results = programPointsDepthSearch(child, updatedParents, results, parentBaseVariable);
         }
 
+        // TODO: Improve this condition
+        if(!parents.isEmpty()) {
+            // TODO: The first nesting level (response) should not have a closing if/for
+
+
+            String indentationStr = "\t".repeat(Math.max(parents.size() - 1, 0));
+
+            System.out.println(indentationStr + "\t} // Closing for " + parentBaseVariable);
+            System.out.println(indentationStr + "} // Closing if "+ parentBaseVariable);
+            System.out.println("\n");
+        }
+
         return results;
+    }
+
+    // TODO: Document
+    // TODO: This should be a class
+    // TODO: Currently returns parentBaseVariable name, refactor to return an object with more information
+    // TODO: Implement number of tabulations (based on parents.size)
+    // TODO: Improve parameters, create a class or similar
+    // TODO: Remove result from parameters, is unnecessary
+    public static String generateNestingLevelInitialLines(List<String> parents, String parentBaseVariable, String data, String result) {
+
+        String indentationStr = "\t".repeat(Math.max(parents.size() - 1, 0));
+
+        // Print current nesting level (e.g., 200&data)
+        System.out.println(indentationStr + "// " + result);
+
+        if(parents.isEmpty()){  // If we are in the first nesting level
+            // Assign base variable
+            System.out.println("response = pm.response.json();");
+            parentBaseVariable = "response";
+
+            System.out.println("// TODO: Postman tests here");
+            System.out.println("\n");
+
+        } else {    // If we are in a deeper nesting level
+
+            // TODO: PARENTBASEVARAIBLE IS _element IF FATHER IS AN ARRAY (most of the time)!!!!
+            String baseVariableAsignation = parentBaseVariable + "_" + data + " = " + parentBaseVariable + "." + data;
+            parentBaseVariable = parentBaseVariable + "_" + data;
+
+            System.out.println(indentationStr + baseVariableAsignation);
+            System.out.println(indentationStr + "if(" + parentBaseVariable + " != null) {");
+
+            String baseVariableIndex = parentBaseVariable + "_index";
+            String baseVariableElement = parentBaseVariable + "_element";
+
+            System.out.println(indentationStr + "\tfor(" + baseVariableIndex + " in " + parentBaseVariable + ") {");
+            System.out.println(indentationStr + "\t\t" + baseVariableElement + " = " + parentBaseVariable + "[" + baseVariableIndex + "]");
+
+
+            System.out.println(indentationStr + "\t\t// TODO: Postman tests here");
+
+            System.out.println("\n");
+
+        }
+
+
+        return parentBaseVariable;
+
     }
 
 
