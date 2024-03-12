@@ -111,6 +111,7 @@ public class ProgramPoint {
      * @return Postman code accessing to the base variable of the nesting level of the current program point. All the
      * variables involved in the invariants of this nesting level are properties of this base variable.
      */
+    // TODO: Remove
     public String getNestingLevelBaseVariable() {
         // Get the API response as JSON
         String res = "response = pm.response.json();\n";

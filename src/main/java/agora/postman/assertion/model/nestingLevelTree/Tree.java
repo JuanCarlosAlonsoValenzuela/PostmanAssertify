@@ -1,5 +1,7 @@
 package agora.postman.assertion.model.nestingLevelTree;
 
+import agora.postman.assertion.model.ProgramPoint;
+
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -15,6 +17,9 @@ public class Tree<T> implements Visitable<T>{
 
     // Value of the current tree node
     private final T data;
+
+    // Value of the corresponding program point
+    private ProgramPoint programPoint;
 
     public T getData() {
         return data;
@@ -60,6 +65,14 @@ public class Tree<T> implements Visitable<T>{
         children.add(child);
         // Return the child
         return child;
+    }
+
+    public ProgramPoint getProgramPoint() {
+        return this.programPoint;
+    }
+
+    public void setProgramPoint(ProgramPoint programPoint) {
+        this.programPoint = programPoint;
     }
 
 }

@@ -4,6 +4,7 @@ import agora.postman.assertion.model.Invariant;
 import agora.postman.assertion.model.ProgramPoint;
 import agora.postman.assertion.model.nestingLevelTree.PrintIndentedVisitor;
 import agora.postman.assertion.model.nestingLevelTree.Tree;
+import org.w3c.dom.ls.LSOutput;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -17,6 +18,7 @@ public class Main {
 
     public static String HIERARCHY_SEPARATOR = "&";
     public static String ARRAY_NESTING_SEPARATOR = "%";
+    public static String ROOT_NAME = "200"; // TODO: REFACTOR/DELETE
 
     public static void main(String[] args) {
 
@@ -51,10 +53,10 @@ public class Main {
 
 
         // Get all the tree paths from the list of program point names
-        List<String> paths = allProgramPoints.stream().map(ProgramPoint::getVariableHierarchyAsString).filter(x->!x.isEmpty()).toList();
+//        List<String> paths = allProgramPoints.stream().map(ProgramPoint::getVariableHierarchyAsString).filter(x->!x.isEmpty()).toList();
 
         // Create program point hierarchy tree from list of paths
-        Tree<String> programPointHierarchy = getProgramPointHierarchy(paths);
+        Tree<String> programPointHierarchy = getProgramPointHierarchy(allProgramPoints);
 
         programPointHierarchy.accept(new PrintIndentedVisitor(0));
 
@@ -75,14 +77,11 @@ public class Main {
     // TODO: Document.
     // TODO: Make everything happen inside this method.
     // TODO: I think I won't be needing the "results" list anymore
+    // TODO: The method used for fetching the designed program point is not efficient, modify the tree class to support this
     private static List<String> programPointsDepthSearch(Tree<String> tree, List<String> parents, List<String> results, String parentBaseVariable) {
 
-        boolean isArray = true;
-
-        String data = tree.getData();
-
         List<String> updatedParents = new ArrayList<>(parents);
-        updatedParents.add(data);
+        updatedParents.add(tree.getData());
 
         String result = String.join(HIERARCHY_SEPARATOR, updatedParents);
 
@@ -91,7 +90,7 @@ public class Main {
 
 
         // Print initial lines of the nesting level
-        parentBaseVariable = generateNestingLevelInitialLines(parents, parentBaseVariable, data, result);
+        parentBaseVariable = generateNestingLevelInitialLines(parents, parentBaseVariable, tree, result);
 
 
         for(Tree<String> child: tree.getChildren()) {
@@ -119,7 +118,7 @@ public class Main {
     // TODO: Implement number of tabulations (based on parents.size)
     // TODO: Improve parameters, create a class or similar
     // TODO: Remove result from parameters, is unnecessary
-    public static String generateNestingLevelInitialLines(List<String> parents, String parentBaseVariable, String data, String result) {
+    public static String generateNestingLevelInitialLines(List<String> parents, String parentBaseVariable, Tree<String> tree, String result) {
 
         String indentationStr = "\t".repeat(Math.max(parents.size() - 1, 0));
 
@@ -134,9 +133,24 @@ public class Main {
             System.out.println("// TODO: Postman tests here");
             System.out.println("console.log(\"Printing value of " + parentBaseVariable + "\")");
             System.out.println("console.log(" + parentBaseVariable + ")");
+
+
+            // Get invariants of this nesting level
+            // TODO: Convert into function
+            if(tree.getProgramPoint() != null) {
+                System.out.println("// Invariants of this nesting level:");
+                for(Invariant inv: tree.getProgramPoint().getInvariants()) {
+                    System.out.println("// " + inv.getInvariant());
+                }
+            } else {
+                System.out.println("// This nesting level has no invariants");
+            }
+
             System.out.println("\n");
 
         } else {    // If we are in a deeper nesting level
+
+            String data = tree.getData();
 
             // TODO: Null pointer if the array is empty (modify if clause to contemplate this)
             String baseVariableAsignation = parentBaseVariable + "_" + data + " = " + parentBaseVariable + "." + data;
@@ -160,6 +174,16 @@ public class Main {
             System.out.println(indentationStr + "\t\tconsole.log(\"Printing value of " + parentBaseVariable + "\")");
             System.out.println(indentationStr + "\t\tconsole.log(" + parentBaseVariable + ")");
 
+            // Get invariants of this nesting level
+            if(tree.getProgramPoint() != null) {    // TODO: Convert into function
+                System.out.println(indentationStr + "\t\t// Invariants of this nesting level:");
+                for(Invariant inv: tree.getProgramPoint().getInvariants()) {
+                    System.out.println(indentationStr + "\t\t// " + inv.getInvariant());
+                }
+            } else {
+                System.out.println("// This nesting level has no invariants");
+            }
+
             System.out.println("\n");
 
 
@@ -176,30 +200,47 @@ public class Main {
      * @param paths: List of program point names, separated by HIERARCHY_SEPARATOR
      * @return Program point hierarchy tree, derived from the list of paths.
      */
+    // TODO: Update parameters in Javadoc
     // TODO: Move to a different class
-    private static Tree<String> getProgramPointHierarchy(List<String> paths) {
+    private static Tree<String> getProgramPointHierarchy(List<ProgramPoint> allProgramPoints) {
 
         // Create a tree with a root node
         // TODO: Use other method for specifying the root
-        Tree<String> programPointHierarchy = new Tree<>("200");
+        Tree<String> programPointHierarchy = new Tree<>(ROOT_NAME);
 
         // Create the variable of type tree that we will iterate on
         Tree<String> current = programPointHierarchy;
 
-        // Given a list of tree paths, this for loop creates the complete tree
-        for(String path: paths) {
-            // Create a variable to store the root
-            Tree<String> root = current;
+        // Iterate over all program points
+        // Given the list of all the tree paths, this for loop creates the complete tree
+        for(ProgramPoint programPoint: allProgramPoints) {
 
-            // For each item of the hierarchy
-            for(String data: path.split(HIERARCHY_SEPARATOR)) {
-                // Dive into the tree following the hierarchy by updating the value of current
-                // If the node does not exist, it is added
-                current = current.child(data);
+            // Get the path of this program point
+            String path = programPoint.getVariableHierarchyAsString();
+
+            // If the path is not empty, create the path and assign the program point to the last path element
+            if(!path.isEmpty()) {
+                // Create a variable to store the root
+                Tree<String> root = current;
+
+                // For each item of the hierarchy
+                for (String data : path.split(HIERARCHY_SEPARATOR)) {
+                    // Dive into the tree following the hierarchy by updating the value of current
+                    // If the node does not exist, it is added
+                    current = current.child(data);
+                }
+
+                // Assign the program point to the last element of the path
+                current.setProgramPoint(programPoint);
+
+                // Set current to the root value again
+                current = root;
+            } else {
+                // If the path is an empty string, assign the invariants to the root
+                // (the path of the first nesting level is an empty string)
+                current.setProgramPoint(programPoint);
+
             }
-
-            // Set current to the root value again
-            current = root;
         }
 
         return programPointHierarchy;
