@@ -1,0 +1,12 @@
+pptname;invariant;invariantType;variables;postmanAssertion;tp
+/artists/{id}/albums&getArtistAlbums&200&items&artists():::EXIT;LENGTH(return.href)==57;daikon.inv.unary.string.FixedLengthString;(return.href);TODO: IMPLEMENT ASSERTION;1
+/artists/{id}/albums&getArtistAlbums&200&items&artists():::EXIT;return.href is Url;daikon.inv.unary.string.IsUrl;(return.href);TODO: IMPLEMENT ASSERTION;1
+/artists/{id}/albums&getArtistAlbums&200&items&artists():::EXIT;LENGTH(return.id)==22;daikon.inv.unary.string.FixedLengthString;(return.id);TODO: IMPLEMENT ASSERTION;1
+/artists/{id}/albums&getArtistAlbums&200&items&artists():::EXIT;"return.type == ""artist""";daikon.inv.unary.string.OneOfString;(return.type);TODO: IMPLEMENT ASSERTION;1
+/artists/{id}/albums&getArtistAlbums&200&items&images():::EXIT;LENGTH(return.url)==64;daikon.inv.unary.string.FixedLengthString;(return.url);TODO: IMPLEMENT ASSERTION;1
+/artists/{id}/albums&getArtistAlbums&200&items&images():::EXIT;return.url is Url;daikon.inv.unary.string.IsUrl;(return.url);TODO: IMPLEMENT ASSERTION;1
+/artists/{id}/albums&getArtistAlbums&200&items():::EXIT;return.total_tracks >= 1;daikon.inv.unary.scalar.LowerBound;(return.total_tracks);TODO: IMPLEMENT ASSERTION;1
+/artists/{id}/albums&getArtistAlbums&200&items():::EXIT;size(return.available_markets[]) >= 1;daikon.inv.unary.scalar.LowerBound;(size(return.available_markets[..]));TODO: IMPLEMENT ASSERTION;1
+/artists/{id}/albums&getArtistAlbums&200&items():::EXIT;size(return.artists[]) >= 1;daikon.inv.unary.scalar.LowerBound;(size(return.artists[..]));TODO: IMPLEMENT ASSERTION;1
+/artists/{id}/albums&getArtistAlbums&200():::EXIT;return.limit >= 1;daikon.inv.unary.scalar.LowerBound;(return.limit);TODO: IMPLEMENT ASSERTION;1
+/artists/{id}/albums&getArtistAlbums&200():::EXIT;return.next is Url;daikon.inv.unary.string.IsUrl;(return.next);TODO: IMPLEMENT ASSERTION;1

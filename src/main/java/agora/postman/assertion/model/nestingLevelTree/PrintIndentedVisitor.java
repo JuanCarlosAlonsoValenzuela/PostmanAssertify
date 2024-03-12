@@ -1,13 +1,15 @@
-package agora.postman.assertion.TreeHierarchy;
+package agora.postman.assertion.model.nestingLevelTree;
 
 /**
  * @author Juan C. Alonso
+ * This class, implementing the Visitor interface, is used to print, using identation, the tree representing the
+ * nesting level hierarchy.
  */
 public class PrintIndentedVisitor implements Visitor<String> {
 
     private final int indent;
 
-    PrintIndentedVisitor(int indent) {
+    public PrintIndentedVisitor(int indent) {
         this.indent = indent;
     }
 

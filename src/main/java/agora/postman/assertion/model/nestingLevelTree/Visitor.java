@@ -1,4 +1,4 @@
-package agora.postman.assertion.TreeHierarchy;
+package agora.postman.assertion.model.nestingLevelTree;
 
 /**
  * @author Juan C. Alonso

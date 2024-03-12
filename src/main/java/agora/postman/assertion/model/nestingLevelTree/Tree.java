@@ -1,10 +1,12 @@
-package agora.postman.assertion.TreeHierarchy;
+package agora.postman.assertion.model.nestingLevelTree;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
  * @author Juan C. Alonso
+ * This Tree class is used to represent the nesting level hierarchy as a tree. The tree is created from a set
+ * of paths (i.e., set of pptnames).
  */
 public class Tree<T> implements Visitable<T>{
 
@@ -13,6 +15,14 @@ public class Tree<T> implements Visitable<T>{
 
     // Value of the current tree node
     private final T data;
+
+    public T getData() {
+        return data;
+    }
+
+    public Set<Tree<T>> getChildren() {
+        return children;
+    }
 
     // Create a new tree with a single node
     public Tree(T data) {

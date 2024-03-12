@@ -3,6 +3,7 @@ package agora.postman.assertion.model;
 import javax.sound.sampled.Port;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static agora.postman.assertion.Main.ARRAY_NESTING_SEPARATOR;
@@ -13,7 +14,7 @@ import static agora.postman.assertion.Main.HIERARCHY_SEPARATOR;
  * Stores information about a program point name, all this information is automatically derived from the pptname in
  * the csv file. A pptname contains, in this order, the endpoint of the API, the operation id, the response code, the
  * list of variables required to access to the nesting level of the program point (variableHierachy) and the program
- * point type (ENTER or EXIT).
+ * point type (ENTER or EXIT). It also contains the list of all the invariants of the program point.
  */
 public class ProgramPoint {
 
@@ -26,8 +27,6 @@ public class ProgramPoint {
 
     // Invariants of this nesting level
     private List<Invariant> invariants;
-    // Program points that are nested inside this one
-    private List<ProgramPoint> nestedProgramPoints;
 
     // TODO: Take ARRAY_HIERARCHY_SEPARATOR (GitHub and RESTCountries) into account
     public ProgramPoint(String pptname){
@@ -43,7 +42,6 @@ public class ProgramPoint {
         this.variableHierarchy = getVariableHierarchy(pptnameComponents.subList(3, pptnameComponents.size()));
 
         this.invariants = new ArrayList<>();
-        this.nestedProgramPoints = new ArrayList<>();
 
     }
 
@@ -61,7 +59,6 @@ public class ProgramPoint {
         this.variableHierarchy = getVariableHierarchy(pptnameComponents.subList(3, pptnameComponents.size()));
 
         this.invariants = invariants;
-        this.nestedProgramPoints = new ArrayList<>();
 
     }
 
@@ -93,17 +90,24 @@ public class ProgramPoint {
         return invariants;
     }
 
-    public List<ProgramPoint> getNestedProgramPoints() {
-        return nestedProgramPoints;
-    }
-
     public void addInvariant(Invariant invariant) {
         this.invariants.add(invariant);
     }
 
-    public void addNestedProgramPoint(ProgramPoint nestedProgramPoint) {
-        this.nestedProgramPoints.add(nestedProgramPoint);
+    /**
+     * @return variable hierarchy list as a single string, joined by HIERARCHY_SEPARATOR, this string is a path
+     * in the nesting level tree. For instance if variableHierarchy=["items", "images"] and HIERARCHY_SEPARATOR="&",
+     * this function returns "items&images".
+     */
+    // TODO: Explain that I use responseCode as root (if I end up using it).
+    public String getVariableHierarchyAsString() {
+        if (this.variableHierarchy.isEmpty()) {
+            return Integer.toString(this.responseCode);
+        } else {
+            return this.responseCode + HIERARCHY_SEPARATOR + String.join(HIERARCHY_SEPARATOR, this.variableHierarchy);
+        }
     }
+
 
     // Get base variable (check for non null responses)
 
@@ -122,6 +126,7 @@ public class ProgramPoint {
         return res;
     }
 
+    // TODO: Update
     @Override
     public String toString() {
         return "ProgramPoint{" +

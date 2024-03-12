@@ -2,7 +2,10 @@ package agora.postman.assertion;
 
 import agora.postman.assertion.model.Invariant;
 import agora.postman.assertion.model.ProgramPoint;
+import agora.postman.assertion.model.nestingLevelTree.PrintIndentedVisitor;
+import agora.postman.assertion.model.nestingLevelTree.Tree;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +25,7 @@ public class Main {
 
         // TODO: Manage exceptions of this project properly
         // Read invariants from file
-        List<Invariant> invariants = getInvariantsDataFromPath("src/main/resources/test.csv");
+        List<Invariant> invariants = getInvariantsDataFromPath("src/main/resources/test3.csv");
 
         // Get unique pptnames
         // TODO: There can be multiple status codes and multiple API operations
@@ -41,28 +44,78 @@ public class Main {
         Map<String, List<Invariant>> invariantsGroupedByPptName = invariants
                 .stream().collect(Collectors.groupingBy(Invariant::getPptname));
 
+        // TODO: We are assuming that these program points are grouped by endpoint, operationId and responseCode
+
         // Get all program points with their corresponding invariants
         List<ProgramPoint> allProgramPoints = invariantsGroupedByPptName.entrySet().stream()
                 .map(entry -> new ProgramPoint(entry.getKey(), entry.getValue()))
                 .sorted(Comparator.comparingInt(x-> x.getVariableHierarchy().size()))
                 .toList();
 
-        for(ProgramPoint ppt: allProgramPoints) {
-            System.out.println(ppt);
-        }
 
+        // Get all the tree paths from the list of program point names
+        List<String> paths = allProgramPoints.stream().map(ProgramPoint::getVariableHierarchyAsString).toList();
 
-        
+        // Create program point hierarchy tree from list of paths
+        Tree<String> programPointHierarchy = getProgramPointHierarchy(paths);
 
-        // TODO: We are assuming that these program points are grouped by endpoint, operationId and responseCode
+        programPointHierarchy.accept(new PrintIndentedVisitor(0));
 
-
-
-
-
+        // Iterate over program point hierarchy (width search)
+        programPointsDepthSearch(programPointHierarchy, new ArrayList<>());
 
 
 
 
     }
+
+    private static void programPointsDepthSearch(Tree<String> tree, List<String> parents) {
+
+        String data = tree.getData();
+
+        List<String> updatedParents = new ArrayList<>(parents);
+        updatedParents.add(data);
+
+        System.out.println(String.join(HIERARCHY_SEPARATOR, updatedParents));
+
+        for(Tree<String> child: tree.getChildren()) {
+            programPointsDepthSearch(child, updatedParents);
+        }
+
+    }
+
+
+    /**
+     * @param paths: List of program point names, separated by HIERARCHY_SEPARATOR
+     * @return Program point hierarchy tree, derived from the list of paths.
+     */
+    // TODO: Move to a different class
+    private static Tree<String> getProgramPointHierarchy(List<String> paths) {
+
+        // Create a tree with a root node
+        // TODO: Use other method for specifying the root
+        Tree<String> programPointHierarchy = new Tree<>("root");
+
+        // Create the variable of type tree that we will iterate on
+        Tree<String> current = programPointHierarchy;
+
+        // Given a list of tree paths, this for loop creates the complete tree
+        for(String path: paths) {
+            // Create a variable to store the root
+            Tree<String> root = current;
+
+            // For each item of the hierarchy
+            for(String data: path.split(HIERARCHY_SEPARATOR)) {
+                // Dive into the tree following the hierarchy by updating the value of current
+                // If the node does not exist, it is added
+                current = current.child(data);
+            }
+
+            // Set current to the root value again
+            current = root;
+        }
+
+        return programPointHierarchy;
+    }
+
 }
