@@ -5,10 +5,7 @@ import agora.postman.assertion.model.ProgramPoint;
 import agora.postman.assertion.model.nestingLevelTree.PrintIndentedVisitor;
 import agora.postman.assertion.model.nestingLevelTree.Tree;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static agora.postman.assertion.files.ReadInvariants.getInvariantsDataFromPath;
@@ -62,7 +59,8 @@ public class Main {
         programPointHierarchy.accept(new PrintIndentedVisitor(0));
 
         // Iterate over program point hierarchy (in-depth search)
-        List<String> orderedNestingLevels = programPointsDepthSearch(programPointHierarchy, new ArrayList<>(), new ArrayList<>());
+        System.out.println("###############################");
+        List<String> orderedNestingLevels = programPointsDepthSearch(programPointHierarchy, new ArrayList<>(), new ArrayList<>(), null);
 
         /**
          * For each of these program points (in-depth search order):
@@ -71,10 +69,38 @@ public class Main {
          * 3.- Generate all the test cases.
           */
 
-        System.out.println("######################################################");
-        for(String nestingLevel: orderedNestingLevels) {
-            System.out.println(nestingLevel);
-        }
+//        System.out.println("######################################################");
+//        for(String nestingLevel: orderedNestingLevels) {
+//
+//            ProgramPoint targetProgramPoint = null;
+//
+//            // Locate the program point object
+//            for(ProgramPoint programPoint: allProgramPoints) {
+//
+//                // TODO: Change this if
+//                List<String> nestingLevelList = Arrays.asList(nestingLevel.split(HIERARCHY_SEPARATOR));
+//                nestingLevelList = nestingLevelList.subList(1, nestingLevelList.size());
+//                if(nestingLevelList.equals(programPoint.getVariableHierarchy())) {
+//                    targetProgramPoint = programPoint;
+//                    break;
+//                }
+//            }
+//
+//            // TODO: Open and close brackets: {}
+//            // Locate the ¿base variable? Rename of the current nesting level, independently of the presence of a program point with invariants
+////            String programPointBaseVariable = getProgramPointBaseVariable(null, nestingLevel);
+//
+//            if(targetProgramPoint != null) {
+//                // TODO: Implement tests
+//            }
+//
+//            System.out.println(nestingLevel);
+//            System.out.println("For the " + nestingLevel + " nesting level, the target program point is " + targetProgramPoint);
+//            System.out.println("\n");
+//            // If the program point exists, locate the base variable
+//
+//            // Once the variable is located, implement all the tests
+//        }
 
 
 
@@ -84,7 +110,7 @@ public class Main {
     }
 
     // TODO: Document
-    private static List<String> programPointsDepthSearch(Tree<String> tree, List<String> parents, List<String> results) {
+    private static List<String> programPointsDepthSearch(Tree<String> tree, List<String> parents, List<String> results, String parentBaseVariable) {
 
         String data = tree.getData();
 
@@ -93,10 +119,21 @@ public class Main {
 
         String result = String.join(HIERARCHY_SEPARATOR, updatedParents);
         results.add(result);
-//        System.out.println(result);
+
+        System.out.println(result);
+
+        String baseVariable;
+        if(parents.isEmpty()) {
+            baseVariable = "response = pm.response.json();";
+            parentBaseVariable = "response";
+        } else {
+            baseVariable = parentBaseVariable + "_" + data + " = " + parentBaseVariable + "." + data;
+            parentBaseVariable = parentBaseVariable + "_" + data;
+        }
+        System.out.println("\tBase variable: " + baseVariable);
 
         for(Tree<String> child: tree.getChildren()) {
-            results = programPointsDepthSearch(child, updatedParents, results);
+            results = programPointsDepthSearch(child, updatedParents, results, parentBaseVariable);
         }
 
         return results;
