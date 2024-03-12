@@ -132,11 +132,13 @@ public class Main {
             parentBaseVariable = "response";
 
             System.out.println("// TODO: Postman tests here");
+            System.out.println("console.log(\"Printing value of " + parentBaseVariable + "\")");
+            System.out.println("console.log(" + parentBaseVariable + ")");
             System.out.println("\n");
 
         } else {    // If we are in a deeper nesting level
 
-            // TODO: PARENTBASEVARAIBLE IS _element IF FATHER IS AN ARRAY (most of the time)!!!!
+            // TODO: Null pointer if the array is empty (modify if clause to contemplate this)
             String baseVariableAsignation = parentBaseVariable + "_" + data + " = " + parentBaseVariable + "." + data;
             parentBaseVariable = parentBaseVariable + "_" + data;
 
@@ -152,7 +154,15 @@ public class Main {
 
             System.out.println(indentationStr + "\t\t// TODO: Postman tests here");
 
+
+            parentBaseVariable = baseVariableElement;
+
+            System.out.println(indentationStr + "\t\tconsole.log(\"Printing value of " + parentBaseVariable + "\")");
+            System.out.println(indentationStr + "\t\tconsole.log(" + parentBaseVariable + ")");
+
             System.out.println("\n");
+
+
 
         }
 
