@@ -54,34 +54,52 @@ public class Main {
 
 
         // Get all the tree paths from the list of program point names
-        List<String> paths = allProgramPoints.stream().map(ProgramPoint::getVariableHierarchyAsString).toList();
+        List<String> paths = allProgramPoints.stream().map(ProgramPoint::getVariableHierarchyAsString).filter(x->!x.isEmpty()).toList();
 
         // Create program point hierarchy tree from list of paths
         Tree<String> programPointHierarchy = getProgramPointHierarchy(paths);
 
         programPointHierarchy.accept(new PrintIndentedVisitor(0));
 
-        // Iterate over program point hierarchy (width search)
-        programPointsDepthSearch(programPointHierarchy, new ArrayList<>());
+        // Iterate over program point hierarchy (in-depth search)
+        List<String> orderedNestingLevels = programPointsDepthSearch(programPointHierarchy, new ArrayList<>(), new ArrayList<>());
+
+        /**
+         * For each of these program points (in-depth search order):
+         * 1.- Locate the variable from the response (check for non-null values)
+         * 2.- If there is a program point for this nesting level
+         * 3.- Generate all the test cases.
+          */
+
+        System.out.println("######################################################");
+        for(String nestingLevel: orderedNestingLevels) {
+            System.out.println(nestingLevel);
+        }
+
+
 
 
 
 
     }
 
-    private static void programPointsDepthSearch(Tree<String> tree, List<String> parents) {
+    // TODO: Document
+    private static List<String> programPointsDepthSearch(Tree<String> tree, List<String> parents, List<String> results) {
 
         String data = tree.getData();
 
         List<String> updatedParents = new ArrayList<>(parents);
         updatedParents.add(data);
 
-        System.out.println(String.join(HIERARCHY_SEPARATOR, updatedParents));
+        String result = String.join(HIERARCHY_SEPARATOR, updatedParents);
+        results.add(result);
+//        System.out.println(result);
 
         for(Tree<String> child: tree.getChildren()) {
-            programPointsDepthSearch(child, updatedParents);
+            results = programPointsDepthSearch(child, updatedParents, results);
         }
 
+        return results;
     }
 
 
@@ -94,7 +112,7 @@ public class Main {
 
         // Create a tree with a root node
         // TODO: Use other method for specifying the root
-        Tree<String> programPointHierarchy = new Tree<>("root");
+        Tree<String> programPointHierarchy = new Tree<>("200");
 
         // Create the variable of type tree that we will iterate on
         Tree<String> current = programPointHierarchy;

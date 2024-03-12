@@ -101,11 +101,7 @@ public class ProgramPoint {
      */
     // TODO: Explain that I use responseCode as root (if I end up using it).
     public String getVariableHierarchyAsString() {
-        if (this.variableHierarchy.isEmpty()) {
-            return Integer.toString(this.responseCode);
-        } else {
-            return this.responseCode + HIERARCHY_SEPARATOR + String.join(HIERARCHY_SEPARATOR, this.variableHierarchy);
-        }
+        return String.join(HIERARCHY_SEPARATOR, this.variableHierarchy);
     }
 
 
