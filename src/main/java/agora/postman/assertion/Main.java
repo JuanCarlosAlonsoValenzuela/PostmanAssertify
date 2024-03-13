@@ -19,11 +19,13 @@ public class Main {
     public static String ARRAY_NESTING_SEPARATOR = "%";
     public static String ROOT_NAME = "200"; // TODO: REFACTOR/DELETE
 
+    public static boolean DEBUG_MODE = true;
+
     public static void main(String[] args) {
 
         // TODO: Manage exceptions of this project properly
         // Read invariants from file
-        List<Invariant> invariants = getInvariantsDataFromPath("src/main/resources/test3.csv");
+        List<Invariant> invariants = getInvariantsDataFromPath("src/main/resources/test2.csv");
 
         // Get unique pptnames
         // TODO: There can be multiple status codes and multiple API operations
@@ -131,9 +133,10 @@ public class Main {
             parentBaseVariable = "response";
 
             System.out.println("// TODO: Postman tests here");
-            System.out.println("console.log(\"Printing value of " + parentBaseVariable + "\")");
-            System.out.println("console.log(" + parentBaseVariable + ")");
-
+            if(DEBUG_MODE) {
+                System.out.println("console.log(\"Printing value of " + parentBaseVariable + "\")");
+                System.out.println("console.log(" + parentBaseVariable + ")");
+            }
 
             // Get invariants of this nesting level
             // TODO: Convert into function
@@ -171,8 +174,10 @@ public class Main {
 
             parentBaseVariable = baseVariableElement;
 
-            System.out.println(indentationStr + "\t\tconsole.log(\"Printing value of " + parentBaseVariable + "\")");
-            System.out.println(indentationStr + "\t\tconsole.log(" + parentBaseVariable + ")");
+            if(DEBUG_MODE) {
+                System.out.println(indentationStr + "\t\tconsole.log(\"Printing value of " + parentBaseVariable + "\")");
+                System.out.println(indentationStr + "\t\tconsole.log(" + parentBaseVariable + ")");
+            }
 
             // Get invariants of this nesting level
             if(tree.getProgramPoint() != null) {    // TODO: Convert into function

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static agora.postman.assertion.Main.DEBUG_MODE;
+
 /**
  * @author Juan C. Alonso
  * Stores information about an invariant reported by AGORA
@@ -203,13 +205,6 @@ public class Invariant {
 
         // TODO: END CREATE VARIABLE HIERARCHY
 
-
-
-        // TODO: Comprobación del nulo para todos menos el último
-        // TODO: Recordar el size para el último
-        // TODO: IsEnter vs isExit (for now, only exit)
-        // TODO: Añadir un console.log al final para facilitar el debugging
-
         if(variableHierarchyList.isEmpty()) {
             throw new RuntimeException("Variable hierarhy list cannot be empty");
         }
@@ -290,6 +285,14 @@ public class Invariant {
 
             // Close the bracket
             res = res + currentIdentation + "}\n";
+        }
+
+        if(DEBUG_MODE) {
+            res = res + "\n";
+            res = res + currentIdentation + "// Printing value of " + postmanVariableName + " variable\n";
+
+            res = res + currentIdentation + "console.log(\"Printing value of " + postmanVariableName + " variable\");\n";
+            res = res + currentIdentation + "console.log(" + postmanVariableName + ");\n";
         }
 
         res = res + "\n";
