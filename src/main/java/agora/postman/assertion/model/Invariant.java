@@ -57,10 +57,28 @@ public class Invariant {
         // Test case first line
         res = res + testCaseIdentation + "pm.test(\"" + this.invariant.replace("\"", "\\\"") + "\", () => {\n";
 
+        // TODO: Get variable(s) value(s)
+        // TODO: We are assuming only one value, with no nesting
+
+        // TODO: Implement, multiple functions, same method as the one used in Daikon
+        String variableName = this.variables.get(0).replace(".", "_");
+        res = res + testCaseIdentation + "\t" + variableName + " = " + parentBaseVariable + "." + variableName + ";\n";
+
+        // TODO: If variable is not null and not part of values to consider null
+        res = res + testCaseIdentation + "\t" + "if((" + variableName + " != null) && (!valuesToConsiderAsNull.includes(" + variableName + "))) {" + "\n";
+
+
+        // TODO: Postman assertion
+        res = res + testCaseIdentation + "\t\t" + "// " + this.postmanAssertion + ";\n";
+
+        // Close if variable not null and not part of values to consider as null bracket
+        res = res + testCaseIdentation + "\t}\n";
+
         // Close test case bracket
         res = res + testCaseIdentation + "})\n";
 
         return res;
+
     }
 
     public String toString() {

@@ -54,10 +54,11 @@ public class Main {
         // Create program point hierarchy tree from list of paths
         Tree<String> programPointHierarchy = getProgramPointHierarchy(allProgramPoints);
 
-        programPointHierarchy.accept(new PrintIndentedVisitor(0));
+        // Print nesting level tree
+//        programPointHierarchy.accept(new PrintIndentedVisitor(0));
 
         // Iterate over program point hierarchy (in-depth search)
-        System.out.println("###############################");
+//        System.out.println("###############################");
         List<String> orderedNestingLevels = programPointsDepthSearch(programPointHierarchy, new ArrayList<>(), new ArrayList<>(), null);
 
         /**
@@ -84,6 +85,9 @@ public class Main {
         results.add(result);
 
 
+        // Create variable valuesToConsiderAsNull
+        // TODO: Implement properly
+        System.out.println("valuesToConsiderAsNull = [];\n");
 
         // Print initial lines of the nesting level
         parentBaseVariable = generateNestingLevelInitialLines(parents, parentBaseVariable, tree, result);
