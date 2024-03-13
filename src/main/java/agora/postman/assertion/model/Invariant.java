@@ -191,7 +191,7 @@ public class Invariant {
 
         // TODO: END CREATE VARIABLE HIERARCHY
 
-        // TODO: START CODE CREATION
+
 
         // TODO: Comprobación del nulo para todos menos el último
         // TODO: Recordar el size para el último
@@ -203,28 +203,55 @@ public class Invariant {
         }
 
         String currentIdentation = baseIndentation + "\t";
-
-        // First line/nested variable
-        String res = currentIdentation + postmanVariableName + " = " + parentBaseVariable + "." + variableHierarchyList.get(0) + ";\n";
-
         int ifBracketsToClose = 0;
+        String res;
 
-        // TODO: Close every if bracket that we open
-        for(int i = 1; i < variableHierarchyList.size(); i++) {
+        if(isReturn) {  // Generate code for getting return variables
 
-            // Check that the variable is not null
+            // First line/nested variable
+            res = currentIdentation + postmanVariableName + " = " + parentBaseVariable + "." + variableHierarchyList.get(0) + ";\n";
+
+
+            for(int i = 1; i < variableHierarchyList.size(); i++) {
+
+                // Check that the variable is not null
+                res = res + currentIdentation + "if(" + postmanVariableName + " != null) {\n";
+
+                currentIdentation = currentIdentation + "\t";
+
+                res = res + currentIdentation + postmanVariableName + " = " + postmanVariableName + "." + variableHierarchyList.get(i) + ";\n";
+
+                // Increment the number of if brackets to close
+                ifBracketsToClose++;
+
+            }
+
+        } else {    // Generate code for getting input variables (parameters)
+            // TODO: Test with all datatypes (string, number, boolean)
+            // TODO: for now, we assume that all input variables are query parameters
+            // TODO: Read OAS to determine origin (query, path, body) of input parameters
+            res = currentIdentation + postmanVariableName + " = "  + "pm.request.url.query.get(\"" + variableHierarchyList.get(0) + "\")" + ";\n";
+
+            // Decode only if the variable is not null (otherwise, we obtain the "undefined" string)
             res = res + currentIdentation + "if(" + postmanVariableName + " != null) {\n";
 
             currentIdentation = currentIdentation + "\t";
 
-            res = res + currentIdentation + postmanVariableName + " = " + postmanVariableName + "." + variableHierarchyList.get(i) + ";\n";
+            // Decode input variable
+            res = res + currentIdentation + postmanVariableName + " = decodeURIComponent(" + postmanVariableName + ");\n";
 
-
+            // Increment the number of if brackets to close
             ifBracketsToClose++;
+
+            // TODO: Implement input variables with hierarchy (for now, a exception is thrown)
+            if(variableHierarchyList.size() != 1) {
+                throw new RuntimeException("Input parameters with hierarchy are not supported yet");
+            }
 
         }
 
-        // Close if brackets
+
+        // Close if brackets (common for both input and exit)
         // TODO: Create test with deep indentation
         while(ifBracketsToClose > 0) {
 
@@ -238,6 +265,7 @@ public class Invariant {
         }
 
 
+        // TODO: THIS IS COMMON TO BOTH INPUT AND RETURN
         // If the variable is the size of an array
         // Get array size
         if(isSize) {
@@ -251,7 +279,6 @@ public class Invariant {
             res = res + currentIdentation + "}\n";
         }
 
-        // TODO: END CODE CREATION
 
 
         return res;
