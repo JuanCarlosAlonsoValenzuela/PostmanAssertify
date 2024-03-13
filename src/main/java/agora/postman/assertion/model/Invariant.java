@@ -64,22 +64,34 @@ public class Invariant {
         // TODO: Modify so it can be applied to invariants with multiple variables
         // TODO: Implement, multiple functions, same method as the one used in Daikon
 
-        // Get variable(s) name(s)
-        // This method is static because an invariant can have multiple variables
-        String variableName = getPostmanVariableName(this.variables.get(0));
+
 
         // Generate code to access to variable value
-        // TODO: Indentation
-        res = res + getPostmanVariableValueCode(parentBaseVariable, this.variables.get(0), testCaseIndentation);
+        for(String variable: this.variables) {
+            res = res + getPostmanVariableValueCode(parentBaseVariable, variable, testCaseIndentation);
+        }
+
 
         // This is the original code, prior to the method implementation
         // res = res + testCaseIndentation + "\t" + variableName + " = " + parentBaseVariable + "." + variableName + ";\n";
 
         // TODO: If variable is not null and not part of values to consider null
-        res = res + testCaseIndentation + "\t" + "if((" + variableName + " != null) && (!valuesToConsiderAsNull.includes(" + variableName + "))) {" + "\n";
+        // One not null conditions for each invariant variable
+        List<String> notNullConditions = new ArrayList<>();
+        for(String variable: this.variables) {
 
+            // Get variable name
+            String postmanVariableName = getPostmanVariableName(variable);
 
-        // TODO: Postman assertion
+            String condition = "(" + postmanVariableName + " != null) && (!valuesToConsiderAsNull.includes(" + postmanVariableName + "))";
+
+            notNullConditions.add(condition);
+        }
+
+        // Check that none of the invariants variables is null
+        res = res + testCaseIndentation + "\t" + "if(" + String.join(" && ", notNullConditions) + ") {" + "\n";
+
+        // Postman assertion, returned by AGORA
         res = res + testCaseIndentation + "\t\t" + "// " + this.postmanAssertion + ";\n";
 
         // Close if variable not null and not part of values to consider as null bracket
@@ -204,12 +216,13 @@ public class Invariant {
 
         String currentIdentation = baseIndentation + "\t";
         int ifBracketsToClose = 0;
-        String res;
+
+        String res = currentIdentation + "// Getting value of variable: " + postmanVariableName + "\n";
 
         if(isReturn) {  // Generate code for getting return variables
 
             // First line/nested variable
-            res = currentIdentation + postmanVariableName + " = " + parentBaseVariable + "." + variableHierarchyList.get(0) + ";\n";
+            res = res + currentIdentation + postmanVariableName + " = " + parentBaseVariable + "." + variableHierarchyList.get(0) + ";\n";
 
 
             for(int i = 1; i < variableHierarchyList.size(); i++) {
@@ -230,7 +243,7 @@ public class Invariant {
             // TODO: Test with all datatypes (string, number, boolean)
             // TODO: for now, we assume that all input variables are query parameters
             // TODO: Read OAS to determine origin (query, path, body) of input parameters
-            res = currentIdentation + postmanVariableName + " = "  + "pm.request.url.query.get(\"" + variableHierarchyList.get(0) + "\")" + ";\n";
+            res = res + currentIdentation + postmanVariableName + " = "  + "pm.request.url.query.get(\"" + variableHierarchyList.get(0) + "\")" + ";\n";
 
             // Decode only if the variable is not null (otherwise, we obtain the "undefined" string)
             res = res + currentIdentation + "if(" + postmanVariableName + " != null) {\n";
@@ -279,7 +292,7 @@ public class Invariant {
             res = res + currentIdentation + "}\n";
         }
 
-
+        res = res + "\n";
 
         return res;
     }
