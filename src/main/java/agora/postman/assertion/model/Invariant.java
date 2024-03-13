@@ -1,5 +1,7 @@
 package agora.postman.assertion.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -62,9 +64,16 @@ public class Invariant {
         // TODO: Modify so it can be applied to invariants with multiple variables
         // TODO: Implement, multiple functions, same method as the one used in Daikon
 
+        // Get variable(s) name(s)
         // This method is static because an invariant can have multiple variables
         String variableName = getPostmanVariableName(this.variables.get(0));
-        res = res + testCaseIndentation + "\t" + variableName + " = " + parentBaseVariable + "." + variableName + ";\n";
+
+        // Generate code to access to variable value
+        // TODO: Indentation
+        res = res + getPostmanVariableValueCode(parentBaseVariable, this.variables.get(0), testCaseIndentation);
+
+        // This is the original code, prior to the method implementation
+        // res = res + testCaseIndentation + "\t" + variableName + " = " + parentBaseVariable + "." + variableName + ";\n";
 
         // TODO: If variable is not null and not part of values to consider null
         res = res + testCaseIndentation + "\t" + "if((" + variableName + " != null) && (!valuesToConsiderAsNull.includes(" + variableName + "))) {" + "\n";
@@ -96,6 +105,7 @@ public class Invariant {
     // TODO: This method must be identical to the one in Daikon
     // TODO: Document properly (with multiple input/output example)
     // TODO: Consider moving to a different class
+    // TODO: Program points that are nested arrays? (e.g., GitHub)
     // Returns the variable name in the format used in the Postman assertion
     private static String getPostmanVariableName(String originalVariableName) {
 
@@ -137,6 +147,114 @@ public class Invariant {
 
         return postmanVariableName;
 
+    }
+
+
+    // TODO: DOCUMENT
+    // TODO: INDENTATION
+    private static String getPostmanVariableValueCode(String parentBaseVariable, String agoraVariableName, String baseIndentation) {
+
+        // TODO: It is redundant to compute this twice
+        String postmanVariableName = getPostmanVariableName(agoraVariableName);
+
+        // TODO: START CREATE VARIABLE HIERARCHYStart
+        // Split AGORA variable name to extract variable hierarchy
+        String variableHierarchyString = agoraVariableName;
+
+        // TODO: Use and document
+        boolean isSize = false;
+        if(variableHierarchyString.startsWith("size(")) {
+
+            variableHierarchyString = variableHierarchyString.substring("size(".length(), variableHierarchyString.length() - 1);
+            isSize = true;
+        }
+
+        // Remove array characters
+        variableHierarchyString = variableHierarchyString.replace("[]", "");
+        variableHierarchyString = variableHierarchyString.replace("[..]", "");
+
+        // TODO: Use and document
+        boolean isReturn = false;
+        List<String> variableHierarchyList;
+
+        if(variableHierarchyString.startsWith("return.") || variableHierarchyString.startsWith("input.")) {
+//            TODO: IMPLEMENT ENTER
+            variableHierarchyList = Arrays.asList(variableHierarchyString.split("\\."));
+
+            isReturn = variableHierarchyList.get(0).equals("return");
+
+            variableHierarchyList = variableHierarchyList.subList(1, variableHierarchyList.size());
+
+        } else {
+            throw new RuntimeException("Unexpected AGORA variable name");
+        }
+
+        // TODO: END CREATE VARIABLE HIERARCHY
+
+        // TODO: START CODE CREATION
+
+        // TODO: Comprobación del nulo para todos menos el último
+        // TODO: Recordar el size para el último
+        // TODO: IsEnter vs isExit (for now, only exit)
+        // TODO: Añadir un console.log al final para facilitar el debugging
+
+        if(variableHierarchyList.isEmpty()) {
+            throw new RuntimeException("Variable hierarhy list cannot be empty");
+        }
+
+        String currentIdentation = baseIndentation + "\t";
+
+        // First line/nested variable
+        String res = currentIdentation + postmanVariableName + " = " + parentBaseVariable + "." + variableHierarchyList.get(0) + ";\n";
+
+        int ifBracketsToClose = 0;
+
+        // TODO: Close every if bracket that we open
+        for(int i = 1; i < variableHierarchyList.size(); i++) {
+
+            // Check that the variable is not null
+            res = res + currentIdentation + "if(" + postmanVariableName + " != null) {\n";
+
+            currentIdentation = currentIdentation + "\t";
+
+            res = res + currentIdentation + postmanVariableName + " = " + postmanVariableName + "." + variableHierarchyList.get(i) + ";\n";
+
+
+            ifBracketsToClose++;
+
+        }
+
+        // Close if brackets
+        // TODO: Create test with deep indentation
+        while(ifBracketsToClose > 0) {
+
+            // Reduce indentation level
+            currentIdentation = currentIdentation.substring(0, currentIdentation.length()-1);
+
+            // Close if bracket
+            res = res + currentIdentation + "}\n";
+
+            ifBracketsToClose--;
+        }
+
+
+        // If the variable is the size of an array
+        // Get array size
+        if(isSize) {
+            // If the retrieved array is not null
+            res = res + currentIdentation + "if(" + postmanVariableName + " != null) {\n";
+
+            // Get array size
+            res = res + currentIdentation + "\t" + postmanVariableName + " = " + postmanVariableName + ".length;\n";
+
+            // Close the bracket
+            res = res + currentIdentation + "}\n";
+        }
+
+        // TODO: END CODE CREATION
+
+
+        return res;
     }
 
 }

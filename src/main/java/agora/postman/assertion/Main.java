@@ -23,7 +23,7 @@ public class Main {
 
         // TODO: Manage exceptions of this project properly
         // Read invariants from file
-        List<Invariant> invariants = getInvariantsDataFromPath("src/main/resources/test2.csv");
+        List<Invariant> invariants = getInvariantsDataFromPath("src/main/resources/test3.csv");
 
         // Get unique pptnames
         // TODO: There can be multiple status codes and multiple API operations
@@ -59,6 +59,11 @@ public class Main {
 
         // Iterate over program point hierarchy (in-depth search)
 //        System.out.println("###############################");
+
+        // Create variable valuesToConsiderAsNull
+        // TODO: Implement properly
+        System.out.println("valuesToConsiderAsNull = [];\n");
+
         List<String> orderedNestingLevels = programPointsDepthSearch(programPointHierarchy, new ArrayList<>(), new ArrayList<>(), null);
 
         /**
@@ -83,11 +88,6 @@ public class Main {
         String result = String.join(HIERARCHY_SEPARATOR, updatedParents);
 
         results.add(result);
-
-
-        // Create variable valuesToConsiderAsNull
-        // TODO: Implement properly
-        System.out.println("valuesToConsiderAsNull = [];\n");
 
         // Print initial lines of the nesting level
         parentBaseVariable = generateNestingLevelInitialLines(parents, parentBaseVariable, tree, result);
@@ -181,7 +181,7 @@ public class Main {
                     System.out.println(inv.getPostmanTestCase(parentBaseVariable, indentationStr));
                 }
             } else {
-                System.out.println("// This nesting level has no invariants");
+                System.out.println(indentationStr + "\t\t// This nesting level has no invariants");
             }
 
             System.out.println("\n");
