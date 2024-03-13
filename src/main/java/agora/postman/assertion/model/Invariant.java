@@ -40,6 +40,29 @@ public class Invariant {
 
     public String getPostmanAssertion() { return postmanAssertion; }
 
+    // TODO: Use StringBuilder
+    // TODO: Get variable name
+    // TODO: Values of type array
+    // TODO: Input and output variables
+    // TODO: One and two variables
+    // TODO: Variable datatype
+    // TODO: Access base variable (nesting level)
+    public String getPostmanTestCase(String parentBaseVariable, String indentationStr) {
+
+        // TODO: Change this condition (hardcoded)
+        String testCaseIdentation = (!parentBaseVariable.equals("response")) ? indentationStr + "\t\t": "";
+
+        String res = testCaseIdentation + "// " + this.invariant + "\n";
+
+        // Test case first line
+        res = res + testCaseIdentation + "pm.test(\"" + this.invariant.replace("\"", "\\\"") + "\", () => {\n";
+
+        // Close test case bracket
+        res = res + testCaseIdentation + "})\n";
+
+        return res;
+    }
+
     public String toString() {
         return "InvariantData{" +
                 "pptname='" + pptname + '\'' +

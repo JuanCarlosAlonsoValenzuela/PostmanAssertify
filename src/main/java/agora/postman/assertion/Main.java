@@ -4,7 +4,6 @@ import agora.postman.assertion.model.Invariant;
 import agora.postman.assertion.model.ProgramPoint;
 import agora.postman.assertion.model.nestingLevelTree.PrintIndentedVisitor;
 import agora.postman.assertion.model.nestingLevelTree.Tree;
-import org.w3c.dom.ls.LSOutput;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -51,9 +50,6 @@ public class Main {
                 .sorted(Comparator.comparingInt(x-> x.getVariableHierarchy().size()))
                 .toList();
 
-
-        // Get all the tree paths from the list of program point names
-//        List<String> paths = allProgramPoints.stream().map(ProgramPoint::getVariableHierarchyAsString).filter(x->!x.isEmpty()).toList();
 
         // Create program point hierarchy tree from list of paths
         Tree<String> programPointHierarchy = getProgramPointHierarchy(allProgramPoints);
@@ -140,7 +136,7 @@ public class Main {
             if(tree.getProgramPoint() != null) {
                 System.out.println("// Invariants of this nesting level:");
                 for(Invariant inv: tree.getProgramPoint().getInvariants()) {
-                    System.out.println("// " + inv.getInvariant());
+                    System.out.println(inv.getPostmanTestCase(parentBaseVariable, indentationStr));
                 }
             } else {
                 System.out.println("// This nesting level has no invariants");
@@ -178,7 +174,7 @@ public class Main {
             if(tree.getProgramPoint() != null) {    // TODO: Convert into function
                 System.out.println(indentationStr + "\t\t// Invariants of this nesting level:");
                 for(Invariant inv: tree.getProgramPoint().getInvariants()) {
-                    System.out.println(indentationStr + "\t\t// " + inv.getInvariant());
+                    System.out.println(inv.getPostmanTestCase(parentBaseVariable, indentationStr));
                 }
             } else {
                 System.out.println("// This nesting level has no invariants");
