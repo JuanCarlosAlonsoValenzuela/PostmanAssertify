@@ -25,7 +25,7 @@ public class Main {
 
         // TODO: Manage exceptions of this project properly
         // Read invariants from file
-        List<Invariant> invariants = getInvariantsDataFromPath("src/main/resources/test2.csv");
+        List<Invariant> invariants = getInvariantsDataFromPath("src/main/resources/test3.csv");
 
         // Get unique pptnames
         // TODO: There can be multiple status codes and multiple API operations
@@ -57,10 +57,10 @@ public class Main {
         Tree<String> programPointHierarchy = getProgramPointHierarchy(allProgramPoints);
 
         // Print nesting level tree
-//        programPointHierarchy.accept(new PrintIndentedVisitor(0));
+        programPointHierarchy.accept(new PrintIndentedVisitor(3));
 
         // Iterate over program point hierarchy (in-depth search)
-//        System.out.println("###############################");
+        System.out.println("###############################");
 
         // Create variable valuesToConsiderAsNull
         // TODO: Implement properly

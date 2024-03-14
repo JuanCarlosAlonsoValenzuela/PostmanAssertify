@@ -94,7 +94,7 @@ public class Invariant {
         res = res + testCaseIndentation + "\t" + "if(" + String.join(" && ", notNullConditions) + ") {" + "\n";
 
         // Postman assertion, returned by AGORA
-        res = res + testCaseIndentation + "\t\t" + "// " + this.postmanAssertion + ";\n";
+        res = res + testCaseIndentation + "\t\t" + this.postmanAssertion + ";\n";
 
         // Close if variable not null and not part of values to consider as null bracket
         res = res + testCaseIndentation + "\t}\n";
@@ -116,7 +116,7 @@ public class Invariant {
                 '}';
     }
 
-    // TODO: This method must be identical to the one in Daikon
+    // TODO: THIS METHOD MUST BE IDENTICAL TO THE ONE IN DAIKON, every modification performed here must be performed in Daikon too!!!
     // TODO: Document properly (with multiple input/output example)
     // TODO: Consider moving to a different class
     // TODO: Program points that are nested arrays? (e.g., GitHub)
