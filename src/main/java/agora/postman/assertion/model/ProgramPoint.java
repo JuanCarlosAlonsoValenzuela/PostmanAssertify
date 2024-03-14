@@ -1,9 +1,7 @@
 package agora.postman.assertion.model;
 
-import javax.sound.sampled.Port;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static agora.postman.assertion.Main.ARRAY_NESTING_SEPARATOR;
@@ -102,25 +100,6 @@ public class ProgramPoint {
     // TODO: Explain that I use responseCode as root (if I end up using it).
     public String getVariableHierarchyAsString() {
         return String.join(HIERARCHY_SEPARATOR, this.variableHierarchy);
-    }
-
-
-    // Get base variable (check for non null responses)
-
-    /**
-     * @return Postman code accessing to the base variable of the nesting level of the current program point. All the
-     * variables involved in the invariants of this nesting level are properties of this base variable.
-     */
-    // TODO: Remove
-    public String getNestingLevelBaseVariable() {
-        // Get the API response as JSON
-        String res = "response = pm.response.json();\n";
-
-        // TODO: Implement if %array
-        // TODO: Implement nesting levels
-        // TODO: If the property is called "response"
-
-        return res;
     }
 
     // TODO: Update

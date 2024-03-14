@@ -15,13 +15,19 @@ public class Invariant {
     private String pptname;
     private String invariant;
     private String invariantType;
-    private List<String> variables;
+    private List<Variable> variables;
     private String postmanAssertion;
 
-    public Invariant(String pptname, String invariant, String invariantType, List<String> variables, String postmanAssertion) {
+    public Invariant(String pptname, String invariant, String invariantType, List<String> variablesString, String postmanAssertion) {
         this.pptname = pptname;
         this.invariant = invariant;
         this.invariantType = invariantType;
+
+        List<Variable> variables = new ArrayList<>();
+        for(String variableName: variablesString) {
+            variables.add(new Variable(variableName));
+        }
+
         this.variables = variables;
         this.postmanAssertion = postmanAssertion;
     }
@@ -38,7 +44,7 @@ public class Invariant {
         return invariantType;
     }
 
-    public List<String> getVariables() {
+    public List<Variable> getVariables() {
         return variables;
     }
 
@@ -54,7 +60,7 @@ public class Invariant {
     public String getPostmanTestCase(String parentBaseVariable, String indentationStr) {
 
         // TODO: Change this condition (hardcoded)
-        String testCaseIndentation = (!parentBaseVariable.equals("response")) ? indentationStr + "\t\t": "";
+        String testCaseIndentation = (!parentBaseVariable.equals("response")) ? indentationStr: "";
 
         String res = testCaseIndentation + "// " + this.invariant + "\n";
 
@@ -63,13 +69,11 @@ public class Invariant {
 
         // TODO: Get variable(s) value(s)
         // TODO: We are assuming only one value, with no nesting
-        // TODO: Modify so it can be applied to invariants with multiple variables
-        // TODO: Implement, multiple functions, same method as the one used in Daikon
 
 
 
         // Generate code to access to variable value
-        for(String variable: this.variables) {
+        for(Variable variable: this.variables) {
             res = res + getPostmanVariableValueCode(parentBaseVariable, variable, testCaseIndentation);
         }
 
@@ -80,10 +84,10 @@ public class Invariant {
         // TODO: If variable is not null and not part of values to consider null
         // One not null conditions for each invariant variable
         List<String> notNullConditions = new ArrayList<>();
-        for(String variable: this.variables) {
+        for(Variable variable: this.variables) {
 
             // Get variable name
-            String postmanVariableName = getPostmanVariableName(variable);
+            String postmanVariableName = variable.getPostmanVariableName();
 
             String condition = "(" + postmanVariableName + " != null) && (!valuesToConsiderAsNull.includes(" + postmanVariableName + "))";
 
@@ -94,7 +98,7 @@ public class Invariant {
         res = res + testCaseIndentation + "\t" + "if(" + String.join(" && ", notNullConditions) + ") {" + "\n";
 
         // Postman assertion, returned by AGORA
-        res = res + testCaseIndentation + "\t\t" + this.postmanAssertion + ";\n";
+        res = res + testCaseIndentation + "\t\t//" + this.postmanAssertion + ";\n";
 
         // Close if variable not null and not part of values to consider as null bracket
         res = res + testCaseIndentation + "\t}\n";
@@ -116,64 +120,18 @@ public class Invariant {
                 '}';
     }
 
-    // TODO: THIS METHOD MUST BE IDENTICAL TO THE ONE IN DAIKON, every modification performed here must be performed in Daikon too!!!
-    // TODO: Document properly (with multiple input/output example)
-    // TODO: Consider moving to a different class
-    // TODO: Program points that are nested arrays? (e.g., GitHub)
-    // Returns the variable name in the format used in the Postman assertion
-    private static String getPostmanVariableName(String originalVariableName) {
 
-        // TODO: Test this if clause
-        if(!originalVariableName.startsWith("input.") &&
-                !originalVariableName.startsWith("return.") &&
-                !originalVariableName.startsWith("size(input.") &&
-                !originalVariableName.startsWith("size(return.")
-        ) {
-            throw new RuntimeException("Unexpected variable name");
-        }
-
-        String postmanVariableName = originalVariableName;
-
-        // If the variable is the size of an array
-        if(postmanVariableName.startsWith("size(")) {
-
-            // Remove "size(" (at the start) and ")" (at the end) characters
-            postmanVariableName = postmanVariableName.substring("size(".length(), postmanVariableName.length() - 1);
-
-            // Add suffix
-            postmanVariableName = postmanVariableName + "_size";
-        }
-
-        // Remove array special characters and add a suffix indicating that the variable is an array
-        if (postmanVariableName.contains("[]") || postmanVariableName.contains("[..]")) {
-
-            // Remove characters
-            postmanVariableName = postmanVariableName.replace("[]", "");
-            postmanVariableName = postmanVariableName.replace("[..]", "");
-
-            // Add suffix
-            postmanVariableName = postmanVariableName + "_array";
-        }
-
-        // Replace variable hierarchy separator with snake_case
-        postmanVariableName = postmanVariableName.replace(".", "_");
-
-
-        return postmanVariableName;
-
-    }
 
 
     // TODO: DOCUMENT
-    // TODO: INDENTATION
-    private static String getPostmanVariableValueCode(String parentBaseVariable, String agoraVariableName, String baseIndentation) {
+    private static String getPostmanVariableValueCode(String parentBaseVariable, Variable variable, String baseIndentation) {
 
         // TODO: It is redundant to compute this twice
-        String postmanVariableName = getPostmanVariableName(agoraVariableName);
+        String postmanVariableName = variable.getPostmanVariableName();
 
         // TODO: START CREATE VARIABLE HIERARCHYStart
         // Split AGORA variable name to extract variable hierarchy
-        String variableHierarchyString = agoraVariableName;
+        String variableHierarchyString = variable.getVariableName();
 
         // TODO: Use and document
         boolean isSize = false;
@@ -188,7 +146,7 @@ public class Invariant {
         variableHierarchyString = variableHierarchyString.replace("[..]", "");
 
         // TODO: Use and document
-        boolean isReturn = false;
+        boolean isReturn;
         List<String> variableHierarchyList;
 
         if(variableHierarchyString.startsWith("return.") || variableHierarchyString.startsWith("input.")) {

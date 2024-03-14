@@ -1,9 +1,14 @@
 package agora.postman.assertion;
 
 import agora.postman.assertion.model.Invariant;
+import agora.postman.assertion.model.APIOperation;
 import agora.postman.assertion.model.ProgramPoint;
 import agora.postman.assertion.model.nestingLevelTree.PrintIndentedVisitor;
 import agora.postman.assertion.model.nestingLevelTree.Tree;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.parameters.RequestBody;
+import io.swagger.v3.parser.OpenAPIV3Parser;
+import io.swagger.v3.parser.core.models.ParseOptions;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -15,6 +20,9 @@ import static agora.postman.assertion.files.ReadInvariants.getInvariantsDataFrom
  */
 public class Main {
 
+    private static String openApiSpecPath = "src/main/resources/oas_omdb_byIdOrTitle.yaml";
+    private static String invariantsPath = "src/main/resources/test.csv";
+
     public static String HIERARCHY_SEPARATOR = "&";
     public static String ARRAY_NESTING_SEPARATOR = "%";
     public static String ROOT_NAME = "200"; // TODO: REFACTOR/DELETE
@@ -25,7 +33,9 @@ public class Main {
 
         // TODO: Manage exceptions of this project properly
         // Read invariants from file
-        List<Invariant> invariants = getInvariantsDataFromPath("src/main/resources/test3.csv");
+        List<Invariant> invariants = getInvariantsDataFromPath(invariantsPath);
+        OpenAPI specification = getOpenAPISpecification();
+
 
         // Get unique pptnames
         // TODO: There can be multiple status codes and multiple API operations
@@ -52,8 +62,18 @@ public class Main {
                 .sorted(Comparator.comparingInt(x-> x.getVariableHierarchy().size()))
                 .toList();
 
+        // TODO: IMPLEMENT THIS FOR MULTIPLE OPERATIONS
+        ProgramPoint operationProgramPoint = allProgramPoints.get(0);
+        APIOperation apiOperation = new APIOperation(
+                operationProgramPoint.getEndpoint(),
+                operationProgramPoint.getOperationId(),
+                operationProgramPoint.getResponseCode(),
+                specification
+        );
 
+        // TODO: This tree is for a single operation
         // Create program point hierarchy tree from list of paths
+        // TODO: Change from static method to method of the APIOperation class
         Tree<String> programPointHierarchy = getProgramPointHierarchy(allProgramPoints);
 
         // Print nesting level tree
@@ -182,6 +202,7 @@ public class Main {
             // Get invariants of this nesting level
             if(tree.getProgramPoint() != null) {    // TODO: Convert into function
                 System.out.println(indentationStr + "\t\t// Invariants of this nesting level:");
+                indentationStr = indentationStr + "\t\t";
                 for(Invariant inv: tree.getProgramPoint().getInvariants()) {
                     System.out.println(inv.getPostmanTestCase(parentBaseVariable, indentationStr));
                 }
@@ -249,6 +270,17 @@ public class Main {
         }
 
         return programPointHierarchy;
+    }
+
+
+    // TODO: Move to a different class
+    private static OpenAPI getOpenAPISpecification(){
+
+        ParseOptions parseOptions = new ParseOptions();
+        parseOptions.setResolveFully(true);
+        parseOptions.setFlatten(true);
+
+        return new OpenAPIV3Parser().read(openApiSpecPath, null, parseOptions);
     }
 
 }
