@@ -74,7 +74,7 @@ public class Main {
         // TODO: This tree is for a single operation
         // Create program point hierarchy tree from list of paths
         // TODO: Change from static method to method of the APIOperation class
-        Tree<String> programPointHierarchy = getProgramPointHierarchy(allProgramPoints);
+        Tree<String> programPointHierarchy = apiOperation.getProgramPointHierarchy(allProgramPoints);
 
         // Print nesting level tree
         programPointHierarchy.accept(new PrintIndentedVisitor(3));
@@ -86,6 +86,8 @@ public class Main {
         // TODO: Implement properly
         System.out.println("valuesToConsiderAsNull = [];\n");
 
+
+        // Generates/Prints the Postman tests source code
         List<String> orderedNestingLevels = programPointsDepthSearch(programPointHierarchy, new ArrayList<>(), new ArrayList<>(), null);
 
         /**
@@ -219,57 +221,6 @@ public class Main {
 
         return parentBaseVariable;
 
-    }
-
-
-    /**
-     * @param paths: List of program point names, separated by HIERARCHY_SEPARATOR
-     * @return Program point hierarchy tree, derived from the list of paths.
-     */
-    // TODO: Update parameters in Javadoc
-    // TODO: Move to a different class
-    private static Tree<String> getProgramPointHierarchy(List<ProgramPoint> allProgramPoints) {
-
-        // Create a tree with a root node
-        // TODO: Use other method for specifying the root
-        Tree<String> programPointHierarchy = new Tree<>(ROOT_NAME);
-
-        // Create the variable of type tree that we will iterate on
-        Tree<String> current = programPointHierarchy;
-
-        // Iterate over all program points
-        // Given the list of all the tree paths, this for loop creates the complete tree
-        for(ProgramPoint programPoint: allProgramPoints) {
-
-            // Get the path of this program point
-            String path = programPoint.getVariableHierarchyAsString();
-
-            // If the path is not empty, create the path and assign the program point to the last path element
-            if(!path.isEmpty()) {
-                // Create a variable to store the root
-                Tree<String> root = current;
-
-                // For each item of the hierarchy
-                for (String data : path.split(HIERARCHY_SEPARATOR)) {
-                    // Dive into the tree following the hierarchy by updating the value of current
-                    // If the node does not exist, it is added
-                    current = current.child(data);
-                }
-
-                // Assign the program point to the last element of the path
-                current.setProgramPoint(programPoint);
-
-                // Set current to the root value again
-                current = root;
-            } else {
-                // If the path is an empty string, assign the invariants to the root
-                // (the path of the first nesting level is an empty string)
-                current.setProgramPoint(programPoint);
-
-            }
-        }
-
-        return programPointHierarchy;
     }
 
 

@@ -1,5 +1,8 @@
 package agora.postman.assertion.model;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author Juan C. Alonso
  */
@@ -12,9 +15,17 @@ public class Variable {
     // Its value is null by default
     private InputVariableSource inputVariableSource;
 
+    private boolean isSize;
+    private boolean isReturn;
+    private List<String> variableHierarchyList;
+
     public Variable(String variableName) {
         this.variableName = variableName;
-        this.inputVariableSource = null;
+        this.inputVariableSource = null;    // TODO: IMPLEMENT
+
+        // This method sets the values of the "variableHierarchyList", "isSize" and "isReturn" attributes
+        this.setVariableHierarchyList();
+
     }
 
     public String getVariableName() {
@@ -25,8 +36,16 @@ public class Variable {
         return inputVariableSource;
     }
 
-    public void setInputVariableSource(InputVariableSource inputVariableSource) {
-        this.inputVariableSource = inputVariableSource;
+    public boolean isSize() {
+        return isSize;
+    }
+
+    public boolean isReturn() {
+        return isReturn;
+    }
+
+    public List<String> getVariableHierarchyList() {
+        return variableHierarchyList;
     }
 
     // TODO: THIS METHOD MUST BE IDENTICAL TO THE ONE IN DAIKON, every modification performed here must be performed in Daikon too!!!
@@ -75,6 +94,54 @@ public class Variable {
 
 
         return postmanVariableName;
+
+    }
+
+
+    /**
+     * This method is used ONLY IN THE CONSTRUCTOR to set the value of the variableHierarchyList attribute, using
+     * variableName as parameter, it also sets the "isSize" and "isReturn" attributes
+     */
+    private void setVariableHierarchyList() {
+
+        // Split AGORA variable name to extract variable hierarchy
+        String variableHierarchyString = this.variableName;
+
+        // Determine whether the variable is the size of an array
+        this.isSize = false;
+        if(variableHierarchyString.startsWith("size(")) {
+
+            variableHierarchyString = variableHierarchyString
+                    .substring("size(".length(), variableHierarchyString.length() - 1);
+
+            this.isSize = true;
+        }
+
+        // Remove array characters
+        variableHierarchyString = variableHierarchyString.replace("[]", "");
+        variableHierarchyString = variableHierarchyString.replace("[..]", "");
+
+        List<String> variableHierarchyList;
+
+        if(variableHierarchyString.startsWith("return.") || variableHierarchyString.startsWith("input.")) {
+//            TODO: IMPLEMENT ENTER
+            variableHierarchyList = Arrays.asList(variableHierarchyString.split("\\."));
+
+            // Determine whether the variable is a parameter or a response field
+            this.isReturn = variableHierarchyList.get(0).equals("return");
+
+            variableHierarchyList = variableHierarchyList.subList(1, variableHierarchyList.size());
+
+        } else {
+            throw new RuntimeException("Unexpected AGORA variable name");
+        }
+
+        if(variableHierarchyList.isEmpty()) {
+            throw new RuntimeException("Variable hierarhy list cannot be empty");
+        }
+
+        // Set the value
+        this.variableHierarchyList = variableHierarchyList;
 
     }
 

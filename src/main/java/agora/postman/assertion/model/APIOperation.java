@@ -1,5 +1,6 @@
 package agora.postman.assertion.model;
 
+import agora.postman.assertion.model.nestingLevelTree.Tree;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -13,6 +14,9 @@ import io.swagger.v3.oas.models.media.Schema;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+
+import static agora.postman.assertion.Main.ROOT_NAME;
+import static agora.postman.assertion.Main.HIERARCHY_SEPARATOR;
 
 /**
  * @author Juan C. Alonso
@@ -46,6 +50,56 @@ public class APIOperation {
         // TODO: Use Schema vs use ArraySchema
         this.responseSchema = getResponseSchema(oasOperation, responseCode);
 
+    }
+
+
+    /**
+     * @param paths: List of program point names, separated by HIERARCHY_SEPARATOR
+     * @return Program point hierarchy tree, derived from the list of paths.
+     */
+    // TODO: Update parameters in Javadoc
+    public Tree<String> getProgramPointHierarchy(List<ProgramPoint> allProgramPoints) {
+
+        // Create a tree with a root node
+        // TODO: Use other method for specifying the root
+        Tree<String> programPointHierarchy = new Tree<>(ROOT_NAME);
+
+        // Create the variable of type tree that we will iterate on
+        Tree<String> current = programPointHierarchy;
+
+        // Iterate over all program points
+        // Given the list of all the tree paths, this for loop creates the complete tree
+        for(ProgramPoint programPoint: allProgramPoints) {
+
+            // Get the path of this program point
+            String path = programPoint.getVariableHierarchyAsString();
+
+            // If the path is not empty, create the path and assign the program point to the last path element
+            if(!path.isEmpty()) {
+                // Create a variable to store the root
+                Tree<String> root = current;
+
+                // For each item of the hierarchy
+                for (String data : path.split(HIERARCHY_SEPARATOR)) {
+                    // Dive into the tree following the hierarchy by updating the value of current
+                    // If the node does not exist, it is added
+                    current = current.child(data);
+                }
+
+                // Assign the program point to the last element of the path
+                current.setProgramPoint(programPoint);
+
+                // Set current to the root value again
+                current = root;
+            } else {
+                // If the path is an empty string, assign the invariants to the root
+                // (the path of the first nesting level is an empty string)
+                current.setProgramPoint(programPoint);
+
+            }
+        }
+
+        return programPointHierarchy;
     }
 
     public String getEndpoint() {

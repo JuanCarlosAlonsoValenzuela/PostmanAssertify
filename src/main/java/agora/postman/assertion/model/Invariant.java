@@ -129,50 +129,14 @@ public class Invariant {
         // TODO: It is redundant to compute this twice
         String postmanVariableName = variable.getPostmanVariableName();
 
-        // TODO: START CREATE VARIABLE HIERARCHYStart
-        // Split AGORA variable name to extract variable hierarchy
-        String variableHierarchyString = variable.getVariableName();
-
-        // TODO: Use and document
-        boolean isSize = false;
-        if(variableHierarchyString.startsWith("size(")) {
-
-            variableHierarchyString = variableHierarchyString.substring("size(".length(), variableHierarchyString.length() - 1);
-            isSize = true;
-        }
-
-        // Remove array characters
-        variableHierarchyString = variableHierarchyString.replace("[]", "");
-        variableHierarchyString = variableHierarchyString.replace("[..]", "");
-
-        // TODO: Use and document
-        boolean isReturn;
-        List<String> variableHierarchyList;
-
-        if(variableHierarchyString.startsWith("return.") || variableHierarchyString.startsWith("input.")) {
-//            TODO: IMPLEMENT ENTER
-            variableHierarchyList = Arrays.asList(variableHierarchyString.split("\\."));
-
-            isReturn = variableHierarchyList.get(0).equals("return");
-
-            variableHierarchyList = variableHierarchyList.subList(1, variableHierarchyList.size());
-
-        } else {
-            throw new RuntimeException("Unexpected AGORA variable name");
-        }
-
-        // TODO: END CREATE VARIABLE HIERARCHY
-
-        if(variableHierarchyList.isEmpty()) {
-            throw new RuntimeException("Variable hierarhy list cannot be empty");
-        }
+        List<String> variableHierarchyList = variable.getVariableHierarchyList();
 
         String currentIdentation = baseIndentation + "\t";
         int ifBracketsToClose = 0;
 
         String res = currentIdentation + "// Getting value of variable: " + postmanVariableName + "\n";
 
-        if(isReturn) {  // Generate code for getting return variables
+        if(variable.isReturn()) {  // Generate code for getting return variables
 
             // First line/nested variable
             res = res + currentIdentation + postmanVariableName + " = " + parentBaseVariable + "." + variableHierarchyList.get(0) + ";\n";
@@ -234,7 +198,7 @@ public class Invariant {
         // TODO: THIS IS COMMON TO BOTH INPUT AND RETURN
         // If the variable is the size of an array
         // Get array size
-        if(isSize) {
+        if(variable.isSize()) {
             // If the retrieved array is not null
             res = res + currentIdentation + "if(" + postmanVariableName + " != null) {\n";
 
