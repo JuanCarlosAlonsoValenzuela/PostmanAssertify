@@ -1,5 +1,6 @@
 package agora.postman.assertion.model;
 
+import io.swagger.v3.oas.models.parameters.Parameter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,18 +14,16 @@ public class Variable {
 
     // Source of the input variable (query, path, or body), null if the variable is part of the API response
     // Its value is null by default
-    private InputVariableSource inputVariableSource;
+    private VariableType variableType;
 
     private boolean isSize;
-    private boolean isReturn;
     private List<String> variableHierarchyList;
 
-    public Variable(String variableName) {
+    public Variable(String variableName, List<Parameter> parameters) {
         this.variableName = variableName;
-        this.inputVariableSource = null;    // TODO: IMPLEMENT
 
         // This method sets the values of the "variableHierarchyList", "isSize" and "isReturn" attributes
-        this.setVariableHierarchyList();
+        this.setVariableHierarchyList(parameters);
 
     }
 
@@ -32,17 +31,14 @@ public class Variable {
         return variableName;
     }
 
-    public InputVariableSource getInputVariableSource() {
-        return inputVariableSource;
+    public VariableType getVariableType() {
+        return variableType;
     }
 
     public boolean isSize() {
         return isSize;
     }
 
-    public boolean isReturn() {
-        return isReturn;
-    }
 
     public List<String> getVariableHierarchyList() {
         return variableHierarchyList;
@@ -102,7 +98,7 @@ public class Variable {
      * This method is used ONLY IN THE CONSTRUCTOR to set the value of the variableHierarchyList attribute, using
      * variableName as parameter, it also sets the "isSize" and "isReturn" attributes
      */
-    private void setVariableHierarchyList() {
+    private void setVariableHierarchyList(List<Parameter> parameters) {
 
         // Split AGORA variable name to extract variable hierarchy
         String variableHierarchyString = this.variableName;
@@ -127,10 +123,19 @@ public class Variable {
 //            TODO: IMPLEMENT ENTER
             variableHierarchyList = Arrays.asList(variableHierarchyString.split("\\."));
 
-            // Determine whether the variable is a parameter or a response field
-            this.isReturn = variableHierarchyList.get(0).equals("return");
-
+            boolean isReturn = variableHierarchyList.get(0).equals("return");
             variableHierarchyList = variableHierarchyList.subList(1, variableHierarchyList.size());
+
+            // Set the value
+            this.variableHierarchyList = variableHierarchyList;
+
+            // Determine whether the variable is a parameter or a response field
+            if(isReturn) {
+                this.variableType = VariableType.RETURN;
+            } else {
+                // Determine source of input parameter (QUERY, PATH or BODY)
+                this.variableType = getInputParameterType(parameters);
+            }
 
         } else {
             throw new RuntimeException("Unexpected AGORA variable name");
@@ -140,8 +145,31 @@ public class Variable {
             throw new RuntimeException("Variable hierarhy list cannot be empty");
         }
 
-        // Set the value
-        this.variableHierarchyList = variableHierarchyList;
+    }
+
+    private VariableType getInputParameterType(List<Parameter> parameters) {
+        // TODO: Create jUnit test case for each parameter type
+        // TODO: Implement body
+        // TODO: Implement form parameters
+        String firstHierarchyElement = this.variableHierarchyList.get(0);
+        for(Parameter parameter: parameters) {
+            if(parameter.getName().equals(firstHierarchyElement)) {
+
+                String inValue = parameter.getIn();
+
+                if(inValue.equals("query")) {
+                    return VariableType.QUERY;
+                }else if(inValue.equals("path")) {
+                    return VariableType.PATH;
+                } else {
+                    throw new NullPointerException("Unexpected variable type");
+                }
+
+            }
+
+        }
+
+        throw new NullPointerException("Parameter with name: " + firstHierarchyElement + " not found");
 
     }
 

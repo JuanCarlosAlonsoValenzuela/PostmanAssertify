@@ -6,6 +6,7 @@ import java.util.List;
 
 import static agora.postman.assertion.Main.ARRAY_NESTING_SEPARATOR;
 import static agora.postman.assertion.Main.HIERARCHY_SEPARATOR;
+import static agora.postman.assertion.model.APIOperation.getResponseCodeValue;
 
 /**
  * @author Juan C. Alonso
@@ -28,13 +29,15 @@ public class ProgramPoint {
 
     // TODO: Take ARRAY_HIERARCHY_SEPARATOR (GitHub and RESTCountries) into account
     public ProgramPoint(String pptname){
+
+        // TODO: Modify after ApiOperation refactorization
         List<String> pptnameComponents = Arrays.stream(pptname.split(HIERARCHY_SEPARATOR)).toList();
 
         this.pptname = pptname;
         this.pptType = getPptType(pptname);
         this.endpoint = pptnameComponents.get(0);
         this.operationId = pptnameComponents.get(1);
-        this.responseCode = getResponseCode(pptnameComponents.get(2));     // TODO: Can contain %array, create test
+        this.responseCode = getResponseCodeValue(pptnameComponents.get(2));     // TODO: Can contain %array, create test
 
         // The input are the elements of the list that contain the nested variables
         this.variableHierarchy = getVariableHierarchy(pptnameComponents.subList(3, pptnameComponents.size()));
@@ -51,7 +54,7 @@ public class ProgramPoint {
         this.pptType = getPptType(pptname);
         this.endpoint = pptnameComponents.get(0);
         this.operationId = pptnameComponents.get(1);
-        this.responseCode = getResponseCode(pptnameComponents.get(2));     // TODO: Can contain %array, create test
+        this.responseCode = getResponseCodeValue(pptnameComponents.get(2));     // TODO: Can contain %array, create test
 
         // The input are the elements of the list that contain the nested variables
         this.variableHierarchy = getVariableHierarchy(pptnameComponents.subList(3, pptnameComponents.size()));
@@ -137,35 +140,7 @@ public class ProgramPoint {
 
     }
 
-    /**
-     *
-     * @param pptnameResponseCodeItem Part of the pptname containing the API response code, it can be simply the
-     *                                response code, the response code followed by the pptname suffix
-     *                                (e.g., 200():::EXIT(), this happens when there is no variable hierarchy) or the
-     *                                response code followed by the array hierarchy separator (e.g., 200%array():EXIT())
-     * @return The API response code as int
-     */
-    private static int getResponseCode(String pptnameResponseCodeItem) {    // TODO: Can contain %array
 
-        if(pptnameResponseCodeItem.contains("():::")) {    // If the element contains the program point suffix (e.g., 200():::EXIT())
-
-            String[] splitPptName = pptnameResponseCodeItem.split("\\(\\):::");
-            if(splitPptName.length != 2) {
-                throw new RuntimeException("Unexpected length for split pptname, expected 2, got: " + splitPptName.length);
-            }
-
-
-            if(pptnameResponseCodeItem.contains(ARRAY_NESTING_SEPARATOR)) { // If the input string contains the response code followed by the array hierarchy separator (e.g., 200%array():EXIT())
-                // TODO: IMPLEMENT
-                return -1;
-            } else {    // if the input string contains the response code followed by the pptname suffix (e.g., 200():::EXIT()
-                return  Integer.parseInt(splitPptName[0]);
-            }
-
-        } else {    // If the element is simply and integer (e.g., 200)
-            return Integer.parseInt(pptnameResponseCodeItem);
-        }
-    }
 
 
     /**

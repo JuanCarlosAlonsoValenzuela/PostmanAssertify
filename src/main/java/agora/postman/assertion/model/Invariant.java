@@ -1,7 +1,7 @@
 package agora.postman.assertion.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import java.util.List;
 
 import static agora.postman.assertion.Main.DEBUG_MODE;
@@ -18,14 +18,15 @@ public class Invariant {
     private List<Variable> variables;
     private String postmanAssertion;
 
-    public Invariant(String pptname, String invariant, String invariantType, List<String> variablesString, String postmanAssertion) {
+    public Invariant(String pptname, String invariant, String invariantType,
+                     List<String> variablesString, String postmanAssertion, List<Parameter> parameters) {
         this.pptname = pptname;
         this.invariant = invariant;
         this.invariantType = invariantType;
 
         List<Variable> variables = new ArrayList<>();
         for(String variableName: variablesString) {
-            variables.add(new Variable(variableName));
+            variables.add(new Variable(variableName, parameters));
         }
 
         this.variables = variables;

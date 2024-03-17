@@ -33,8 +33,9 @@ public class Main {
 
         // TODO: Manage exceptions of this project properly
         // Read invariants from file
-        List<Invariant> invariants = getInvariantsDataFromPath(invariantsPath);
         OpenAPI specification = getOpenAPISpecification();
+        List<APIOperation> allApiOperations = getAllApiOperations(specification, invariantsPath);
+
 
 
         // Get unique pptnames

@@ -1,10 +1,17 @@
 package agora.postman.assertion.files;
 
+import agora.postman.assertion.model.APIOperation;
 import agora.postman.assertion.model.Invariant;
+import io.swagger.v3.oas.models.OpenAPI;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.parameters.Parameter;
+
+import static agora.postman.assertion.Main.HIERARCHY_SEPARATOR;
+import static agora.postman.assertion.model.APIOperation.getOASOperation;
 
 /**
  * @author Juan C. Alonso
@@ -38,7 +45,11 @@ public class InvariantDataFileManager {
         throw new NullPointerException("Element " + header + " not found in the csv headers");
     }
 
-    public List<Invariant> getInvariantsData(List<List<String>> rows){
+    public List<Invariant> getInvariantsData(OpenAPI specification, List<List<String>> rows){
+
+        // Key: operation identifier (endpoint&operationId), Value: parameters
+       Map<String, List<Parameter>> memory = new HashMap<>();
+
         List<Invariant> res = new ArrayList<>();
 
         for(List<String> row: rows) {
@@ -47,9 +58,36 @@ public class InvariantDataFileManager {
 
             // Add the invariant iff is a true positive
             if(tpValue==1){
+
+                String pptname = row.get(pptnameIndex);
+                List<String> pptnameComponents = Arrays.stream(pptname.split(HIERARCHY_SEPARATOR)).toList();
+
+                String endpoint = pptnameComponents.get(0);
+                String operationId = pptnameComponents.get(1);
+                String operationIdentifier = endpoint + HIERARCHY_SEPARATOR + operationId;
+
+                List<Parameter> parameters = new ArrayList<>();
+                // Create new APIOperation if ApiOperations does not contain this API operation
+                if(memory.containsKey(operationIdentifier)) {
+                    parameters = memory.get(operationIdentifier);
+                } else {
+
+                    // Get the operation of the OAS with the endpoint and the operationId
+                    Operation oasOperation = getOASOperation(specification, endpoint, operationId);
+
+                    // Get input parameters
+                    parameters = oasOperation.getParameters();
+
+                    // Update memory
+                    memory.put(operationIdentifier, parameters);
+
+                }
+
+                // Read invariants with input parameters info
                 Invariant invariantData = new Invariant(
-                        row.get(pptnameIndex), row.get(invariantIndex), row.get(invariantTypeIndex),
-                        getVariablesFromSingleInvariantData(row.get(variablesIndex)), row.get(postmanAssertionIndex)
+                        pptname, row.get(invariantIndex), row.get(invariantTypeIndex),
+                        getVariablesFromSingleInvariantData(row.get(variablesIndex)), row.get(postmanAssertionIndex),
+                        parameters
                 );
 
                 res.add(invariantData);

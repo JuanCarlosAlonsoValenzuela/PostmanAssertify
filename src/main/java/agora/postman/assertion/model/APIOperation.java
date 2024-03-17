@@ -11,12 +11,9 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.media.Schema;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import static agora.postman.assertion.Main.ROOT_NAME;
-import static agora.postman.assertion.Main.HIERARCHY_SEPARATOR;
+import static agora.postman.assertion.Main.*;
 
 /**
  * @author Juan C. Alonso
@@ -28,15 +25,20 @@ public class APIOperation {
     private final String operationId;
     private final int responseCode;
 
-    // These attributes are from the OAS
+    private List<ProgramPoint> programPoints;
+
+    // These attributes are derived from the OAS
     private final List<Parameter> parameters;
     private final RequestBody requestBody;
     private final Schema responseSchema;
 
-    public APIOperation(String endpoint, String operationId, int responseCode, OpenAPI specification) {
-        this.endpoint = endpoint;
-        this.operationId = operationId;
-        this.responseCode = responseCode;
+    public APIOperation(String pptname, OpenAPI specification) {
+
+        List<String> pptnameComponents = Arrays.stream(pptname.split(HIERARCHY_SEPARATOR)).toList();
+
+        this.endpoint = pptnameComponents.get(0);
+        this.operationId = pptnameComponents.get(1);
+        this.responseCode = getResponseCodeValue(pptnameComponents.get(2));
 
         // Get the operation of the OAS with the endpoint and the operationId
         Operation oasOperation = getOASOperation(specification, endpoint, operationId);
@@ -52,6 +54,39 @@ public class APIOperation {
 
     }
 
+    public static boolean collectionContainsApiOperation(List<APIOperation> apiOperations, String pptname) {
+
+        // TODO: Redundant with respect to constructor
+        List<String> pptnameComponents = Arrays.stream(pptname.split(HIERARCHY_SEPARATOR)).toList();
+
+        String pptEndpoint = pptnameComponents.get(0);
+        String pptOperationId = pptnameComponents.get(1);
+        int pptResponseCode = getResponseCodeValue(pptnameComponents.get(2));
+
+        for(APIOperation apiOperation: apiOperations) {
+            if(apiOperation.getEndpoint().equals(pptEndpoint) &&
+                    apiOperation.getOperationId().equals(pptOperationId) &&
+                    apiOperation.getResponseCode() == pptResponseCode
+            ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        APIOperation that = (APIOperation) o;
+        return responseCode == that.responseCode && Objects.equals(endpoint, that.endpoint) && Objects.equals(operationId, that.operationId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(endpoint, operationId, responseCode);
+    }
 
     /**
      * @param paths: List of program point names, separated by HIERARCHY_SEPARATOR
@@ -127,7 +162,7 @@ public class APIOperation {
     }
 
     // TODO: DOCUMENT
-    private static Operation getOASOperation(OpenAPI specification, String targetEndpoint, String targetOperationId) {
+    public static Operation getOASOperation(OpenAPI specification, String targetEndpoint, String targetOperationId) {
 
         Paths paths = specification.getPaths();
 
@@ -172,6 +207,36 @@ public class APIOperation {
         // Return the first schema
         return mediaTypes.iterator().next().getSchema();
 
+    }
+
+    /**
+     *
+     * @param pptnameResponseCodeItem Part of the pptname containing the API response code, it can be simply the
+     *                                response code, the response code followed by the pptname suffix
+     *                                (e.g., 200():::EXIT(), this happens when there is no variable hierarchy) or the
+     *                                response code followed by the array hierarchy separator (e.g., 200%array():EXIT())
+     * @return The API response code as int
+     */
+    public static int getResponseCodeValue(String pptnameResponseCodeItem) {    // TODO: Can contain %array
+
+        if(pptnameResponseCodeItem.contains("():::")) {    // If the element contains the program point suffix (e.g., 200():::EXIT())
+
+            String[] splitPptName = pptnameResponseCodeItem.split("\\(\\):::");
+            if(splitPptName.length != 2) {
+                throw new RuntimeException("Unexpected length for split pptname, expected 2, got: " + splitPptName.length);
+            }
+
+
+            if(pptnameResponseCodeItem.contains(ARRAY_NESTING_SEPARATOR)) { // If the input string contains the response code followed by the array hierarchy separator (e.g., 200%array():EXIT())
+                // TODO: IMPLEMENT
+                return -1;
+            } else {    // if the input string contains the response code followed by the pptname suffix (e.g., 200():::EXIT()
+                return  Integer.parseInt(splitPptName[0]);
+            }
+
+        } else {    // If the element is simply and integer (e.g., 200)
+            return Integer.parseInt(pptnameResponseCodeItem);
+        }
     }
 
 }
