@@ -22,7 +22,6 @@ public class Main {
 
     public static String HIERARCHY_SEPARATOR = "&";
     public static String ARRAY_NESTING_SEPARATOR = "%";
-    public static String ROOT_NAME = "200"; // TODO: REFACTOR/DELETE
 
     public static boolean DEBUG_MODE = true;
 

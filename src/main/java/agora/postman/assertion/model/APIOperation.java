@@ -43,7 +43,7 @@ public class APIOperation {
 
         // Set program points
         this.enterProgramPoints = programPoints.stream().filter(x-> x.getPptType().equals(PptType.ENTER)).toList();
-        this.enterProgramPoints = programPoints.stream().filter(x-> x.getPptType().equals(PptType.EXIT)).toList();
+        this.exitProgramPoints = programPoints.stream().filter(x-> x.getPptType().equals(PptType.EXIT)).toList();
 
         // Get the operation of the OAS with the endpoint and the operationId
         Operation oasOperation = getOASOperation(specification, endpoint, operationId);
