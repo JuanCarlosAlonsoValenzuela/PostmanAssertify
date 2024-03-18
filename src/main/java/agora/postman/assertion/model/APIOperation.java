@@ -59,27 +59,6 @@ public class APIOperation {
 
     }
 
-    public static boolean collectionContainsApiOperation(List<APIOperation> apiOperations, String pptname) {
-
-        // TODO: Redundant with respect to constructor
-        List<String> pptnameComponents = Arrays.stream(pptname.split(HIERARCHY_SEPARATOR)).toList();
-
-        String pptEndpoint = pptnameComponents.get(0);
-        String pptOperationId = pptnameComponents.get(1);
-        int pptResponseCode = getResponseCodeValue(pptnameComponents.get(2));
-
-        for(APIOperation apiOperation: apiOperations) {
-            if(apiOperation.getEndpoint().equals(pptEndpoint) &&
-                    apiOperation.getOperationId().equals(pptOperationId) &&
-                    apiOperation.getResponseCode() == pptResponseCode
-            ) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
