@@ -1,6 +1,5 @@
 package agora.postman.assertion.files;
 
-import agora.postman.assertion.model.APIOperation;
 import agora.postman.assertion.model.Invariant;
 import io.swagger.v3.oas.models.OpenAPI;
 
@@ -59,6 +58,7 @@ public class InvariantDataFileManager {
             // Add the invariant iff is a true positive
             if(tpValue==1){
 
+                // TODO: Divide this code into multiple methods
                 String pptname = row.get(pptnameIndex);
                 List<String> pptnameComponents = Arrays.stream(pptname.split(HIERARCHY_SEPARATOR)).toList();
 
@@ -66,7 +66,7 @@ public class InvariantDataFileManager {
                 String operationId = pptnameComponents.get(1);
                 String operationIdentifier = endpoint + HIERARCHY_SEPARATOR + operationId;
 
-                List<Parameter> parameters = new ArrayList<>();
+                List<Parameter> parameters;
                 // Create new APIOperation if ApiOperations does not contain this API operation
                 if(memory.containsKey(operationIdentifier)) {
                     parameters = memory.get(operationIdentifier);

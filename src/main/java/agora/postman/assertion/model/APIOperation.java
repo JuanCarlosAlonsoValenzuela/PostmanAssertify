@@ -25,20 +25,25 @@ public class APIOperation {
     private final String operationId;
     private final int responseCode;
 
-    private List<ProgramPoint> programPoints;
+    private List<ProgramPoint> enterProgramPoints;
+    private List<ProgramPoint> exitProgramPoints;
 
     // These attributes are derived from the OAS
     private final List<Parameter> parameters;
     private final RequestBody requestBody;
     private final Schema responseSchema;
 
-    public APIOperation(String pptname, OpenAPI specification) {
+    public APIOperation(String pptname, List<ProgramPoint> programPoints, OpenAPI specification) {
 
         List<String> pptnameComponents = Arrays.stream(pptname.split(HIERARCHY_SEPARATOR)).toList();
 
         this.endpoint = pptnameComponents.get(0);
         this.operationId = pptnameComponents.get(1);
         this.responseCode = getResponseCodeValue(pptnameComponents.get(2));
+
+        // Set program points
+        this.enterProgramPoints = programPoints.stream().filter(x-> x.getPptType().equals(PptType.ENTER)).toList();
+        this.enterProgramPoints = programPoints.stream().filter(x-> x.getPptType().equals(PptType.EXIT)).toList();
 
         // Get the operation of the OAS with the endpoint and the operationId
         Operation oasOperation = getOASOperation(specification, endpoint, operationId);
@@ -93,18 +98,21 @@ public class APIOperation {
      * @return Program point hierarchy tree, derived from the list of paths.
      */
     // TODO: Update parameters in Javadoc
-    public Tree<String> getProgramPointHierarchy(List<ProgramPoint> allProgramPoints) {
+    public Tree<String> getProgramPointHierarchy() {
+
+
 
         // Create a tree with a root node
         // TODO: Use other method for specifying the root
-        Tree<String> programPointHierarchy = new Tree<>(ROOT_NAME);
+        Tree<String> programPointHierarchy = new Tree<>(Integer.toString(this.responseCode));
 
         // Create the variable of type tree that we will iterate on
         Tree<String> current = programPointHierarchy;
 
         // Iterate over all program points
         // Given the list of all the tree paths, this for loop creates the complete tree
-        for(ProgramPoint programPoint: allProgramPoints) {
+        // We only use the EXIT program points because they also contain the ENTER invariants
+        for(ProgramPoint programPoint: this.exitProgramPoints) {
 
             // Get the path of this program point
             String path = programPoint.getVariableHierarchyAsString();
@@ -159,6 +167,14 @@ public class APIOperation {
 
     public Schema getResponseSchema() {
         return responseSchema;
+    }
+
+    public List<ProgramPoint> getEnterProgramPoints() {
+        return enterProgramPoints;
+    }
+
+    public List<ProgramPoint> getExitProgramPoints() {
+        return exitProgramPoints;
     }
 
     // TODO: DOCUMENT

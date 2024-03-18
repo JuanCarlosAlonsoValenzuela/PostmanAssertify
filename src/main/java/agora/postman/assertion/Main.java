@@ -2,18 +2,15 @@ package agora.postman.assertion;
 
 import agora.postman.assertion.model.Invariant;
 import agora.postman.assertion.model.APIOperation;
-import agora.postman.assertion.model.ProgramPoint;
 import agora.postman.assertion.model.nestingLevelTree.PrintIndentedVisitor;
 import agora.postman.assertion.model.nestingLevelTree.Tree;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.parser.OpenAPIV3Parser;
 import io.swagger.v3.parser.core.models.ParseOptions;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
-import static agora.postman.assertion.files.ReadInvariants.getInvariantsDataFromPath;
+import static agora.postman.assertion.files.ReadInvariants.getAllApiOperations;
 
 /**
  * @author Juan C. Alonso
@@ -52,30 +49,15 @@ public class Main {
          * 5.- Apply to both ENTER and EXIT ppts (for now, only EXIT)
          */
 
-        Map<String, List<Invariant>> invariantsGroupedByPptName = invariants
-                .stream().collect(Collectors.groupingBy(Invariant::getPptname));
 
         // TODO: We are assuming that these program points are grouped by endpoint, operationId and responseCode
-
-        // Get all program points with their corresponding invariants
-        List<ProgramPoint> allProgramPoints = invariantsGroupedByPptName.entrySet().stream()
-                .map(entry -> new ProgramPoint(entry.getKey(), entry.getValue()))
-                .sorted(Comparator.comparingInt(x-> x.getVariableHierarchy().size()))
-                .toList();
-
-        // TODO: IMPLEMENT THIS FOR MULTIPLE OPERATIONS
-        ProgramPoint operationProgramPoint = allProgramPoints.get(0);
-        APIOperation apiOperation = new APIOperation(
-                operationProgramPoint.getEndpoint(),
-                operationProgramPoint.getOperationId(),
-                operationProgramPoint.getResponseCode(),
-                specification
-        );
-
         // TODO: This tree is for a single operation
         // Create program point hierarchy tree from list of paths
         // TODO: Change from static method to method of the APIOperation class
-        Tree<String> programPointHierarchy = apiOperation.getProgramPointHierarchy(allProgramPoints);
+
+        APIOperation apiOperation = allApiOperations.get(0);
+
+        Tree<String> programPointHierarchy = apiOperation.getProgramPointHierarchy();
 
         // Print nesting level tree
         programPointHierarchy.accept(new PrintIndentedVisitor(3));

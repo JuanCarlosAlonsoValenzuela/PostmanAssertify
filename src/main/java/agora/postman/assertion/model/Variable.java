@@ -16,6 +16,7 @@ public class Variable {
     // Its value is null by default
     private VariableType variableType;
 
+    // TODO: Add isArrayElement attribute
     private boolean isSize;
     private List<String> variableHierarchyList;
 

@@ -137,7 +137,7 @@ public class Invariant {
 
         String res = currentIdentation + "// Getting value of variable: " + postmanVariableName + "\n";
 
-        if(variable.isReturn()) {  // Generate code for getting return variables
+        if(variable.getVariableType().equals(VariableType.RETURN)) {  // Generate code for getting return variables
 
             // First line/nested variable
             res = res + currentIdentation + postmanVariableName + " = " + parentBaseVariable + "." + variableHierarchyList.get(0) + ";\n";
@@ -160,7 +160,7 @@ public class Invariant {
         } else {    // Generate code for getting input variables (parameters)
             // TODO: Test with all datatypes (string, number, boolean)
             // TODO: for now, we assume that all input variables are query parameters
-            // TODO: Read OAS to determine origin (query, path, body) of input parameters
+            // TODO: Read OAS to determine origin (query, path, body, form) of input parameters
             res = res + currentIdentation + postmanVariableName + " = "  + "pm.request.url.query.get(\"" + variableHierarchyList.get(0) + "\")" + ";\n";
 
             // Decode only if the variable is not null (otherwise, we obtain the "undefined" string)

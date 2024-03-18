@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static agora.postman.assertion.Main.ARRAY_NESTING_SEPARATOR;
 import static agora.postman.assertion.Main.HIERARCHY_SEPARATOR;
 import static agora.postman.assertion.model.APIOperation.getResponseCodeValue;
 
@@ -19,9 +18,9 @@ public class ProgramPoint {
 
     private String pptname;
     private PptType pptType;
-    private String endpoint;
-    private String operationId;
-    private int responseCode;
+    private String endpoint;                    // TODO: REDUNDANT
+    private String operationId;                 // TODO: REDUNDANT
+    private int responseCode;                   // TODO: REDUNDANT
     private List<String> variableHierarchy;
 
     // Invariants of this nesting level
@@ -48,6 +47,7 @@ public class ProgramPoint {
 
     // TODO: Take ARRAY_HIERARCHY_SEPARATOR (GitHub and RESTCountries) into account
     public ProgramPoint(String pptname, List<Invariant> invariants){
+        // TODO: Modify after ApiOperation refactorization
         List<String> pptnameComponents = Arrays.stream(pptname.split(HIERARCHY_SEPARATOR)).toList();
 
         this.pptname = pptname;
@@ -61,6 +61,12 @@ public class ProgramPoint {
 
         this.invariants = invariants;
 
+    }
+
+    // TODO: Rename after renaming the APIOperation class
+    // This method is used to group the list of all program points by their corresponding operation
+    public String getApiOperationIdentifier() {
+        return this.endpoint + HIERARCHY_SEPARATOR + this.operationId + HIERARCHY_SEPARATOR + this.responseCode;
     }
 
     public String getPptname() {
@@ -121,6 +127,7 @@ public class ProgramPoint {
      * @param pptname: program point name
      * @return  whether its type is ENTER or EXIT
       */
+    // TODO: Rename, now it has the same name as getter
     private static PptType getPptType(String pptname) {
         String[] splitPptName = pptname.split(":::");
 

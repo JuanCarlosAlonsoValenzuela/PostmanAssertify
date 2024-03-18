@@ -2,10 +2,14 @@ package agora.postman.assertion.files;
 
 import agora.postman.assertion.model.APIOperation;
 import agora.postman.assertion.model.Invariant;
+import agora.postman.assertion.model.ProgramPoint;
 import io.swagger.v3.oas.models.OpenAPI;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static agora.postman.assertion.files.CSVManager.readCSV;
 
@@ -18,21 +22,42 @@ public class ReadInvariants {
     // TODO: Document
     public static List<APIOperation> getAllApiOperations(OpenAPI specification, String invariantsPath) {
 
-        // Read the invariants csv as a list of rows
+        // Read all the API invariants from a CSV file (invariantsPath), the specification is used to determine the
+        // source of the input variables (QUERY, PATH, BODY, FORM)
+        List<Invariant> allInvariants = getInvariantsDataFromPath(specification, invariantsPath);
 
-        // Iterate over all rows (invariants)
+        // Group all the invariants per pptname
+        Map<String, List<Invariant>> invariantsGroupedByPptName = allInvariants
+                .stream().collect(Collectors.groupingBy(Invariant::getPptname));
 
-        // Create the API operation if it does not exist
+        // Create the list of all the API program points, each one of them containing its list of invariants
+        List<ProgramPoint> allProgramPoints = new ArrayList<>();
+        for(String programPointName: invariantsGroupedByPptName.keySet()) {
+            allProgramPoints.add(new ProgramPoint(programPointName, invariantsGroupedByPptName.get(programPointName)));
+        }
 
-        // Add the program point to the APIOperation if it does not exist
+        // Group all the program points by their corresponding operation
+        Map<String, List<ProgramPoint>> programPointsGroupedByApiOperation = allProgramPoints.stream()
+                .collect(Collectors.groupingBy(ProgramPoint::getApiOperationIdentifier));
 
-        // Create the invariant and add it to the program point
+        // Create the list of all the API operations, each one of them containing the list of program points
+        List<APIOperation> allApiOperations = new ArrayList<>();
+        for(String operationIdentifier: programPointsGroupedByApiOperation.keySet()) {
+            List<ProgramPoint> apiOperationProgramPoints = programPointsGroupedByApiOperation.get(operationIdentifier);
+
+            // Any of the pptnames of the operations is valid
+            String pptname = apiOperationProgramPoints.get(0).getPptname();
+
+            allApiOperations.add(new APIOperation(pptname, apiOperationProgramPoints, specification));
+        }
+
+        return allApiOperations;
 
     }
 
     // TODO: Rename and move to a different class
     // TODO: REMOVE (OLD)
-    public static List<Invariant> getInvariantsDataFromPath(OpenAPI specification, String invariantsPath) {
+    private static List<Invariant> getInvariantsDataFromPath(OpenAPI specification, String invariantsPath) {
 
         // Read the csv file as a list of rows
         List<List<String>> rows = readCSV(invariantsPath, true, ';');
