@@ -1,11 +1,13 @@
 package agora.postman.assertion.model;
 
+import agora.postman.assertion.model.nestingLevelTree.NestingType;
 import agora.postman.assertion.model.nestingLevelTree.Tree;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.Paths;
 
+import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
@@ -14,6 +16,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import java.util.*;
 
 import static agora.postman.assertion.Main.*;
+import static agora.postman.assertion.model.nestingLevelTree.Tree.getNestingTypeFromString;
 
 /**
  * @author Juan C. Alonso
@@ -79,11 +82,11 @@ public class APIOperation {
     // TODO: Update parameters in Javadoc
     public Tree<String> getProgramPointHierarchy() {
 
-
-
         // Create a tree with a root node
         // TODO: Use other method for specifying the root
-        Tree<String> programPointHierarchy = new Tree<>(Integer.toString(this.responseCode));
+        Tree<String> programPointHierarchy = new Tree<>(Integer.toString(this.responseCode),
+                getNestingTypeFromString(this.responseSchema.getType())
+        );
 
         // Create the variable of type tree that we will iterate on
         Tree<String> current = programPointHierarchy;
@@ -96,6 +99,9 @@ public class APIOperation {
             // Get the path of this program point
             String path = programPoint.getVariableHierarchyAsString();
 
+            // Get response format
+            Schema currentSchema = this.responseSchema;
+
             // If the path is not empty, create the path and assign the program point to the last path element
             if(!path.isEmpty()) {
                 // Create a variable to store the root
@@ -103,13 +109,30 @@ public class APIOperation {
 
                 // For each item of the hierarchy
                 for (String data : path.split(HIERARCHY_SEPARATOR)) {
+
+                    // TODO: START CONVERT INTO FUNCTION
+                    NestingType currentNestingType = getNestingTypeFromString(((Schema) currentSchema.getProperties().get(data)).getType());
+
+                    if(currentNestingType.equals(NestingType.ARRAY)) {
+
+                        currentSchema = ((ArraySchema)currentSchema.getProperties().get(data)).getItems();
+
+                    } else { // If object
+                        currentSchema = (Schema) currentSchema.getProperties().get(data);
+                    }
+
+                    // TODO: END CONVERT INTO FUNCTION
+
+
                     // Dive into the tree following the hierarchy by updating the value of current
                     // If the node does not exist, it is added
-                    current = current.child(data);
+                    current = current.child(data, currentNestingType);
                 }
 
                 // Assign the program point to the last element of the path
                 current.setProgramPoint(programPoint);
+
+                // TODO: Assign the variable type to the last element of the path
 
                 // Set current to the root value again
                 current = root;

@@ -21,6 +21,8 @@ public class Tree<T> implements Visitable<T>{
     // Value of the corresponding program point
     private ProgramPoint programPoint;
 
+    private final NestingType nestingType;
+
     public T getData() {
         return data;
     }
@@ -30,8 +32,9 @@ public class Tree<T> implements Visitable<T>{
     }
 
     // Create a new tree with a single node
-    public Tree(T data) {
+    public Tree(T data, NestingType nestingType) {
         this.data = data;
+        this.nestingType = nestingType;
     }
 
     // Used to print the tree
@@ -45,7 +48,7 @@ public class Tree<T> implements Visitable<T>{
     }
 
     // Tries to add a new child (node) to the tree
-    public Tree<T> child(T data) {
+    public Tree<T> child(T data, NestingType currentNestingType) {
         // Iterate over the children of the node
         for (Tree<T> child: children ) {
             // If the node exists
@@ -56,7 +59,7 @@ public class Tree<T> implements Visitable<T>{
         }
 
         // If the child does not exist, create a new node with that value (see method below)
-        return child(new Tree<T>(data));
+        return child(new Tree<T>(data, currentNestingType));
     }
 
     // Adds a new child to a tree (after checking that the child does not exist)
@@ -65,6 +68,16 @@ public class Tree<T> implements Visitable<T>{
         children.add(child);
         // Return the child
         return child;
+    }
+
+    public static NestingType getNestingTypeFromString(String type) {
+        if(type.equals("object")) {
+            return NestingType.OBJECT;
+        } else if(type.equals("array")) {
+            return NestingType.ARRAY;
+        } else {
+            throw new RuntimeException("Unexpected nesting type value, expectedd one of: array, string");
+        }
     }
 
     public ProgramPoint getProgramPoint() {
