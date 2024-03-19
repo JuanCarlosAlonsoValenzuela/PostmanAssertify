@@ -18,8 +18,8 @@ import static agora.postman.assertion.files.ReadInvariants.getAllApiOperations;
  */
 public class Main {
 
-    private static String openApiSpecPath = "src/main/resources/oas_spotify_artistAlbums.yaml";
-    private static String invariantsPath = "src/main/resources/invariants_artistAlbums.csv";
+    private static String openApiSpecPath = "src/main/resources/oas_spotify_createPlaylist.yaml";
+    private static String invariantsPath = "src/main/resources/invariants_createPlaylist.csv";
 
     public static String HIERARCHY_SEPARATOR = "&";
     public static String ARRAY_NESTING_SEPARATOR = "%";

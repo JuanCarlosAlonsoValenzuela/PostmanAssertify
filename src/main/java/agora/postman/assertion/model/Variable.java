@@ -170,7 +170,9 @@ public class Variable {
 
         }
 
-        throw new NullPointerException("Parameter with name: " + firstHierarchyElement + " not found");
+        // TODO: Remove this
+        return VariableType.BODY;
+//        throw new NullPointerException("Parameter with name: " + firstHierarchyElement + " not found");
 
     }
 

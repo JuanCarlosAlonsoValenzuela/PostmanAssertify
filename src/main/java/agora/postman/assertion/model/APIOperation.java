@@ -101,6 +101,10 @@ public class APIOperation {
             } else if(parameterIn.equals("form")) {
                 // TODO: IMPLEMENT
                 throw new RuntimeException("Form parameters not implemented yet");
+            } else if (parameterIn.equals("header")) {
+                // TODO: Test
+                res = res + inputVariableName + " = pm.request.headers.get(\"" + parameterName + "\");\n";
+
             } else {
                 throw new RuntimeException("Unexpected value for parameter source, got: " + parameterIn);
             }
