@@ -85,8 +85,13 @@ public class APIOperation {
         for(Parameter parameter: this.parameters) {
             String parameterIn = parameter.getIn();
             String parameterName = parameter.getName();
-            String inputVariableName = "input_" + parameterName;    // TODO: Test this
+
             String parameterType = parameter.getSchema().getType();
+
+            String inputVariableName = "input_" + parameterName;    // TODO: Test this, check conformance with getPostmanVariableName
+            if(parameterType.equals("array")) {
+                inputVariableName = inputVariableName + "_array";
+            }
 
             res = res + "// Getting value of the " + parameterName + " " + parameterIn + " parameter \n";
             if(parameterIn.equals("query")) {
@@ -118,8 +123,20 @@ public class APIOperation {
                     // TODO: Implement (check properties datatype)
                     System.err.println("Object input parameters not implemented");
                 } else if(parameterType.equals("array")) {
-                    // TODO: Implement (check items datatypes)
-                    System.err.println("Array input parameters not implemented");
+
+                    String separator = ",";
+
+                    // TODO: Check items datatype and convert them
+                    res = res + "\t" + inputVariableName + " = " + inputVariableName + ".split(\"" + separator + "\").map(item => item.trim());\n";
+
+                    String itemsDatatype = ((ArraySchema) parameter.getSchema()).getItems().getType();
+
+                    if(!itemsDatatype.equals("string")) {
+                        // TODO: IMPLEMENT
+                        throw new RuntimeException("Array of items that are not strings are not supported yet");
+                    }
+
+
                 } else {
                     throw new RuntimeException("Unexpected parameter type: " + parameterType);
                 }
