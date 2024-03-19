@@ -27,6 +27,10 @@ public class Tree<T> implements Visitable<T>{
         return data;
     }
 
+    public NestingType getNestingType() {
+        return nestingType;
+    }
+
     public Set<Tree<T>> getChildren() {
         return children;
     }

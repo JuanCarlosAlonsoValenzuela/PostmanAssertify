@@ -2,6 +2,7 @@ package agora.postman.assertion;
 
 import agora.postman.assertion.model.Invariant;
 import agora.postman.assertion.model.APIOperation;
+import agora.postman.assertion.model.nestingLevelTree.NestingType;
 import agora.postman.assertion.model.nestingLevelTree.PrintIndentedVisitor;
 import agora.postman.assertion.model.nestingLevelTree.Tree;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -17,8 +18,8 @@ import static agora.postman.assertion.files.ReadInvariants.getAllApiOperations;
  */
 public class Main {
 
-    private static String openApiSpecPath = "src/main/resources/oas_omdb_byIdOrTitle.yaml";
-    private static String invariantsPath = "src/main/resources/test.csv";
+    private static String openApiSpecPath = "src/main/resources/oas_vimeo.yaml";
+    private static String invariantsPath = "src/main/resources/test3.csv";
 
     public static String HIERARCHY_SEPARATOR = "&";
     public static String ARRAY_NESTING_SEPARATOR = "%";
@@ -110,7 +111,10 @@ public class Main {
 
             String indentationStr = "\t".repeat(Math.max(parents.size() - 1, 0));
 
-            System.out.println(indentationStr + "\t} // Closing for " + parentBaseVariable);
+            if(tree.getNestingType().equals(NestingType.ARRAY)) {
+                System.out.println(indentationStr + "\t} // Closing for " + parentBaseVariable);
+            }
+
             System.out.println(indentationStr + "} // Closing if "+ parentBaseVariable);
             System.out.println("\n");
         }
@@ -166,17 +170,23 @@ public class Main {
             System.out.println(indentationStr + baseVariableAsignation);
             System.out.println(indentationStr + "if(" + parentBaseVariable + " != null) {");
 
-            String baseVariableIndex = parentBaseVariable + "_index";
-            String baseVariableElement = parentBaseVariable + "_element";
+            // If the nesting type value is array
+            if(tree.getNestingType().equals(NestingType.ARRAY)) {
 
-            System.out.println(indentationStr + "\tfor(" + baseVariableIndex + " in " + parentBaseVariable + ") {");
-            System.out.println(indentationStr + "\t\t" + baseVariableElement + " = " + parentBaseVariable + "[" + baseVariableIndex + "]");
+                String baseVariableIndex = parentBaseVariable + "_index";
+                String baseVariableElement = parentBaseVariable + "_element";
 
+                System.out.println(indentationStr + "\tfor(" + baseVariableIndex + " in " + parentBaseVariable + ") {");
+                System.out.println(indentationStr + "\t\t" + baseVariableElement + " = " + parentBaseVariable + "[" + baseVariableIndex + "]");
+
+                parentBaseVariable = baseVariableElement;
+
+            }
 
             System.out.println(indentationStr + "\t\t// TODO: Postman tests here");
 
 
-            parentBaseVariable = baseVariableElement;
+
 
             if(DEBUG_MODE) {
                 System.out.println(indentationStr + "\t\tconsole.log(\"Printing value of " + parentBaseVariable + "\")");
