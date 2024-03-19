@@ -88,10 +88,13 @@ public class APIOperation {
 
             String parameterType = parameter.getSchema().getType();
 
+            // TODO: START CONVERT INTO FUNCTION
+            // TODO: DUPLICATED WITH BODY PARAMETERS
             String inputVariableName = "input_" + parameterName;    // TODO: Test this, check conformance with getPostmanVariableName
             if(parameterType.equals("array")) {
                 inputVariableName = inputVariableName + "_array";
             }
+            // TODO: END CONVERT INTO FUNCTION
 
             res = res + "// Getting value of the " + parameterName + " " + parameterIn + " parameter \n";
             if(parameterIn.equals("query")) {
@@ -102,7 +105,6 @@ public class APIOperation {
                 // TODO: IMPLEMENT
                 throw new RuntimeException("Form parameters not implemented yet");
             } else if (parameterIn.equals("header")) {
-                // TODO: Test
                 res = res + inputVariableName + " = pm.request.headers.get(\"" + parameterName + "\");\n";
 
             } else {
@@ -156,7 +158,60 @@ public class APIOperation {
 
         }
 
-        // TODO: Get value of the body parameter
+        // Get values of the body parameters
+        RequestBody requestBody = this.requestBody;
+        if(requestBody != null) {
+
+            // Get the request body itself
+            res = res + "let request_body = JSON.parse(pm.request.body.raw);\n";
+
+            if(DEBUG_MODE) {
+                res = res + "console.log(\"Printing value of request_body\");\n";
+                res = res + "console.log(request_body);\n\n";
+            }
+
+            // Get all the variables (only first nesting level) of the request body
+            // The remaining nesting levels are obtained in the Test script
+            // TODO: Check behavior of different datatypes
+            Collection<MediaType> mediaTypes = requestBody.getContent().values();
+            if(mediaTypes.isEmpty()) {
+                throw new NullPointerException("Request body is empty");
+            }
+
+            // Use only the first schema
+            // TODO: Implement if ArraySchema, for now, we assume that it is an object
+            Schema requestSchema = mediaTypes.iterator().next().getSchema();
+
+            Set<String> requestSchemaKeyset = requestSchema.getProperties().keySet();
+            for(String requestVariableName: requestSchemaKeyset) {
+
+                Schema variableSchema = (Schema) requestSchema.getProperties().get(requestVariableName);
+
+                // TODO: START CONVERT INTO FUNCTION
+                // TODO: DUPLICATED WITH OTHER PARAMETERS
+                String inputVariableName = "input_" + requestVariableName;    // TODO: Test this, check conformance with getPostmanVariableName
+                String parameterType = variableSchema.getType();
+
+                if(parameterType.equals("array")) {
+                    inputVariableName = inputVariableName + "_array";
+                }
+                // TODO: END CONVERT INTO FUNCTION
+
+                // Add variable assignation
+                res = res + "// Getting value of the " + requestVariableName + " property of the request body\n";
+
+                res = res + inputVariableName + " = request_body." + requestVariableName + ";\n";
+
+                if(DEBUG_MODE) {
+                    res = res + "console.log(\"Printing value of " + inputVariableName + "\");\n";
+                    res = res + "console.log(" + inputVariableName + ");\n\n";
+                }
+
+
+            }
+
+        }
+
 
         return res;
     }
