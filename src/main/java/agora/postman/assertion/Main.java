@@ -18,8 +18,8 @@ import static agora.postman.assertion.files.ReadInvariants.getAllApiOperations;
  */
 public class Main {
 
-    private static String openApiSpecPath = "src/main/resources/oas_vimeo.yaml";
-    private static String invariantsPath = "src/main/resources/test3.csv";
+    private static String openApiSpecPath = "src/main/resources/oas_spotify_artistAlbums.yaml";
+    private static String invariantsPath = "src/main/resources/invariants_artistAlbums.csv";
 
     public static String HIERARCHY_SEPARATOR = "&";
     public static String ARRAY_NESTING_SEPARATOR = "%";
@@ -62,8 +62,13 @@ public class Main {
         // Print nesting level tree
         programPointHierarchy.accept(new PrintIndentedVisitor(3));
 
+
+        System.out.println("############################### PRE-REQUEST SCRIPT ###############################");
+        String preRequestScript = apiOperation.generatePreRequestScript();
+        System.out.println(preRequestScript);
+
         // Iterate over program point hierarchy (in-depth search)
-        System.out.println("###############################");
+        System.out.println("############################### TEST SCRIPT ###############################");
 
         // Create variable valuesToConsiderAsNull
         // TODO: Implement properly
@@ -71,6 +76,7 @@ public class Main {
 
 
         // Generates/Prints the Postman tests source code
+        // TODO: Convert into method of class APIOperation
         List<String> orderedNestingLevels = programPointsDepthSearch(programPointHierarchy, new ArrayList<>(), new ArrayList<>(), null);
 
         /**

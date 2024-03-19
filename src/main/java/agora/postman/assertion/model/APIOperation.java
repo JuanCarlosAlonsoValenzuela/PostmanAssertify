@@ -62,17 +62,82 @@ public class APIOperation {
 
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        APIOperation that = (APIOperation) o;
-        return responseCode == that.responseCode && Objects.equals(endpoint, that.endpoint) && Objects.equals(operationId, that.operationId);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(endpoint, operationId, responseCode);
+    /**
+     *
+     * @return Pre-Request script containing variables with the values of all the input parameters
+     */
+    // TODO: Test with all possible datatypes and parameter sources
+    // TODO: Add debug mode
+    // TODO: Create test cases checking that the variable names are consistent
+    // TODO: Explain that we only get the top point of the hierarchy
+    // TODO: We do not get the array sizes or elements
+    // TODO: Datatypes, it considers everything as a String
+    // TODO: Decode uri? I think it is not necessary
+    public String generatePreRequestScript() {
+
+        String res = "";
+
+
+        // TODO: Get Postman variable name, it has to be consistent
+
+        // Get values of the query, path and form parameters
+        for(Parameter parameter: this.parameters) {
+            String parameterIn = parameter.getIn();
+            String parameterName = parameter.getName();
+            String inputVariableName = "input_" + parameterName;    // TODO: Test this
+            String parameterType = parameter.getSchema().getType();
+
+            res = res + "// Getting value of the " + parameterName + " " + parameterIn + " parameter \n";
+            if(parameterIn.equals("query")) {
+                res = res + inputVariableName + " = pm.request.url.query.get(\"" + parameterName + "\");\n";
+            } else if (parameterIn.equals("path")) {
+                res = res + inputVariableName + " = pm.request.url.variables.get(\"" + parameterName + "\");\n";
+            } else if(parameterIn.equals("form")) {
+                // TODO: IMPLEMENT
+                throw new RuntimeException("Form parameters not implemented yet");
+            } else {
+                throw new RuntimeException("Unexpected value for parameter source, got: " + parameterIn);
+            }
+
+            // TODO: ANALYZE DATATYPE AND CONVERT IF NOT NULL (IT ALWAYS READS THE VALUE AS STRING)
+            // TODO: string (do nothing), object, array (items datatype), number, integer, boolean
+            if(!parameterType.equals("string")) {
+                res = res + "if (" + inputVariableName + " != null) { \n";
+
+                if(parameterType.equals("number")) {
+                    // TODO: Test with negative number
+                    // TODO: Create test comparing integer with number and check behavior
+                    res = res + "\t" + inputVariableName + " = Number(" + inputVariableName + ");\n";
+                } else if (parameterType.equals("integer")) {
+                    // TODO: Test with negative integer
+                    res = res + "\t" + inputVariableName + " = parseInt(" + inputVariableName + ");\n";
+                } else if(parameterType.equals("boolean")) {
+                    res = res + "\t" + inputVariableName + " = (" + inputVariableName + " == \"true\");\n";
+                } else if(parameterType.equals("object")) {
+                    // TODO: Implement (check properties datatype)
+                    System.err.println("Object input parameters not implemented");
+                } else if(parameterType.equals("array")) {
+                    // TODO: Implement (check items datatypes)
+                    System.err.println("Array input parameters not implemented");
+                } else {
+                    throw new RuntimeException("Unexpected parameter type: " + parameterType);
+                }
+
+
+                res = res + "}\n";
+            }
+
+            if(DEBUG_MODE) {
+                res = res + "console.log(\"Printing value of " + inputVariableName + "\");\n";
+                res = res + "console.log(" + inputVariableName + ");\n\n";
+            }
+
+        }
+
+        // TODO: Get value of the body parameter
+
+        return res;
     }
 
     /**
