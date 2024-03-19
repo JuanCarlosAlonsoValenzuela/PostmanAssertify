@@ -28,6 +28,7 @@ public class Invariant {
 
         List<Variable> variables = new ArrayList<>();
         for(String variableName: variablesString) {
+            // TODO: Remove information from specification, is not required anymore
             variables.add(new Variable(variableName, parameters));
         }
 
@@ -165,32 +166,6 @@ public class Invariant {
             // TODO: for now, we assume that all input variables are query parameters
             // TODO: Read OAS to determine origin (query, path, body, form) of input parameters
 
-
-            // TODO: REMOVE
-            if(variableType.equals(VariableType.QUERY)) {
-                res = res + currentIdentation + postmanVariableName + " = "  + "pm.request.url.query.get(\"" + variableHierarchyList.get(0) + "\")" + ";\n";
-            } else if(variableType.equals(VariableType.PATH)) {
-                throw new RuntimeException("Input parameter type not implemented");
-            } else if(variableType.equals(VariableType.BODY)) {
-                throw new RuntimeException("Input parameter type not implemented");
-            } else if(variableType.equals(VariableType.FORM)) {
-                throw new RuntimeException("Input parameter type not implemented");
-            } else {
-                throw new RuntimeException("Input parameter type not implemented");
-            }
-
-
-            // Decode only if the variable is not null (otherwise, we obtain the "undefined" string)
-            res = res + currentIdentation + "if(" + postmanVariableName + " != null) {\n";
-
-            currentIdentation = currentIdentation + "\t";
-
-            // Decode input variable
-            res = res + currentIdentation + postmanVariableName + " = decodeURIComponent(" + postmanVariableName + ");\n";
-
-            // Increment the number of if brackets to close
-            ifBracketsToClose++;
-
             // TODO: Implement input variables with hierarchy (for now, a exception is thrown)
             if(variableHierarchyList.size() != 1) {
                 throw new RuntimeException("Input parameters with hierarchy are not supported yet");
@@ -214,6 +189,7 @@ public class Invariant {
 
 
         // TODO: THIS IS COMMON TO BOTH INPUT AND RETURN
+        // TODO: Create test case for size of input variables
         // If the variable is the size of an array
         // Get array size
         if(variable.isSize()) {
