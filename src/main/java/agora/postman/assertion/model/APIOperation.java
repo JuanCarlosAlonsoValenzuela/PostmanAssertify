@@ -221,6 +221,7 @@ public class APIOperation {
      * @return Program point hierarchy tree, derived from the list of paths.
      */
     // TODO: Update parameters in Javadoc
+    // TODO: Create test cases with array nesting
     public Tree<String> getProgramPointHierarchy() {
 
         // Create a tree with a root node
@@ -385,12 +386,18 @@ public class APIOperation {
                 throw new RuntimeException("Unexpected length for split pptname, expected 2, got: " + splitPptName.length);
             }
 
+            // String containing the response code and (in some cases) the number of nested arrays
+            String splitPptNameFirstElement = splitPptName[0];
 
-            if(pptnameResponseCodeItem.contains(ARRAY_NESTING_SEPARATOR)) { // If the input string contains the response code followed by the array hierarchy separator (e.g., 200%array():EXIT())
-                // TODO: IMPLEMENT
-                return -1;
+            if(splitPptNameFirstElement.contains(ARRAY_NESTING_SEPARATOR)) { // If the input string contains the response code followed by the array hierarchy separator (e.g., 200%array():EXIT())
+                // TODO: Create multiple tests
+                String[] arrayNesting = splitPptNameFirstElement.split(ARRAY_NESTING_SEPARATOR);
+
+                // Return the response code
+                return Integer.parseInt(arrayNesting[0]);
+
             } else {    // if the input string contains the response code followed by the pptname suffix (e.g., 200():::EXIT()
-                return  Integer.parseInt(splitPptName[0]);
+                return  Integer.parseInt(splitPptNameFirstElement);
             }
 
         } else {    // If the element is simply and integer (e.g., 200)

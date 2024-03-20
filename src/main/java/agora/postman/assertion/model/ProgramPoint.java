@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static agora.postman.assertion.Main.ARRAY_NESTING_SEPARATOR;
 import static agora.postman.assertion.Main.HIERARCHY_SEPARATOR;
 import static agora.postman.assertion.model.APIOperation.getResponseCodeValue;
 
@@ -21,29 +22,34 @@ public class ProgramPoint {
     private String endpoint;                    // TODO: REDUNDANT
     private String operationId;                 // TODO: REDUNDANT
     private int responseCode;                   // TODO: REDUNDANT
+
+    // Number of %array in the last level
+    private int arrayNesting;
     private List<String> variableHierarchy;
+
+
 
     // Invariants of this nesting level
     private List<Invariant> invariants;
 
     // TODO: Take ARRAY_HIERARCHY_SEPARATOR (GitHub and RESTCountries) into account
-    public ProgramPoint(String pptname){
-
-        // TODO: Modify after ApiOperation refactorization
-        List<String> pptnameComponents = Arrays.stream(pptname.split(HIERARCHY_SEPARATOR)).toList();
-
-        this.pptname = pptname;
-        this.pptType = getPptType(pptname);
-        this.endpoint = pptnameComponents.get(0);
-        this.operationId = pptnameComponents.get(1);
-        this.responseCode = getResponseCodeValue(pptnameComponents.get(2));     // TODO: Can contain %array, create test
-
-        // The input are the elements of the list that contain the nested variables
-        this.variableHierarchy = getVariableHierarchy(pptnameComponents.subList(3, pptnameComponents.size()));
-
-        this.invariants = new ArrayList<>();
-
-    }
+//    public ProgramPoint(String pptname){
+//
+//        // TODO: Modify after ApiOperation refactorization
+//        List<String> pptnameComponents = Arrays.stream(pptname.split(HIERARCHY_SEPARATOR)).toList();
+//
+//        this.pptname = pptname;
+//        this.pptType = getPptType(pptname);
+//        this.endpoint = pptnameComponents.get(0);
+//        this.operationId = pptnameComponents.get(1);
+//        this.responseCode = getResponseCodeValue(pptnameComponents.get(2));     // TODO: Can contain %array, create test
+//
+//        // The input are the elements of the list that contain the nested variables
+//        this.variableHierarchy = getVariableHierarchy(pptnameComponents.subList(3, pptnameComponents.size()));
+//
+//        this.invariants = new ArrayList<>();
+//
+//    }
 
     // TODO: Take ARRAY_HIERARCHY_SEPARATOR (GitHub and RESTCountries) into account
     public ProgramPoint(String pptname, List<Invariant> invariants){
@@ -54,9 +60,16 @@ public class ProgramPoint {
         this.pptType = getPptType(pptname);
         this.endpoint = pptnameComponents.get(0);
         this.operationId = pptnameComponents.get(1);
-        this.responseCode = getResponseCodeValue(pptnameComponents.get(2));     // TODO: Can contain %array, create test
+
+        // TODO: Create test cases
+        this.arrayNesting = countArrayNesting(pptnameComponents.get(2)) + countArrayNesting(pptnameComponents.get(pptnameComponents.size()-1));
+
+
+        this.responseCode = getResponseCodeValue(pptnameComponents.get(2));     // TODO: Create test (with and without %array)
+
 
         // The input are the elements of the list that contain the nested variables
+        // TODO: Create test (with and without %array)
         this.variableHierarchy = getVariableHierarchy(pptnameComponents.subList(3, pptnameComponents.size()));
 
         this.invariants = invariants;
@@ -89,6 +102,10 @@ public class ProgramPoint {
         return responseCode;
     }
 
+    public int getArrayNesting() {
+        return arrayNesting;
+    }
+
     public List<String> getVariableHierarchy() {
         return variableHierarchy;
     }
@@ -97,9 +114,6 @@ public class ProgramPoint {
         return invariants;
     }
 
-    public void addInvariant(Invariant invariant) {
-        this.invariants.add(invariant);
-    }
 
     /**
      * @return variable hierarchy list as a single string, joined by HIERARCHY_SEPARATOR, this string is a path
@@ -173,11 +187,43 @@ public class ProgramPoint {
 
         // Add the last variable
         String lastVariableName = splitLastVariable[0];
+
+        // The last variable is the only one that can contain array nesting (e.g., lastVariableName%array%array)
+        if(lastVariableName.contains(ARRAY_NESTING_SEPARATOR)) {    // TODO: Create test case
+            String[] splitLastVariableName = lastVariableName.split(ARRAY_NESTING_SEPARATOR);
+
+            lastVariableName = splitLastVariableName[0];
+        }
+
         if(!lastVariableName.isEmpty()){
             res.add(lastVariableName);
         }
 
         return res;
+    }
+
+
+    // TODO: DOCUMENT
+    private static int countArrayNesting(String pptHierarchyElement) {
+
+        if(pptHierarchyElement.contains("():::")) {
+
+            String[] splitLastVariable = pptHierarchyElement.split("\\(\\):::");
+
+            if(splitLastVariable.length != 2) {
+                throw new RuntimeException("Unexpected size for splitLastVariable array, expected 1, got: " + splitLastVariable.length);
+            }
+
+            pptHierarchyElement = splitLastVariable[0];
+
+        }
+
+        if(pptHierarchyElement.contains(ARRAY_NESTING_SEPARATOR)) {
+            return pptHierarchyElement.split(ARRAY_NESTING_SEPARATOR).length - 1;
+        } else {
+            return 0;
+        }
+
     }
 
 

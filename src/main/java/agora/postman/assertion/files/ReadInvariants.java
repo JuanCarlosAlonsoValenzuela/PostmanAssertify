@@ -43,6 +43,7 @@ public class ReadInvariants {
         // Create the list of all the API operations, each one of them containing the list of program points
         List<APIOperation> allApiOperations = new ArrayList<>();
         for(String operationIdentifier: programPointsGroupedByApiOperation.keySet()) {
+            System.out.println("OPERATION IDENTIFIER: " + operationIdentifier);
             List<ProgramPoint> apiOperationProgramPoints = programPointsGroupedByApiOperation.get(operationIdentifier);
 
             // Any of the pptnames of the operations is valid
