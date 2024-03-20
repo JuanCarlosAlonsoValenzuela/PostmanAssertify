@@ -2,7 +2,9 @@ package agora.postman.assertion.model.nestingLevelTree;
 
 import agora.postman.assertion.model.ProgramPoint;
 
+import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -20,6 +22,8 @@ public class Tree<T> implements Visitable<T>{
 
     // Value of the corresponding program point
     private ProgramPoint programPoint;
+
+    private Map<Integer, ProgramPoint> arrayNestingProgramPoints;
 
     private final NestingType nestingType;
 
@@ -39,6 +43,7 @@ public class Tree<T> implements Visitable<T>{
     public Tree(T data, NestingType nestingType) {
         this.data = data;
         this.nestingType = nestingType;
+        this.arrayNestingProgramPoints = new HashMap<>();
     }
 
     // Used to print the tree
@@ -80,7 +85,7 @@ public class Tree<T> implements Visitable<T>{
         } else if(type.equals("array")) {
             return NestingType.ARRAY;
         } else {
-            throw new RuntimeException("Unexpected nesting type value, expectedd one of: array, string");
+            throw new RuntimeException("Unexpected nesting type value, expected one of: array, string");
         }
     }
 
@@ -90,6 +95,11 @@ public class Tree<T> implements Visitable<T>{
 
     public void setProgramPoint(ProgramPoint programPoint) {
         this.programPoint = programPoint;
+    }
+
+    // Adds a new array nesting program point to the Tree
+    public void addArrayNestingProgramPoint(ProgramPoint programPoint) {
+        this.arrayNestingProgramPoints.put(programPoint.getArrayNesting(), programPoint);
     }
 
 }

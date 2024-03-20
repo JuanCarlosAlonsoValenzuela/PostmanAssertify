@@ -62,7 +62,7 @@ public class ProgramPoint {
         this.operationId = pptnameComponents.get(1);
 
         // TODO: Create test cases
-        this.arrayNesting = countArrayNesting(pptnameComponents.get(2)) + countArrayNesting(pptnameComponents.get(pptnameComponents.size()-1));
+        this.arrayNesting = countArrayNesting(pptnameComponents.get(pptnameComponents.size()-1));
 
 
         this.responseCode = getResponseCodeValue(pptnameComponents.get(2));     // TODO: Create test (with and without %array)

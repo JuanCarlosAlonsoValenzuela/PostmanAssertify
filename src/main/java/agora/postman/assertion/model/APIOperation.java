@@ -252,6 +252,11 @@ public class APIOperation {
                 // For each item of the hierarchy
                 for (String data : path.split(HIERARCHY_SEPARATOR)) {
 
+                    // If the program point hierarchy level is "data%array%array", changes its value to "data"
+                    if(data.contains(ARRAY_NESTING_SEPARATOR)) {
+                        data = data.split(ARRAY_NESTING_SEPARATOR)[0];
+                    }
+
                     // TODO: START CONVERT INTO FUNCTION
                     NestingType currentNestingType = getNestingTypeFromString(((Schema) currentSchema.getProperties().get(data)).getType());
 
@@ -272,16 +277,27 @@ public class APIOperation {
                 }
 
                 // Assign the program point to the last element of the path
-                current.setProgramPoint(programPoint);
-
-                // TODO: Assign the variable type to the last element of the path
+                //  If array nesting
+                // TODO: Convert into function (This code is duplicated)
+                int currentArrayNesting = programPoint.getArrayNesting();
+                if(currentArrayNesting > 0) {
+                    current.addArrayNestingProgramPoint(programPoint);
+                } else {
+                    current.setProgramPoint(programPoint);
+                }
 
                 // Set current to the root value again
                 current = root;
             } else {
                 // If the path is an empty string, assign the invariants to the root
                 // (the path of the first nesting level is an empty string)
-                current.setProgramPoint(programPoint);
+                // TODO: Convert into function (This code is duplicated)
+                int currentArrayNesting = programPoint.getArrayNesting();
+                if(currentArrayNesting > 0) {
+                    current.addArrayNestingProgramPoint(programPoint);
+                } else {
+                    current.setProgramPoint(programPoint);
+                }
 
             }
         }
