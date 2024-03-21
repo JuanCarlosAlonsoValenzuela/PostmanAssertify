@@ -138,34 +138,4 @@ public class Variable {
 
     }
 
-    // TODO: I should probably delete this method
-    private VariableType getInputParameterType(List<Parameter> parameters) {
-        // TODO: Create jUnit test case for each parameter type
-        // TODO: Implement body
-        // TODO: Implement form parameters
-        String firstHierarchyElement = this.variableHierarchyList.get(0);
-        for(Parameter parameter: parameters) {
-            if(parameter.getName().equals(firstHierarchyElement)) {
-
-                String inValue = parameter.getIn();
-
-                if(inValue.equals("query")) {
-                    return VariableType.QUERY;
-                }else if(inValue.equals("path")) {
-                    return VariableType.PATH;
-                } else {
-                    throw new NullPointerException("Unexpected variable type");
-                }
-
-            }
-
-        }
-
-        // TODO: Remove this
-        return VariableType.BODY;
-//        throw new NullPointerException("Parameter with name: " + firstHierarchyElement + " not found");
-
-    }
-
-
 }
