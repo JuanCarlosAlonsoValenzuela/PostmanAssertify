@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Set;
 
 import static agora.postman.assertion.Main.DEBUG_MODE;
+import static agora.postman.assertion.debug.DebugUtils.printVariableValueScript;
 import static agora.postman.assertion.variableNameUtils.VariableNames.getInputVariableName;
 
 public class RequestBodyScript {
@@ -62,9 +63,8 @@ public class RequestBodyScript {
 
         res = res + inputVariableName + " = request_body." + requestVariableName + ";\n";
 
-        if(DEBUG_MODE) {        // TODO: Convert into function
-            res = res + "console.log(\"Printing value of " + inputVariableName + "\");\n";
-            res = res + "console.log(" + inputVariableName + ");\n\n";
+        if(DEBUG_MODE) {
+            res = res + printVariableValueScript(inputVariableName, "");
         }
 
         return res;

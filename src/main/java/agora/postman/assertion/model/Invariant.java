@@ -6,6 +6,7 @@ import java.util.List;
 
 import static agora.postman.assertion.Main.ARRAY_NESTING_SEPARATOR;
 import static agora.postman.assertion.Main.DEBUG_MODE;
+import static agora.postman.assertion.debug.DebugUtils.printVariableValueScript;
 
 /**
  * @author Juan C. Alonso
@@ -211,15 +212,11 @@ public class Invariant {
             res = res + currentIdentation + "\t" + postmanVariableName + " = " + postmanVariableName + ".length;\n";
 
             // Close the bracket
-            res = res + currentIdentation + "}\n";
+            res = res + currentIdentation + "}\n\n";
         }
 
         if(DEBUG_MODE) {
-            res = res + "\n";
-            res = res + currentIdentation + "// Printing value of " + postmanVariableName + " variable\n";
-
-            res = res + currentIdentation + "console.log(\"Printing value of " + postmanVariableName + " variable\");\n";
-            res = res + currentIdentation + "console.log(" + postmanVariableName + ");\n";
+            res = res + printVariableValueScript(postmanVariableName, currentIdentation);
         }
 
         res = res + "\n";

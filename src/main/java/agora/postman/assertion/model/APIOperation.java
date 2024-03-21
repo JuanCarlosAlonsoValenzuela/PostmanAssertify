@@ -16,6 +16,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import java.util.*;
 
 import static agora.postman.assertion.Main.*;
+import static agora.postman.assertion.debug.DebugUtils.printVariableValueScript;
 import static agora.postman.assertion.model.nestingLevelTree.Tree.getNestingTypeFromString;
 import static agora.postman.assertion.preRequestScript.ParametersScript.generateCastingVariableScript;
 import static agora.postman.assertion.preRequestScript.ParametersScript.generateGetVariableValueScript;
@@ -93,11 +94,8 @@ public class APIOperation {
                 res = res + generateCastingVariableScript(parameter);
             }
 
-            if(DEBUG_MODE) {    // TODO: Convert into function
-                // Get variable name in the Postman script
-                String inputVariableName = getInputVariableName(parameter);
-                res = res + "console.log(\"Printing value of " + inputVariableName + "\");\n";
-                res = res + "console.log(" + inputVariableName + ");\n\n";
+            if(DEBUG_MODE) {
+                res = res + printVariableValueScript(getInputVariableName(parameter), "");
             }
 
         }
@@ -110,8 +108,7 @@ public class APIOperation {
             res = res + "let request_body = JSON.parse(pm.request.body.raw);\n";
 
             if(DEBUG_MODE) {    // TODO: Convert into function
-                res = res + "console.log(\"Printing value of request_body\");\n";
-                res = res + "console.log(request_body);\n\n";
+                res = res + printVariableValueScript("request_body", "");
             }
 
             // Generates the code that obtains the value of all the body parameters (first nesting level) specified in
