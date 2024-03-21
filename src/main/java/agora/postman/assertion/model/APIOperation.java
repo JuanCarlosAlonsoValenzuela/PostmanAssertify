@@ -63,6 +63,10 @@ public class APIOperation {
     }
 
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////// START PRE-REQUEST SCRIPT ////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      *
      * @return Pre-Request script containing variables with the values of all the input parameters
@@ -78,80 +82,21 @@ public class APIOperation {
 
         String res = "";
 
-
-        // TODO: Get Postman variable name, it has to be consistent
-
         // Get values of the query, path and form parameters
         for(Parameter parameter: this.parameters) {
-            String parameterIn = parameter.getIn();
-            String parameterName = parameter.getName();
 
-            String parameterType = parameter.getSchema().getType();
+            // Generate the script that extracts the variable value (always as string)
+            res = res + generateGetVariableValueScript(parameter);
 
-            // TODO: START CONVERT INTO FUNCTION
-            // TODO: DUPLICATED WITH BODY PARAMETERS
-            String inputVariableName = "input_" + parameterName;    // TODO: Test this, check conformance with getPostmanVariableName
-            if(parameterType.equals("array")) {
-                inputVariableName = inputVariableName + "_array";
-            }
-            // TODO: END CONVERT INTO FUNCTION
-
-            res = res + "// Getting value of the " + parameterName + " " + parameterIn + " parameter \n";
-            if(parameterIn.equals("query")) {
-                res = res + inputVariableName + " = pm.request.url.query.get(\"" + parameterName + "\");\n";
-            } else if (parameterIn.equals("path")) {
-                res = res + inputVariableName + " = pm.request.url.variables.get(\"" + parameterName + "\");\n";
-            } else if(parameterIn.equals("form")) {
-                // TODO: IMPLEMENT
-                throw new RuntimeException("Form parameters not implemented yet");
-            } else if (parameterIn.equals("header")) {
-                res = res + inputVariableName + " = pm.request.headers.get(\"" + parameterName + "\");\n";
-
-            } else {
-                throw new RuntimeException("Unexpected value for parameter source, got: " + parameterIn);
+            // If the parameter is not of type string, generate a script that converts the variable into the
+            // corresponding datatype, after checking that the variable is not null
+            if(!parameter.getSchema().getType().equals("string")) {
+                res = res + generateCastingVariableScript(parameter);
             }
 
-            // TODO: ANALYZE DATATYPE AND CONVERT IF NOT NULL (IT ALWAYS READS THE VALUE AS STRING)
-            // TODO: string (do nothing), object, array (items datatype), number, integer, boolean
-            if(!parameterType.equals("string")) {
-                res = res + "if (" + inputVariableName + " != null) { \n";
-
-                if(parameterType.equals("number")) {
-                    // TODO: Test with negative number
-                    // TODO: Create test comparing integer with number and check behavior
-                    res = res + "\t" + inputVariableName + " = Number(" + inputVariableName + ");\n";
-                } else if (parameterType.equals("integer")) {
-                    // TODO: Test with negative integer
-                    res = res + "\t" + inputVariableName + " = parseInt(" + inputVariableName + ");\n";
-                } else if(parameterType.equals("boolean")) {
-                    res = res + "\t" + inputVariableName + " = (" + inputVariableName + " == \"true\");\n";
-                } else if(parameterType.equals("object")) {
-                    // TODO: Implement (check properties datatype)
-                    System.err.println("Object input parameters not implemented");
-                } else if(parameterType.equals("array")) {
-
-                    String separator = ",";
-
-                    // TODO: Check items datatype and convert them
-                    res = res + "\t" + inputVariableName + " = " + inputVariableName + ".split(\"" + separator + "\").map(item => item.trim());\n";
-
-                    String itemsDatatype = ((ArraySchema) parameter.getSchema()).getItems().getType();
-
-                    if(!itemsDatatype.equals("string")) {
-                        // TODO: IMPLEMENT
-                        throw new RuntimeException("Array of items that are not strings are not supported yet");
-                    }
-
-
-                } else {
-                    throw new RuntimeException("Unexpected parameter type: " + parameterType);
-                }
-
-
-                res = res + "}\n";
-            }
-
-            if(DEBUG_MODE) {
+            if(DEBUG_MODE) {    // TODO: Convert into function
+                // Get variable name in the Postman script
+                String inputVariableName = getInputVariableName(parameter);
                 res = res + "console.log(\"Printing value of " + inputVariableName + "\");\n";
                 res = res + "console.log(" + inputVariableName + ");\n\n";
             }
@@ -165,50 +110,15 @@ public class APIOperation {
             // Get the request body itself
             res = res + "let request_body = JSON.parse(pm.request.body.raw);\n";
 
-            if(DEBUG_MODE) {
+            if(DEBUG_MODE) {    // TODO: Convert into function
                 res = res + "console.log(\"Printing value of request_body\");\n";
                 res = res + "console.log(request_body);\n\n";
             }
 
-            // Get all the variables (only first nesting level) of the request body
-            // The remaining nesting levels are obtained in the Test script
-            // TODO: Check behavior of different datatypes
-            Collection<MediaType> mediaTypes = requestBody.getContent().values();
-            if(mediaTypes.isEmpty()) {
-                throw new NullPointerException("Request body is empty");
-            }
+            // Generates the code that obtains the value of all the body parameters (first nesting level) specified in
+            // the OAS
+            res = res + generateBodyParametersScript(requestBody);
 
-            // Use only the first schema
-            // TODO: Implement if ArraySchema, for now, we assume that it is an object
-            Schema requestSchema = mediaTypes.iterator().next().getSchema();
-
-            Set<String> requestSchemaKeyset = requestSchema.getProperties().keySet();
-            for(String requestVariableName: requestSchemaKeyset) {
-
-                Schema variableSchema = (Schema) requestSchema.getProperties().get(requestVariableName);
-
-                // TODO: START CONVERT INTO FUNCTION
-                // TODO: DUPLICATED WITH OTHER PARAMETERS
-                String inputVariableName = "input_" + requestVariableName;    // TODO: Test this, check conformance with getPostmanVariableName
-                String parameterType = variableSchema.getType();
-
-                if(parameterType.equals("array")) {
-                    inputVariableName = inputVariableName + "_array";
-                }
-                // TODO: END CONVERT INTO FUNCTION
-
-                // Add variable assignation
-                res = res + "// Getting value of the " + requestVariableName + " property of the request body\n";
-
-                res = res + inputVariableName + " = request_body." + requestVariableName + ";\n";
-
-                if(DEBUG_MODE) {
-                    res = res + "console.log(\"Printing value of " + inputVariableName + "\");\n";
-                    res = res + "console.log(" + inputVariableName + ");\n\n";
-                }
-
-
-            }
 
         }
 
@@ -216,12 +126,183 @@ public class APIOperation {
         return res;
     }
 
+    // TODO: Move to a different class
+    // Used to get an input variable name in the pre-request script
+    // TODO: Must be consistent with getPostmanVariableName method
+    private static String getInputVariableName(Parameter parameter) {
+        return getInputVariableName(parameter.getName(), parameter.getSchema().getType());
+    }
+
+
+    // TODO: Move to a different class
+    // Used to get an input variable name in the pre-request script
+    // TODO: Must be consistent with getPostmanVariableName method
+    private static String getInputVariableName(Schema schema) {
+        return getInputVariableName(schema.getName(), schema.getType());
+    }
+
+    // TODO: Move to a different class
+    // Used to get an input variable name in the pre-request script
+    // TODO: Must be consistent with getPostmanVariableName method
+    private static String getInputVariableName(String parameterName, String parameterType) {
+
+        String inputVariableName = "input_" + parameterName;
+        if(parameterType.equals("array")) {
+            inputVariableName = inputVariableName + "_array";
+        }
+
+        return inputVariableName;
+    }
+
+
+
+    // Given a parameter (its source can be one of: query, path, form or header), this function generates the Postman code
+    // to obtain its value. The resulting variable will be of type string, use the generateCastingVariableScript function
+    // to change its type.
+    private static String generateGetVariableValueScript(Parameter parameter) {
+
+        String parameterName = parameter.getName();
+        String parameterIn = parameter.getIn();
+
+        // Get variable name in the Postman script
+        String inputVariableName = getInputVariableName(parameter);
+
+
+        String res = "// Getting value of the " + parameterName + " " + parameterIn + " parameter \n";
+        res = switch (parameterIn) {
+            case "query" -> res + inputVariableName + " = pm.request.url.query.get(\"" + parameterName + "\");\n";
+            case "path" -> res + inputVariableName + " = pm.request.url.variables.get(\"" + parameterName + "\");\n";
+            case "form" ->
+                // TODO: IMPLEMENT
+                    throw new RuntimeException("Form parameters not implemented yet");
+            case "header" -> res + inputVariableName + " = pm.request.headers.get(\"" + parameterName + "\");\n";
+            default -> throw new RuntimeException("Unexpected value for parameter source, got: " + parameterIn);
+        };
+
+        return  res;
+
+    }
+
+    // Generates the Postman code necessary to cast an input parameter to its corresponding datatype
+    // TODO: DOCUMENT
+    private static String generateCastingVariableScript(Parameter parameter) {
+
+        String parameterType = parameter.getSchema().getType();
+
+        // Get variable name in the Postman script
+        String inputVariableName = getInputVariableName(parameter);
+
+        String res = "if (" + inputVariableName + " != null) { \n";
+
+        switch (parameterType) {
+            case "number" ->
+                // TODO: Test with negative number
+                // TODO: Create test comparing integer with number and check behavior
+                    res = res + "\t" + inputVariableName + " = Number(" + inputVariableName + ");\n";
+            case "integer" ->
+                // TODO: Test with negative integer
+                    res = res + "\t" + inputVariableName + " = parseInt(" + inputVariableName + ");\n";
+            case "boolean" -> res = res + "\t" + inputVariableName + " = (" + inputVariableName + " == \"true\");\n";
+            case "object" ->
+                // TODO: Implement (check properties datatype)
+                    System.err.println("Object input parameters not implemented");
+            case "array" -> {
+                // TODO: Convert into a different function (or recursivity)
+
+                String separator = ",";
+
+                // TODO: Check items datatype and convert them
+                res = res + "\t" + inputVariableName + " = " + inputVariableName + ".split(\"" + separator + "\").map(item => item.trim());\n";
+
+                String itemsDatatype = ((ArraySchema) parameter.getSchema()).getItems().getType();
+
+                if (!itemsDatatype.equals("string")) {
+                    // TODO: IMPLEMENT
+                    throw new RuntimeException("Array of items that are not strings are not supported yet");
+                }
+            }
+            default -> throw new RuntimeException("Unexpected parameter type: " + parameterType);
+        }
+
+        res = res + "}\n";
+
+        return res;
+
+    }
+
+
+    // TODO: DOCUMENT
+    // We assume that there is already a parent variable called request_body that represents the whole response body
+    // JSON
+    private static String generateBodyParametersScript(RequestBody requestBody) {
+
+        String res = "";
+
+        // Get all the variables (only first nesting level) of the request body
+        // The remaining nesting levels are obtained in the Test script
+        // TODO: Check behavior of different datatypes
+        Collection<MediaType> mediaTypes = requestBody.getContent().values();
+        if(mediaTypes.isEmpty()) {
+            throw new NullPointerException("Request body is empty");
+        }
+
+        // Use only the first schema
+        // TODO: Implement if ArraySchema, for now, we assume that it is an object
+        Schema requestSchema = mediaTypes.iterator().next().getSchema();
+
+
+        Set<String> requestSchemaKeyset = requestSchema.getProperties().keySet();
+        for(String requestVariableName: requestSchemaKeyset) {
+
+            // TODO: Consider that the body can be an array
+            Schema variableSchema = (Schema) requestSchema.getProperties().get(requestVariableName);
+
+            res = res + generateSingleBodyPropertyScript(variableSchema);
+
+        }
+
+
+        return res;
+
+    }
+
+
+    // TODO: DOCUMENT
+    private static String generateSingleBodyPropertyScript(Schema variableSchema) {
+
+        // Get variable name in the postman format
+        String inputVariableName = getInputVariableName(variableSchema);
+
+        // Variable name in the OAS
+        String requestVariableName = variableSchema.getName();
+
+
+        // Add variable assignation
+        String res = "// Getting value of the " + requestVariableName + " property of the request body\n";
+
+        res = res + inputVariableName + " = request_body." + requestVariableName + ";\n";
+
+        if(DEBUG_MODE) {        // TODO: Convert into function
+            res = res + "console.log(\"Printing value of " + inputVariableName + "\");\n";
+            res = res + "console.log(" + inputVariableName + ");\n\n";
+        }
+
+        return res;
+
+    }
+
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////// END PRE-REQUEST SCRIPT //////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * @param paths: List of program point names, separated by HIERARCHY_SEPARATOR
      * @return Program point hierarchy tree, derived from the list of paths.
      */
     // TODO: Update parameters in Javadoc
     // TODO: Create test cases with array nesting
+    // TODO: Improve comments
     public Tree<String> getProgramPointHierarchy() {
 
         // Create a tree with a root node
