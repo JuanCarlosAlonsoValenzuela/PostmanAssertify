@@ -3,6 +3,7 @@ package agora.postman.assertion;
 import agora.postman.assertion.model.Invariant;
 import agora.postman.assertion.model.APIOperation;
 import agora.postman.assertion.model.ProgramPoint;
+import agora.postman.assertion.model.TestScriptManager;
 import agora.postman.assertion.model.nestingLevelTree.NestingType;
 import agora.postman.assertion.model.nestingLevelTree.PrintIndentedVisitor;
 import agora.postman.assertion.model.nestingLevelTree.Tree;
@@ -19,9 +20,9 @@ import static agora.postman.assertion.files.ReadInvariants.getAllApiOperations;
  */
 public class Main {
 
-    private static String openApiSpecPath = "src/main/resources/oas_github_getOrgRepos.yaml";
+    private static String openApiSpecPath = "src/main/resources/oas_vimeo.yaml";
 
-    private static String invariantsPath = "src/main/resources/invariants_getOrgRepos.csv";
+    private static String invariantsPath = "src/main/resources/test3.csv";
 
     public static String HIERARCHY_SEPARATOR = "&";
     public static String ARRAY_NESTING_SEPARATOR = "%";
@@ -74,12 +75,18 @@ public class Main {
 
         // Create variable valuesToConsiderAsNull
         // TODO: Implement properly
-        System.out.println("valuesToConsiderAsNull = [];\n");
-
-
+//        System.out.println("valuesToConsiderAsNull = [];\n");
         // Generates/Prints the Postman tests source code
         // TODO: Convert into method of class APIOperation
-        List<String> orderedNestingLevels = programPointsDepthSearch(programPointHierarchy, new ArrayList<>(), new ArrayList<>(), null);
+//        List<String> orderedNestingLevels = programPointsDepthSearch(programPointHierarchy, new ArrayList<>(), new ArrayList<>(), null);
+
+
+        // New version
+        TestScriptManager testScriptManager = new TestScriptManager(programPointHierarchy);
+
+        String testScript = testScriptManager.generateTestScript();
+        System.out.println(testScript);
+
 
         /**
          * For each of these program points (in-depth search order):
@@ -100,6 +107,7 @@ public class Main {
         List<String> updatedParents = new ArrayList<>(parents);
         updatedParents.add(tree.getData());
 
+        // TODO: Rename result variable (both here and in method parameters)
         String result = String.join(HIERARCHY_SEPARATOR, updatedParents);
 
         results.add(result);
@@ -111,6 +119,9 @@ public class Main {
         for(Tree<String> child: tree.getChildren()) {
             results = programPointsDepthSearch(child, updatedParents, results, parentBaseVariable);
         }
+
+
+
 
         // TODO: Improve this condition
         if(!parents.isEmpty()) {

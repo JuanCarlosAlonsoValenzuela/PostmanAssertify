@@ -136,7 +136,6 @@ public class Invariant {
     // TODO: This method should NOT be static
     private static String getPostmanVariableValueCode(String parentBaseVariable, Variable variable, String baseIndentation, boolean isArrayNestingPpt) {
 
-        // TODO: It is redundant to compute this twice
         String postmanVariableName = variable.getPostmanVariableName();
 
         List<String> variableHierarchyList = variable.getVariableHierarchyList();

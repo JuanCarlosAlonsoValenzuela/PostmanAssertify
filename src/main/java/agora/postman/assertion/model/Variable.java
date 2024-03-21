@@ -1,6 +1,5 @@
 package agora.postman.assertion.model;
 
-import io.swagger.v3.oas.models.parameters.Parameter;
 import java.util.Arrays;
 import java.util.List;
 

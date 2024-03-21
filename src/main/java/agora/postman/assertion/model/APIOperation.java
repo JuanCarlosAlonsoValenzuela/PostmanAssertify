@@ -131,7 +131,6 @@ public class APIOperation {
     public Tree<String> getProgramPointHierarchy() {
 
         // Create a tree with a root node
-        // TODO: Use other method for specifying the root
         Tree<String> programPointHierarchy = new Tree<>(Integer.toString(this.responseCode),
                 getNestingTypeFromString(this.responseSchema.getType())
         );
