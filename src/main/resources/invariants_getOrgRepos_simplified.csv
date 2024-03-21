@@ -1,0 +1,3 @@
+pptname;invariant;invariantType;variables;tp;fp;enter;bug;postmanAssertion
+/orgs/{org}/repos&getOrganizationRepositories&200%array():::EXIT;input.per_page >= size(return.array[]);daikon.inv.binary.twoScalar.IntGreaterEqual;(input.per_page, size(return.array[..]));1;0;0;0;TODO: Implement Postman assertion
+/orgs/{org}/repos&getOrganizationRepositories&200():::EXIT;return.html_url is Url;daikon.inv.unary.string.IsUrl;(return.html_url);1;0;0;0;TODO: Implement Postman assertion

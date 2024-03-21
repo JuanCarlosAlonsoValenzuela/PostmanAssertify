@@ -2,6 +2,7 @@ package agora.postman.assertion;
 
 import agora.postman.assertion.model.Invariant;
 import agora.postman.assertion.model.APIOperation;
+import agora.postman.assertion.model.ProgramPoint;
 import agora.postman.assertion.model.nestingLevelTree.NestingType;
 import agora.postman.assertion.model.nestingLevelTree.PrintIndentedVisitor;
 import agora.postman.assertion.model.nestingLevelTree.Tree;
@@ -19,7 +20,8 @@ import static agora.postman.assertion.files.ReadInvariants.getAllApiOperations;
 public class Main {
 
     private static String openApiSpecPath = "src/main/resources/oas_github_getOrgRepos.yaml";
-    private static String invariantsPath = "src/main/resources/invariants_getOrgRepos.csv";
+
+    private static String invariantsPath = "src/main/resources/invariants_getOrgRepos_simplified.csv";
 
     public static String HIERARCHY_SEPARATOR = "&";
     public static String ARRAY_NESTING_SEPARATOR = "%";
@@ -112,7 +114,7 @@ public class Main {
 
         // TODO: Improve this condition
         if(!parents.isEmpty()) {
-            // TODO: The first nesting level (response) should not have a closing if/for
+            // TODO: The first nesting level (response) should not have a closing if/for, unless there is arrayNesting
 
 
             String indentationStr = "\t".repeat(Math.max(parents.size() - 1, 0));
@@ -123,6 +125,19 @@ public class Main {
 
             System.out.println(indentationStr + "} // Closing if "+ parentBaseVariable);
             System.out.println("\n");
+        }
+
+        // TODO: Create test cases
+        // Close array nesting conditions
+        Map<Integer, ProgramPoint> arrayNestingProgramPoints = tree.getArrayNestingProgramPoints();
+        if(!arrayNestingProgramPoints.isEmpty()) {
+            int maxArrayNestingLevel = Collections.max(arrayNestingProgramPoints.keySet());
+            for(int i=maxArrayNestingLevel; i >= 1; i--) {
+
+                System.out.println("} // Closing if array nesting level " + i);
+                System.out.println("} // Closing for array nesting level " + i);
+
+            }
         }
 
         return results;
@@ -142,14 +157,55 @@ public class Main {
         System.out.println(indentationStr + "// " + result);
 
         if(parents.isEmpty()){  // If we are in the first nesting level
+
+            // TODO: Implement multiple array nesting (%array%array)
+
             // Assign base variable
             System.out.println("response = pm.response.json();");
             parentBaseVariable = "response";
+
+            // TODO: Implement if response == null ??
 
             System.out.println("// TODO: Postman tests here");
             if(DEBUG_MODE) {
                 System.out.println("console.log(\"Printing value of " + parentBaseVariable + "\")");
                 System.out.println("console.log(" + parentBaseVariable + ")");
+            }
+
+            // TODO: Print here invariants of nested arrays
+            // TODO: Modify Beet so the variable names of the %array program points support nesting (e.g., if %array%array, variableName: return_array_array)
+            Map<Integer, ProgramPoint> arrayNestingProgramPoints = tree.getArrayNestingProgramPoints();
+            // TODO: Multiple nesting levels, but maybe not all of them are present (e.g., maybe there are invariants fro %array and %array%array%array, but not for %array%array)
+            if(!arrayNestingProgramPoints.isEmpty()) {
+                int maxArrayNestingLevel = Collections.max(arrayNestingProgramPoints.keySet());
+
+                // TODO: START HERE
+                // Iterate over all the array nesting levels
+                for(int i=1; i<= maxArrayNestingLevel; i++) {
+                    // Get nesting level variable
+                    // parentBaseVariable is an array, we have to iterate over it
+                    System.out.println("if(" + parentBaseVariable + " != null) { ");
+
+                    System.out.println("// TODO: Generate tests of this nesting level (if any)");
+                    System.out.println("// ...");
+
+                    System.out.println("// Access to the next nesting level");
+
+                    String baseVariableIndex = parentBaseVariable + "_index";
+                    String baseVariableElement = parentBaseVariable + "_element";
+
+                    System.out.println("for (" + baseVariableIndex + " in " + parentBaseVariable + ") {");
+                    System.out.println(baseVariableElement + " = " + parentBaseVariable + "[" + baseVariableIndex + "]");
+
+                    parentBaseVariable = baseVariableElement;
+
+
+                    // Update parentBaseVariable
+
+                    // If the nesting level contains invariants, create the test cases
+
+                }
+                // TODO: END HERE
             }
 
             // Get invariants of this nesting level
@@ -167,9 +223,10 @@ public class Main {
 
         } else {    // If we are in a deeper nesting level
 
+            // TODO: Implement multiple array nesting (%array)
+
             String data = tree.getData();
 
-            // TODO: Null pointer if the array is empty (modify if clause to contemplate this)
             String baseVariableAsignation = parentBaseVariable + "_" + data + " = " + parentBaseVariable + "." + data;
             parentBaseVariable = parentBaseVariable + "_" + data;
 

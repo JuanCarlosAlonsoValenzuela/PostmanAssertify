@@ -97,6 +97,10 @@ public class Tree<T> implements Visitable<T>{
         this.programPoint = programPoint;
     }
 
+    public Map<Integer, ProgramPoint> getArrayNestingProgramPoints() {
+        return arrayNestingProgramPoints;
+    }
+
     // Adds a new array nesting program point to the Tree
     public void addArrayNestingProgramPoint(ProgramPoint programPoint) {
         this.arrayNestingProgramPoints.put(programPoint.getArrayNesting(), programPoint);
