@@ -12,19 +12,17 @@ public class Variable {
     // Variable name (format returned by AGORA)
     private String variableName;
 
-    // Source of the input variable (query, path, or body), null if the variable is part of the API response
-    // Its value is null by default
-    private VariableType variableType;
+    private boolean isReturn;
 
     // TODO: Add isArrayElement attribute
     private boolean isSize;
     private List<String> variableHierarchyList;
 
-    public Variable(String variableName, List<Parameter> parameters) {
+    public Variable(String variableName) {
         this.variableName = variableName;
 
         // This method sets the values of the "variableHierarchyList", "isSize" and "isReturn" attributes
-        this.setVariableHierarchyList(parameters);
+        this.setVariableHierarchyList();
 
     }
 
@@ -32,8 +30,8 @@ public class Variable {
         return variableName;
     }
 
-    public VariableType getVariableType() {
-        return variableType;
+    public boolean isReturn() {
+        return isReturn;
     }
 
     public boolean isSize() {
@@ -99,7 +97,7 @@ public class Variable {
      * This method is used ONLY IN THE CONSTRUCTOR to set the value of the variableHierarchyList attribute, using
      * variableName as parameter, it also sets the "isSize" and "isReturn" attributes
      */
-    private void setVariableHierarchyList(List<Parameter> parameters) {
+    private void setVariableHierarchyList() {
 
         // Split AGORA variable name to extract variable hierarchy
         String variableHierarchyString = this.variableName;
@@ -124,30 +122,23 @@ public class Variable {
 //            TODO: IMPLEMENT ENTER
             variableHierarchyList = Arrays.asList(variableHierarchyString.split("\\."));
 
-            boolean isReturn = variableHierarchyList.get(0).equals("return");
+            this.isReturn = variableHierarchyList.get(0).equals("return");
             variableHierarchyList = variableHierarchyList.subList(1, variableHierarchyList.size());
 
             // Set the value
             this.variableHierarchyList = variableHierarchyList;
-
-            // Determine whether the variable is a parameter or a response field
-            if(isReturn) {
-                this.variableType = VariableType.RETURN;
-            } else {
-                // Determine source of input parameter (QUERY, PATH or BODY)
-                this.variableType = getInputParameterType(parameters);
-            }
 
         } else {
             throw new RuntimeException("Unexpected AGORA variable name");
         }
 
         if(variableHierarchyList.isEmpty()) {
-            throw new RuntimeException("Variable hierarhy list cannot be empty");
+            throw new RuntimeException("Variable hierarchy list cannot be empty");
         }
 
     }
 
+    // TODO: I should probably delete this method
     private VariableType getInputParameterType(List<Parameter> parameters) {
         // TODO: Create jUnit test case for each parameter type
         // TODO: Implement body

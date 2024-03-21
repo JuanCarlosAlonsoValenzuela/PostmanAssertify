@@ -24,7 +24,7 @@ public class Invariant {
     private boolean isArrayNestingPpt; // True if the program point is an array nesting (i.e., contains %array)
 
     public Invariant(String pptname, String invariant, String invariantType,
-                     List<String> variablesString, String postmanAssertion, List<Parameter> parameters) {
+                     List<String> variablesString, String postmanAssertion) {
         this.pptname = pptname;
         this.invariant = invariant;
         this.invariantType = invariantType;
@@ -32,7 +32,7 @@ public class Invariant {
         List<Variable> variables = new ArrayList<>();
         for(String variableName: variablesString) {
             // TODO: Remove information from specification, is not required anymore
-            variables.add(new Variable(variableName, parameters));
+            variables.add(new Variable(variableName));
         }
 
         this.variables = variables;
@@ -147,8 +147,7 @@ public class Invariant {
 
         String res = currentIdentation + "// Getting value of variable: " + postmanVariableName + "\n";
 
-        VariableType variableType = variable.getVariableType();
-        if(variableType.equals(VariableType.RETURN)) {  // Generate code for getting return variables
+        if(variable.isReturn()) {  // Generate code for getting return variables
 
             if(isArrayNestingPpt) { // Array nesting program points (i.e., %array) only have one return variable (return_array)
 

@@ -44,10 +44,7 @@ public class InvariantDataFileManager {
         throw new NullPointerException("Element " + header + " not found in the csv headers");
     }
 
-    public List<Invariant> getInvariantsData(OpenAPI specification, List<List<String>> rows){
-
-        // Key: operation identifier (endpoint&operationId), Value: parameters
-       Map<String, List<Parameter>> memory = new HashMap<>();
+    public List<Invariant> getInvariantsData(List<List<String>> rows){
 
         List<Invariant> res = new ArrayList<>();
 
@@ -58,36 +55,10 @@ public class InvariantDataFileManager {
             // Add the invariant iff is a true positive
             if(tpValue==1){
 
-                // TODO: Divide this code into multiple methods
-                String pptname = row.get(pptnameIndex);
-                List<String> pptnameComponents = Arrays.stream(pptname.split(HIERARCHY_SEPARATOR)).toList();
-
-                String endpoint = pptnameComponents.get(0);
-                String operationId = pptnameComponents.get(1);
-                String operationIdentifier = endpoint + HIERARCHY_SEPARATOR + operationId;
-
-                List<Parameter> parameters;
-                // Create new APIOperation if ApiOperations does not contain this API operation
-                if(memory.containsKey(operationIdentifier)) {
-                    parameters = memory.get(operationIdentifier);
-                } else {
-
-                    // Get the operation of the OAS with the endpoint and the operationId
-                    Operation oasOperation = getOASOperation(specification, endpoint, operationId);
-
-                    // Get input parameters
-                    parameters = oasOperation.getParameters();
-
-                    // Update memory
-                    memory.put(operationIdentifier, parameters);
-
-                }
-
                 // Read invariants with input parameters info
                 Invariant invariantData = new Invariant(
-                        pptname, row.get(invariantIndex), row.get(invariantTypeIndex),
-                        getVariablesFromSingleInvariantData(row.get(variablesIndex)), row.get(postmanAssertionIndex),
-                        parameters
+                        row.get(pptnameIndex), row.get(invariantIndex), row.get(invariantTypeIndex),
+                        getVariablesFromSingleInvariantData(row.get(variablesIndex)), row.get(postmanAssertionIndex)
                 );
 
                 res.add(invariantData);

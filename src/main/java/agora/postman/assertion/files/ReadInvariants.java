@@ -22,9 +22,8 @@ public class ReadInvariants {
     // TODO: Document
     public static List<APIOperation> getAllApiOperations(OpenAPI specification, String invariantsPath) {
 
-        // Read all the API invariants from a CSV file (invariantsPath), the specification is used to determine the
-        // source of the input variables (QUERY, PATH, BODY, FORM)
-        List<Invariant> allInvariants = getInvariantsDataFromPath(specification, invariantsPath);
+        // Read all the API invariants from a CSV file (invariantsPath)
+        List<Invariant> allInvariants = getInvariantsDataFromPath(invariantsPath);
 
         // Group all the invariants per pptname
         Map<String, List<Invariant>> invariantsGroupedByPptName = allInvariants
@@ -43,7 +42,6 @@ public class ReadInvariants {
         // Create the list of all the API operations, each one of them containing the list of program points
         List<APIOperation> allApiOperations = new ArrayList<>();
         for(String operationIdentifier: programPointsGroupedByApiOperation.keySet()) {
-            System.out.println("OPERATION IDENTIFIER: " + operationIdentifier);
             List<ProgramPoint> apiOperationProgramPoints = programPointsGroupedByApiOperation.get(operationIdentifier);
 
             // Any of the pptnames of the operations is valid
@@ -56,9 +54,8 @@ public class ReadInvariants {
 
     }
 
-    // TODO: Rename and move to a different class
-    // TODO: REMOVE (OLD)
-    private static List<Invariant> getInvariantsDataFromPath(OpenAPI specification, String invariantsPath) {
+    // TODO: DOCUMENT
+    private static List<Invariant> getInvariantsDataFromPath(String invariantsPath) {
 
         // Read the csv file as a list of rows
         List<List<String>> rows = readCSV(invariantsPath, true, ';');
@@ -71,12 +68,10 @@ public class ReadInvariants {
         try {
             invariantDataFileManager = new InvariantDataFileManager(header);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new NullPointerException("Invariants file not found");
         }
 
-        List<Invariant> invariantsData = invariantDataFileManager.getInvariantsData(specification, rows);
-
-        return invariantsData;
+        return invariantDataFileManager.getInvariantsData(rows);
 
     }
 

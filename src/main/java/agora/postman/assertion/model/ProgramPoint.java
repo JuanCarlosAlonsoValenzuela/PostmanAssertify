@@ -27,29 +27,9 @@ public class ProgramPoint {
     private int arrayNesting;
     private List<String> variableHierarchy;
 
-
-
     // Invariants of this nesting level
     private List<Invariant> invariants;
 
-    // TODO: Take ARRAY_HIERARCHY_SEPARATOR (GitHub and RESTCountries) into account
-//    public ProgramPoint(String pptname){
-//
-//        // TODO: Modify after ApiOperation refactorization
-//        List<String> pptnameComponents = Arrays.stream(pptname.split(HIERARCHY_SEPARATOR)).toList();
-//
-//        this.pptname = pptname;
-//        this.pptType = getPptType(pptname);
-//        this.endpoint = pptnameComponents.get(0);
-//        this.operationId = pptnameComponents.get(1);
-//        this.responseCode = getResponseCodeValue(pptnameComponents.get(2));     // TODO: Can contain %array, create test
-//
-//        // The input are the elements of the list that contain the nested variables
-//        this.variableHierarchy = getVariableHierarchy(pptnameComponents.subList(3, pptnameComponents.size()));
-//
-//        this.invariants = new ArrayList<>();
-//
-//    }
 
     // TODO: Take ARRAY_HIERARCHY_SEPARATOR (GitHub and RESTCountries) into account
     public ProgramPoint(String pptname, List<Invariant> invariants){
