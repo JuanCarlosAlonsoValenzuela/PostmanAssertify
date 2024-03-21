@@ -2,8 +2,6 @@ package agora.postman.assertion.model;
 
 import java.util.ArrayList;
 
-import com.google.errorprone.annotations.Var;
-import io.swagger.v3.oas.models.parameters.Parameter;
 import java.util.List;
 
 import static agora.postman.assertion.Main.ARRAY_NESTING_SEPARATOR;

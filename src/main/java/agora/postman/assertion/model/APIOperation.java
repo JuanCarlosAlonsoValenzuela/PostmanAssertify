@@ -17,6 +17,10 @@ import java.util.*;
 
 import static agora.postman.assertion.Main.*;
 import static agora.postman.assertion.model.nestingLevelTree.Tree.getNestingTypeFromString;
+import static agora.postman.assertion.preRequestScript.ParametersScript.generateCastingVariableScript;
+import static agora.postman.assertion.preRequestScript.ParametersScript.generateGetVariableValueScript;
+import static agora.postman.assertion.preRequestScript.RequestBodyScript.generateBodyParametersScript;
+import static agora.postman.assertion.variableNameUtils.VariableNames.getInputVariableName;
 
 /**
  * @author Juan C. Alonso
@@ -61,11 +65,6 @@ public class APIOperation {
         this.responseSchema = getResponseSchema(oasOperation, responseCode);
 
     }
-
-
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////// START PRE-REQUEST SCRIPT ////////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      *
@@ -119,182 +118,11 @@ public class APIOperation {
             // the OAS
             res = res + generateBodyParametersScript(requestBody);
 
-
         }
 
 
         return res;
     }
-
-    // TODO: Move to a different class
-    // Used to get an input variable name in the pre-request script
-    // TODO: Must be consistent with getPostmanVariableName method
-    private static String getInputVariableName(Parameter parameter) {
-        return getInputVariableName(parameter.getName(), parameter.getSchema().getType());
-    }
-
-
-    // TODO: Move to a different class
-    // Used to get an input variable name in the pre-request script
-    // TODO: Must be consistent with getPostmanVariableName method
-    private static String getInputVariableName(Schema schema) {
-        return getInputVariableName(schema.getName(), schema.getType());
-    }
-
-    // TODO: Move to a different class
-    // Used to get an input variable name in the pre-request script
-    // TODO: Must be consistent with getPostmanVariableName method
-    private static String getInputVariableName(String parameterName, String parameterType) {
-
-        String inputVariableName = "input_" + parameterName;
-        if(parameterType.equals("array")) {
-            inputVariableName = inputVariableName + "_array";
-        }
-
-        return inputVariableName;
-    }
-
-
-
-    // Given a parameter (its source can be one of: query, path, form or header), this function generates the Postman code
-    // to obtain its value. The resulting variable will be of type string, use the generateCastingVariableScript function
-    // to change its type.
-    private static String generateGetVariableValueScript(Parameter parameter) {
-
-        String parameterName = parameter.getName();
-        String parameterIn = parameter.getIn();
-
-        // Get variable name in the Postman script
-        String inputVariableName = getInputVariableName(parameter);
-
-
-        String res = "// Getting value of the " + parameterName + " " + parameterIn + " parameter \n";
-        res = switch (parameterIn) {
-            case "query" -> res + inputVariableName + " = pm.request.url.query.get(\"" + parameterName + "\");\n";
-            case "path" -> res + inputVariableName + " = pm.request.url.variables.get(\"" + parameterName + "\");\n";
-            case "form" ->
-                // TODO: IMPLEMENT
-                    throw new RuntimeException("Form parameters not implemented yet");
-            case "header" -> res + inputVariableName + " = pm.request.headers.get(\"" + parameterName + "\");\n";
-            default -> throw new RuntimeException("Unexpected value for parameter source, got: " + parameterIn);
-        };
-
-        return  res;
-
-    }
-
-    // Generates the Postman code necessary to cast an input parameter to its corresponding datatype
-    // TODO: DOCUMENT
-    private static String generateCastingVariableScript(Parameter parameter) {
-
-        String parameterType = parameter.getSchema().getType();
-
-        // Get variable name in the Postman script
-        String inputVariableName = getInputVariableName(parameter);
-
-        String res = "if (" + inputVariableName + " != null) { \n";
-
-        switch (parameterType) {
-            case "number" ->
-                // TODO: Test with negative number
-                // TODO: Create test comparing integer with number and check behavior
-                    res = res + "\t" + inputVariableName + " = Number(" + inputVariableName + ");\n";
-            case "integer" ->
-                // TODO: Test with negative integer
-                    res = res + "\t" + inputVariableName + " = parseInt(" + inputVariableName + ");\n";
-            case "boolean" -> res = res + "\t" + inputVariableName + " = (" + inputVariableName + " == \"true\");\n";
-            case "object" ->
-                // TODO: Implement (check properties datatype)
-                    System.err.println("Object input parameters not implemented");
-            case "array" -> {
-                // TODO: Convert into a different function (or recursivity)
-
-                String separator = ",";
-
-                // TODO: Check items datatype and convert them
-                res = res + "\t" + inputVariableName + " = " + inputVariableName + ".split(\"" + separator + "\").map(item => item.trim());\n";
-
-                String itemsDatatype = ((ArraySchema) parameter.getSchema()).getItems().getType();
-
-                if (!itemsDatatype.equals("string")) {
-                    // TODO: IMPLEMENT
-                    throw new RuntimeException("Array of items that are not strings are not supported yet");
-                }
-            }
-            default -> throw new RuntimeException("Unexpected parameter type: " + parameterType);
-        }
-
-        res = res + "}\n";
-
-        return res;
-
-    }
-
-
-    // TODO: DOCUMENT
-    // We assume that there is already a parent variable called request_body that represents the whole response body
-    // JSON
-    private static String generateBodyParametersScript(RequestBody requestBody) {
-
-        String res = "";
-
-        // Get all the variables (only first nesting level) of the request body
-        // The remaining nesting levels are obtained in the Test script
-        // TODO: Check behavior of different datatypes
-        Collection<MediaType> mediaTypes = requestBody.getContent().values();
-        if(mediaTypes.isEmpty()) {
-            throw new NullPointerException("Request body is empty");
-        }
-
-        // Use only the first schema
-        // TODO: Implement if ArraySchema, for now, we assume that it is an object
-        Schema requestSchema = mediaTypes.iterator().next().getSchema();
-
-
-        Set<String> requestSchemaKeyset = requestSchema.getProperties().keySet();
-        for(String requestVariableName: requestSchemaKeyset) {
-
-            // TODO: Consider that the body can be an array
-            Schema variableSchema = (Schema) requestSchema.getProperties().get(requestVariableName);
-
-            res = res + generateSingleBodyPropertyScript(variableSchema);
-
-        }
-
-
-        return res;
-
-    }
-
-
-    // TODO: DOCUMENT
-    private static String generateSingleBodyPropertyScript(Schema variableSchema) {
-
-        // Get variable name in the postman format
-        String inputVariableName = getInputVariableName(variableSchema);
-
-        // Variable name in the OAS
-        String requestVariableName = variableSchema.getName();
-
-
-        // Add variable assignation
-        String res = "// Getting value of the " + requestVariableName + " property of the request body\n";
-
-        res = res + inputVariableName + " = request_body." + requestVariableName + ";\n";
-
-        if(DEBUG_MODE) {        // TODO: Convert into function
-            res = res + "console.log(\"Printing value of " + inputVariableName + "\");\n";
-            res = res + "console.log(" + inputVariableName + ");\n\n";
-        }
-
-        return res;
-
-    }
-
-
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////// END PRE-REQUEST SCRIPT //////////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * @param paths: List of program point names, separated by HIERARCHY_SEPARATOR
@@ -419,6 +247,8 @@ public class APIOperation {
     }
 
     // TODO: DOCUMENT
+
+    // TODO: Change to private?
     public static Operation getOASOperation(OpenAPI specification, String targetEndpoint, String targetOperationId) {
 
         Paths paths = specification.getPaths();

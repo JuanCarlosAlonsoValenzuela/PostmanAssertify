@@ -1,16 +1,9 @@
 package agora.postman.assertion.files;
 
 import agora.postman.assertion.model.Invariant;
-import io.swagger.v3.oas.models.OpenAPI;
 
 import java.io.IOException;
 import java.util.*;
-
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.parameters.Parameter;
-
-import static agora.postman.assertion.Main.HIERARCHY_SEPARATOR;
-import static agora.postman.assertion.model.APIOperation.getOASOperation;
 
 /**
  * @author Juan C. Alonso
