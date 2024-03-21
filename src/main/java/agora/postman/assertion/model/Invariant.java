@@ -6,6 +6,7 @@ import com.google.errorprone.annotations.Var;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import java.util.List;
 
+import static agora.postman.assertion.Main.ARRAY_NESTING_SEPARATOR;
 import static agora.postman.assertion.Main.DEBUG_MODE;
 
 /**
@@ -19,6 +20,8 @@ public class Invariant {
     private String invariantType;
     private List<Variable> variables;
     private String postmanAssertion;
+
+    private boolean isArrayNestingPpt; // True if the program point is an array nesting (i.e., contains %array)
 
     public Invariant(String pptname, String invariant, String invariantType,
                      List<String> variablesString, String postmanAssertion, List<Parameter> parameters) {
@@ -34,6 +37,8 @@ public class Invariant {
 
         this.variables = variables;
         this.postmanAssertion = postmanAssertion;
+
+        this.isArrayNestingPpt = pptname.contains(ARRAY_NESTING_SEPARATOR);
     }
 
     public String getPptname() {
@@ -78,7 +83,8 @@ public class Invariant {
 
         // Generate code to access to variable value
         for(Variable variable: this.variables) {
-            res = res + getPostmanVariableValueCode(parentBaseVariable, variable, testCaseIndentation);
+            // TODO: This method should NOT be static
+            res = res + getPostmanVariableValueCode(parentBaseVariable, variable, testCaseIndentation, this.isArrayNestingPpt);
         }
 
 
@@ -128,7 +134,8 @@ public class Invariant {
 
 
     // TODO: DOCUMENT
-    private static String getPostmanVariableValueCode(String parentBaseVariable, Variable variable, String baseIndentation) {
+    // TODO: This method should NOT be static
+    private static String getPostmanVariableValueCode(String parentBaseVariable, Variable variable, String baseIndentation, boolean isArrayNestingPpt) {
 
         // TODO: It is redundant to compute this twice
         String postmanVariableName = variable.getPostmanVariableName();
@@ -143,23 +150,30 @@ public class Invariant {
         VariableType variableType = variable.getVariableType();
         if(variableType.equals(VariableType.RETURN)) {  // Generate code for getting return variables
 
-            // First line/nested variable
-            res = res + currentIdentation + postmanVariableName + " = " + parentBaseVariable + "." + variableHierarchyList.get(0) + ";\n";
+            if(isArrayNestingPpt) { // Array nesting program points (i.e., %array) only have one return variable (return_array)
+
+                res = res + currentIdentation + postmanVariableName + " = " + parentBaseVariable + ";\n";
+
+            } else {    // If normal program point
+                // First line/nested variable
+                res = res + currentIdentation + postmanVariableName + " = " + parentBaseVariable + "." + variableHierarchyList.get(0) + ";\n";
 
 
-            for(int i = 1; i < variableHierarchyList.size(); i++) {
+                for(int i = 1; i < variableHierarchyList.size(); i++) {
 
-                // Check that the variable is not null
-                res = res + currentIdentation + "if(" + postmanVariableName + " != null) {\n";
+                    // Check that the variable is not null
+                    res = res + currentIdentation + "if(" + postmanVariableName + " != null) {\n";
 
-                currentIdentation = currentIdentation + "\t";
+                    currentIdentation = currentIdentation + "\t";
 
-                res = res + currentIdentation + postmanVariableName + " = " + postmanVariableName + "." + variableHierarchyList.get(i) + ";\n";
+                    res = res + currentIdentation + postmanVariableName + " = " + postmanVariableName + "." + variableHierarchyList.get(i) + ";\n";
 
-                // Increment the number of if brackets to close
-                ifBracketsToClose++;
+                    // Increment the number of if brackets to close
+                    ifBracketsToClose++;
 
+                }
             }
+
 
         } else {    // Generate code for getting input variables (parameters)
             // TODO: Test with all datatypes (string, number, boolean)

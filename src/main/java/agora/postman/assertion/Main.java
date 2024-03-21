@@ -21,7 +21,7 @@ public class Main {
 
     private static String openApiSpecPath = "src/main/resources/oas_github_getOrgRepos.yaml";
 
-    private static String invariantsPath = "src/main/resources/invariants_getOrgRepos_simplified.csv";
+    private static String invariantsPath = "src/main/resources/invariants_getOrgRepos.csv";
 
     public static String HIERARCHY_SEPARATOR = "&";
     public static String ARRAY_NESTING_SEPARATOR = "%";
@@ -186,8 +186,21 @@ public class Main {
                     // parentBaseVariable is an array, we have to iterate over it
                     System.out.println("if(" + parentBaseVariable + " != null) { ");
 
-                    System.out.println("// TODO: Generate tests of this nesting level (if any)");
-                    System.out.println("// ...");
+                   // TODO: Generate test cases of this level
+                    ProgramPoint arrayNestingProgramPoint = arrayNestingProgramPoints.get(i);
+                    if (arrayNestingProgramPoint != null) {
+
+                        System.out.println("// Invariants of array nesting level " + i);
+
+                        for(Invariant inv: arrayNestingProgramPoint.getInvariants()) {
+                            System.out.println(inv.getPostmanTestCase(parentBaseVariable, indentationStr));
+                        }
+
+
+                    } else {
+                        System.out.println("// Array nesting level " + i + " has no invariants");
+                    }
+
 
                     System.out.println("// Access to the next nesting level");
 
