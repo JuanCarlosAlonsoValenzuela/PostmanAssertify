@@ -171,7 +171,7 @@ public class APIOperation {
 
         Tree<String> programPointHierarchy = this.getProgramPointHierarchy();
 
-        res += programPointDepthSearch(programPointHierarchy, new ArrayList<>(), new ArrayList<>(), null);
+        res += programPointDepthSearch(programPointHierarchy, new ArrayList<>(), null);
 
         return res;
 

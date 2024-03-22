@@ -17,7 +17,7 @@ public class DepthSearch {
     // TODO: Make everything happen inside this method.
     // TODO: I think I won't be needing the "results" list anymore
     // TODO: The method used for fetching the designed program point is not efficient, modify the tree class to support this
-    public static String programPointDepthSearch(Tree<String> tree, List<String> parents, List<String> results, String parentBaseVariable) {
+    public static String programPointDepthSearch(Tree<String> tree, List<String> parents, String parentBaseVariable) {
 
         // Update parents hierarchy (TODO: Is this necessary?)
         List<String> updatedParents = new ArrayList<>(parents);
@@ -37,7 +37,7 @@ public class DepthSearch {
 
 
         for(Tree<String> child: tree.getChildren()) {
-            res += programPointDepthSearch(child, updatedParents, results, parentBaseVariable);
+            res += programPointDepthSearch(child, updatedParents, parentBaseVariable);
         }
 
         res += nLTS.getClosingLines();
