@@ -30,7 +30,6 @@ public class Invariant {
 
         List<Variable> variables = new ArrayList<>();
         for(String variableName: variablesString) {
-            // TODO: Remove information from specification, is not required anymore
             variables.add(new Variable(variableName));
         }
 

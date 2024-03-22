@@ -31,7 +31,6 @@ public class ProgramPoint {
     private List<Invariant> invariants;
 
 
-    // TODO: Take ARRAY_HIERARCHY_SEPARATOR (GitHub and RESTCountries) into account
     public ProgramPoint(String pptname, List<Invariant> invariants){
         // TODO: Modify after ApiOperation refactorization
         List<String> pptnameComponents = Arrays.stream(pptname.split(HIERARCHY_SEPARATOR)).toList();

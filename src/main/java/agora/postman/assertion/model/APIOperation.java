@@ -68,6 +68,38 @@ public class APIOperation {
 
     }
 
+    public String getEndpoint() {
+        return endpoint;
+    }
+
+    public String getOperationId() {
+        return operationId;
+    }
+
+    public int getResponseCode() {
+        return responseCode;
+    }
+
+    public List<Parameter> getParameters() {
+        return parameters;
+    }
+
+    public RequestBody getRequestBody() {
+        return requestBody;
+    }
+
+    public Schema getResponseSchema() {
+        return responseSchema;
+    }
+
+    public List<ProgramPoint> getEnterProgramPoints() {
+        return enterProgramPoints;
+    }
+
+    public List<ProgramPoint> getExitProgramPoints() {
+        return exitProgramPoints;
+    }
+
     /**
      *
      * @return Pre-Request script containing variables with the values of all the input parameters
@@ -144,7 +176,6 @@ public class APIOperation {
     // TODO: Update parameters in Javadoc
     // TODO: Create test cases with array nesting
     // TODO: Improve comments
-    // TODO: Convert to private
     private Tree<String> getProgramPointHierarchy() {
 
         // Create a tree with a root node
@@ -226,40 +257,6 @@ public class APIOperation {
 
         return programPointHierarchy;
     }
-
-    public String getEndpoint() {
-        return endpoint;
-    }
-
-    public String getOperationId() {
-        return operationId;
-    }
-
-    public int getResponseCode() {
-        return responseCode;
-    }
-
-    public List<Parameter> getParameters() {
-        return parameters;
-    }
-
-    public RequestBody getRequestBody() {
-        return requestBody;
-    }
-
-    public Schema getResponseSchema() {
-        return responseSchema;
-    }
-
-    public List<ProgramPoint> getEnterProgramPoints() {
-        return enterProgramPoints;
-    }
-
-    public List<ProgramPoint> getExitProgramPoints() {
-        return exitProgramPoints;
-    }
-
-    // TODO: DOCUMENT
 
     // TODO: Change to private?
     public static Operation getOASOperation(OpenAPI specification, String targetEndpoint, String targetOperationId) {

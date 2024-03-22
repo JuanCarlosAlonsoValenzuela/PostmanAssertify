@@ -23,7 +23,6 @@ public class NestingLevelTestScript {
     private String closingLines;
 
 
-    // TODO: Update name of parentBaseVariable parameter (misleading)
     public NestingLevelTestScript(List<String> parents, String parentBaseVariable, Tree<String> tree, String result) {
         // This method also sets the value of this.childrenParentBaseVariable
         this.initialLines = generateInitialLinesScript(parents, parentBaseVariable, tree, result);
