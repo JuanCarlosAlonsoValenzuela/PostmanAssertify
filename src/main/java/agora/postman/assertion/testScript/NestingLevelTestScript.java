@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import static agora.postman.assertion.Main.DEBUG_MODE;
+import static agora.postman.assertion.Main.HIERARCHY_SEPARATOR;
 import static agora.postman.assertion.debug.DebugUtils.printVariableValueScript;
 
 /**
@@ -23,11 +24,12 @@ public class NestingLevelTestScript {
     private String closingLines;
 
 
-    public NestingLevelTestScript(List<String> parents, String parentBaseVariable, Tree<String> tree, String result) {
+    public NestingLevelTestScript(Tree<String> tree, List<String> parents, String parentBaseVariable) {
         // This method also sets the value of this.childrenParentBaseVariable
-        this.initialLines = generateInitialLinesScript(parents, parentBaseVariable, tree, result);
+        this.initialLines = generateInitialLinesScript(tree, parents, parentBaseVariable);
 
-        this.closingLines = generateClosingLinesScript(parents, tree, parentBaseVariable);
+        // TODO: Change parameters order
+        this.closingLines = generateClosingLinesScript(tree, parents, parentBaseVariable);
     }
 
     public String getChildrenParentBaseVariable() {
@@ -44,22 +46,19 @@ public class NestingLevelTestScript {
 
     // TODO: DOCUMENT
     // TODO: Split into multiple methods
-    // TODO: This should be a class
-    // TODO: Currently returns parentBaseVariable name, refactor to return an object with more information
     // TODO: Implement number of tabulations (based on parents.size)
     // TODO: Improve parameters, create a class or similar
-    // TODO: Remove result from parameters, is unnecessary
     // Returns initial lines test scripts and sets the value of the next parentBaseVariable
-    private String generateInitialLinesScript(List<String> parents, String parentBaseVariable, Tree<String> tree, String result) {
+    private String generateInitialLinesScript(Tree<String> tree, List<String> parents, String parentBaseVariable) {
 
         String indentationStr = "\t".repeat(Math.max(parents.size() - 1, 0));
 
         // Print current nesting level (e.g., 200&data)
-        String res = indentationStr + "// " + result + "\n";
+        String res = indentationStr + "// " + String.join(HIERARCHY_SEPARATOR, parents) + HIERARCHY_SEPARATOR + tree.getData() + "\n";
 
         if(parents.isEmpty()){  // If we are in the first nesting level
 
-            // TODO: Implement multiple array nesting (%array%array)
+            // TODO: Implement (and test) multiple array nesting (%array%array)
 
             // Assign base variable
             res = res + "response = pm.response.json();\n";
@@ -195,7 +194,7 @@ public class NestingLevelTestScript {
 
 
     // TODO: DOCUMENT
-    private String generateClosingLinesScript(List<String> parents, Tree<String> tree, String parentBaseVariable) {
+    private String generateClosingLinesScript(Tree<String> tree, List<String> parents, String parentBaseVariable) {
 
         String res = "";
 
