@@ -4,6 +4,7 @@ import agora.postman.assertion.model.*;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.OpenAPIV3Parser;
 import io.swagger.v3.parser.core.models.ParseOptions;
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.*;
 
@@ -58,7 +59,11 @@ public class Main {
 
         // Iterate over program point hierarchy (in-depth search)
         System.out.println("############################### TEST SCRIPT ###############################");
-        String testScript = apiOperation.generateTestScript();
+        List<String> valuesToConsiderAsNull = new ArrayList<>(); // TODO: Create test case
+//        valuesToConsiderAsNull.add("N/A");
+//        valuesToConsiderAsNull.add("");
+
+        String testScript = apiOperation.generateTestScript(valuesToConsiderAsNull);
         System.out.println(testScript);
 
 

@@ -29,7 +29,7 @@ public class ParametersScript {
             case "query" -> res + inputVariableName + " = pm.request.url.query.get(\"" + parameterName + "\");\n";
             case "path" -> res + inputVariableName + " = pm.request.url.variables.get(\"" + parameterName + "\");\n";
             case "form" ->
-                // TODO: IMPLEMENT
+                // TODO: IMPLEMENT (requires test cases)
                     throw new RuntimeException("Form parameters not implemented yet");
             case "header" -> res + inputVariableName + " = pm.request.headers.get(\"" + parameterName + "\");\n";
             default -> throw new RuntimeException("Unexpected value for parameter source, got: " + parameterIn);
@@ -61,10 +61,10 @@ public class ParametersScript {
                     res = res + "\t" + inputVariableName + " = parseInt(" + inputVariableName + ");\n";
             case "boolean" -> res = res + "\t" + inputVariableName + " = (" + inputVariableName + " == \"true\");\n";
             case "object" ->
-                // TODO: Implement (check properties datatype)
+                // TODO: Implement (check properties datatype), requires test cases
                     System.err.println("Object input parameters not implemented");
             case "array" -> {
-                // TODO: Convert into a different function (or recursivity)
+                // TODO: Convert into a different function (or recursivity), requires test cases
 
                 String separator = ",";
 
@@ -74,7 +74,7 @@ public class ParametersScript {
                 String itemsDatatype = ((ArraySchema) parameter.getSchema()).getItems().getType();
 
                 if (!itemsDatatype.equals("string")) {
-                    // TODO: IMPLEMENT
+                    // TODO: IMPLEMENT, with test cases
                     throw new RuntimeException("Array of items that are not strings are not supported yet");
                 }
             }

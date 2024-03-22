@@ -63,7 +63,6 @@ public class APIOperation {
         this.requestBody = oasOperation.getRequestBody();
 
         // Get the schema of the response with responseCode
-        // TODO: Use Schema vs use ArraySchema
         this.responseSchema = getResponseSchema(oasOperation, responseCode);
 
     }
@@ -105,12 +104,11 @@ public class APIOperation {
      * @return Pre-Request script containing variables with the values of all the input parameters
      */
     // TODO: Test with all possible datatypes and parameter sources
-    // TODO: Add debug mode
     // TODO: Create test cases checking that the variable names are consistent
     // TODO: Explain that we only get the top point of the hierarchy
     // TODO: We do not get the array sizes or elements
     // TODO: Datatypes, it considers everything as a String
-    // TODO: Decode uri? I think it is not necessary
+    // TODO: Decode uri? I think it is not necessary, create test cases with special characters
     public String generatePreRequestScript() {
 
         String res = "";
@@ -140,7 +138,7 @@ public class APIOperation {
             // Get the request body itself
             res = res + "let request_body = JSON.parse(pm.request.body.raw);\n";
 
-            if(DEBUG_MODE) {    // TODO: Convert into function
+            if(DEBUG_MODE) {
                 res = res + printVariableValueScript("request_body", "");
             }
 
@@ -155,11 +153,21 @@ public class APIOperation {
     }
 
     // TODO: DOCUMENT
-    // TODO: Implement strings to consider as null
-    public String generateTestScript() {
+    public String generateTestScript(List<String> valuesToConsiderAsNull) {
+
+        // Create array of strings to consider as null
+        String arrayString = "[";
+        if(!valuesToConsiderAsNull.isEmpty()) {
+            arrayString += "\"" + valuesToConsiderAsNull.get(0) + "\"";
+
+            for(int i = 1; i < valuesToConsiderAsNull.size(); i++) {
+                arrayString += ", \"" + valuesToConsiderAsNull.get(i) + "\"";
+            }
+        }
+        arrayString += "]";
 
         // TODO: This variable name should NOT be hardcoded
-        String res = "valuesToConsiderAsNull = [];\n";
+        String res = "valuesToConsiderAsNull = " + arrayString + ";\n";
 
         Tree<String> programPointHierarchy = this.getProgramPointHierarchy();
 
