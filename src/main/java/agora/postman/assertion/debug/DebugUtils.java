@@ -1,5 +1,8 @@
 package agora.postman.assertion.debug;
 
+/**
+ * @author Juan C. Alonso
+ */
 public class DebugUtils {
 
     // TODO: Document

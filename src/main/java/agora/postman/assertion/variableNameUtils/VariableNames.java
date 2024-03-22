@@ -3,6 +3,9 @@ package agora.postman.assertion.variableNameUtils;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 
+/**
+ * @author Juan C. Alonso
+ */
 public class VariableNames {
 
     // TODO: Move to a different class

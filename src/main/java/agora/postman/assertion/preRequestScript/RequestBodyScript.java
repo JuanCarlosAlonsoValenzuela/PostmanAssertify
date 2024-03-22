@@ -11,6 +11,9 @@ import static agora.postman.assertion.Main.DEBUG_MODE;
 import static agora.postman.assertion.debug.DebugUtils.printVariableValueScript;
 import static agora.postman.assertion.variableNameUtils.VariableNames.getInputVariableName;
 
+/**
+ * @author Juan C. Alonso
+ */
 public class RequestBodyScript {
 
     // TODO: DOCUMENT

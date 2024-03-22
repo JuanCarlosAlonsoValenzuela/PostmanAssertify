@@ -5,6 +5,9 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 
 import static agora.postman.assertion.variableNameUtils.VariableNames.getInputVariableName;
 
+/**
+ * @author Juan C. Alonso
+ */
 public class ParametersScript {
 
 

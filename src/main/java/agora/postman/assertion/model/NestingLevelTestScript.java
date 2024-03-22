@@ -10,6 +10,9 @@ import java.util.Map;
 import static agora.postman.assertion.Main.DEBUG_MODE;
 import static agora.postman.assertion.debug.DebugUtils.printVariableValueScript;
 
+/**
+ * @author Juan C. Alonso
+ */
 public class NestingLevelTestScript {
 
     private String childrenParentBaseVariable;
