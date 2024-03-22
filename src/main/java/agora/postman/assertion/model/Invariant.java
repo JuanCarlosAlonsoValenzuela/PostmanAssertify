@@ -93,7 +93,6 @@ public class Invariant {
         // One not null conditions for each invariant variable
         List<String> notNullConditions = new ArrayList<>();
         for(Variable variable: this.variables) {
-
             // Get variable name
             String postmanVariableName = variable.getPostmanVariableName();
 
@@ -106,6 +105,7 @@ public class Invariant {
         res = res + testCaseIndentation + "\t" + "if(" + String.join(" && ", notNullConditions) + ") {" + "\n";
 
         // Postman assertion, returned by AGORA
+        // TODO: REMOVE //
         res = res + testCaseIndentation + "\t\t//" + this.postmanAssertion + ";\n";
 
         // Close if variable not null and not part of values to consider as null bracket

@@ -12,6 +12,7 @@ import java.util.Map;
 import static agora.postman.assertion.Main.DEBUG_MODE;
 import static agora.postman.assertion.Main.HIERARCHY_SEPARATOR;
 import static agora.postman.assertion.debug.DebugUtils.printVariableValueScript;
+import static agora.postman.assertion.testScript.ArrayNestingSnippets.*;
 
 /**
  * @author Juan C. Alonso
@@ -58,131 +59,55 @@ public class NestingLevelTestScript {
 
         if(parents.isEmpty()){  // If we are in the first nesting level
 
-            // TODO: Implement (and test) multiple array nesting (%array%array)
-
             // Assign base variable
-            res = res + "response = pm.response.json();\n";
+            res += "response = pm.response.json();\n";
             parentBaseVariable = "response";
 
-            // TODO: Implement if response == null ??
-
-            res = res + "// TODO: Postman tests here\n";
+            // TODO: Implement if response == null ?? Create test case
 
             if(DEBUG_MODE) {
-                res = res + printVariableValueScript(parentBaseVariable, "");
+                res += printVariableValueScript(parentBaseVariable, "");
             }
 
-            // TODO: Print here invariants of nested arrays
-            // TODO: Modify Beet so the variable names of the %array program points support nesting (e.g., if %array%array, variableName: return_array_array)
+            // Invariants of nested arrays in root (e.g., 200%array%array)
             Map<Integer, ProgramPoint> arrayNestingProgramPoints = tree.getArrayNestingProgramPoints();
-            // TODO: Multiple nesting levels, but maybe not all of them are present (e.g., maybe there are invariants for %array and %array%array%array, but not for %array%array)
+            // TODO: TEST Multiple nesting levels, but maybe not all of them are present (e.g., maybe there are invariants for %array and %array%array%array, but not for %array%array)
             if(!arrayNestingProgramPoints.isEmpty()) {
-                int maxArrayNestingLevel = Collections.max(arrayNestingProgramPoints.keySet());
+                ScriptSnippet rootArrayNestingSnippet = generateRootArrayNestingSnippet(arrayNestingProgramPoints, parentBaseVariable, indentationStr);
 
-                // TODO: START HERE
-                // Iterate over all the array nesting levels
-                for(int i=1; i<= maxArrayNestingLevel; i++) {
-                    // Get nesting level variable
-                    // parentBaseVariable is an array, we have to iterate over it
-                    res = res + "if(" + parentBaseVariable + " != null) {\n";
-
-                    // TODO: Generate test cases of this level
-                    ProgramPoint arrayNestingProgramPoint = arrayNestingProgramPoints.get(i);
-                    if (arrayNestingProgramPoint != null) {
-
-                        res = res + "// Invariants of array nesting level " + i + "\n";
-
-                        for(Invariant inv: arrayNestingProgramPoint.getInvariants()) {
-                            res = res + inv.getPostmanTestCase(parentBaseVariable, indentationStr);
-                        }
-
-
-                    } else {
-                        res = res + "// Array nesting level " + i + " has no invariants\n";
-                    }
-
-                    res = res + "// Access to the next nesting level\n";
-
-                    String baseVariableIndex = parentBaseVariable + "_index";
-                    String baseVariableElement = parentBaseVariable + "_element";
-
-                    res = res + "for (" + baseVariableIndex + " in " + parentBaseVariable + ") {\n";
-
-                    res = res + baseVariableElement + " = " + parentBaseVariable + "[" + baseVariableIndex + "]\n";
-
-                    parentBaseVariable = baseVariableElement;
-
-
-                    // Update parentBaseVariable
-
-                    // If the nesting level contains invariants, create the test cases
-
-                }
-                // TODO: END HERE
+                parentBaseVariable = rootArrayNestingSnippet.newParentBaseVariable();
+                res += rootArrayNestingSnippet.snippet();
             }
 
             // Get invariants of this nesting level
-            // TODO: Convert into function
-            if(tree.getProgramPoint() != null) {
-
-                res = res + "// Invariants of this nesting level:\n";
-
-                for(Invariant inv: tree.getProgramPoint().getInvariants()) {
-                    res = res + inv.getPostmanTestCase(parentBaseVariable, indentationStr);
-                }
-            } else {
-                res = res + "// This nesting level has no invariants\n";
-            }
-
-            res = res + "\n";
+            res += generateProgramPointTestCases(tree.getProgramPoint(), parentBaseVariable, indentationStr);
 
         } else {    // If we are in a deeper nesting level
 
-            // TODO: Implement multiple array nesting (%array)
+            // TODO: Implement multiple array nesting (%array), e.g., 200&data%array%array
+            Map<Integer, ProgramPoint> arrayNestingProgramPoints = tree.getArrayNestingProgramPoints();
+            if(!arrayNestingProgramPoints.isEmpty()) {
+                // TODO: IMPLEMENT
+            }
 
-            String data = tree.getData();
-
-            String baseVariableAsignation = parentBaseVariable + "_" + data + " = " + parentBaseVariable + "." + data;
-            parentBaseVariable = parentBaseVariable + "_" + data;
-
-            res = res + indentationStr + baseVariableAsignation + "\n";
-            res = res + indentationStr + "if(" + parentBaseVariable + " != null) {\n";
+            // Access next object in the nesting hierarchy
+            ScriptSnippet accessNextObjectNestingLevelSnippet = generateAccessNextObjectNestingLevelSnippet(tree, parentBaseVariable, indentationStr);
+            parentBaseVariable = accessNextObjectNestingLevelSnippet.newParentBaseVariable();
+            res += accessNextObjectNestingLevelSnippet.snippet();
 
             // If the nesting type value is array
             if(tree.getNestingType().equals(NestingType.ARRAY)) {
-
-                String baseVariableIndex = parentBaseVariable + "_index";
-                String baseVariableElement = parentBaseVariable + "_element";
-
-                res = res + indentationStr + "\tfor(" + baseVariableIndex + " in " + parentBaseVariable + ") {\n";
-                res = res + indentationStr + "\t\t" + baseVariableElement + " = " + parentBaseVariable + "[" + baseVariableIndex + "]\n";
-
-                parentBaseVariable = baseVariableElement;
-
+                // Generate the code to access to the next nesting level
+                ScriptSnippet accessNextArrayNestingLevelSnippet = generateAccessNextArrayNestingLevelSnippet(parentBaseVariable, indentationStr);
+                parentBaseVariable = accessNextArrayNestingLevelSnippet.newParentBaseVariable();
+                res += accessNextArrayNestingLevelSnippet.snippet();
             }
-
-            res = res + indentationStr + "\t\t// TODO: Postman tests here\n";
 
             if(DEBUG_MODE) {
-                res = res + printVariableValueScript(parentBaseVariable, indentationStr);
+                res += printVariableValueScript(parentBaseVariable, indentationStr);
             }
 
-            // Get invariants of this nesting level
-            if(tree.getProgramPoint() != null) {    // TODO: Convert into function
-
-                res = res + indentationStr + "\t\t// Invariants of this nesting level:\n";
-
-                indentationStr = indentationStr + "\t\t";
-                for(Invariant inv: tree.getProgramPoint().getInvariants()) {
-
-                    res = res + inv.getPostmanTestCase(parentBaseVariable, indentationStr);
-
-                }
-            } else {
-                res = res + indentationStr + "\t\t// This nesting level has no invariants\n";
-            }
-
-            res = res + "\n";
+            res += generateProgramPointTestCases(tree.getProgramPoint(), parentBaseVariable, indentationStr);
 
         }
 
