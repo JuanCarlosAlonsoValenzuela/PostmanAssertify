@@ -3,94 +3,49 @@ package agora.postman.assertion.model;
 import agora.postman.assertion.model.nestingLevelTree.NestingType;
 import agora.postman.assertion.model.nestingLevelTree.Tree;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import static agora.postman.assertion.Main.DEBUG_MODE;
-import static agora.postman.assertion.Main.HIERARCHY_SEPARATOR;
 import static agora.postman.assertion.debug.DebugUtils.printVariableValueScript;
 
-public class TestScriptManager {
+public class NestingLevelTestScript {
 
-//    private String parentBaseVariable;
-    private Tree<String> tree;
+    private String childrenParentBaseVariable;
+    private String initialLines;
+    private String closingLines;
 
-    private String testScript;
 
-    public TestScriptManager(Tree<String> programPointHierarchy) {
-        this.tree = programPointHierarchy;
-        this.testScript = "";
+    // TODO: Update name of parentBaseVariable parameter (misleading)
+    public NestingLevelTestScript(List<String> parents, String parentBaseVariable, Tree<String> tree, String result) {
+        // This method also sets the value of this.childrenParentBaseVariable
+        this.initialLines = generateInitialLinesScript(parents, parentBaseVariable, tree, result);
+
+        this.closingLines = generateClosingLinesScript(parents, tree, parentBaseVariable);
     }
 
-
-    // Performs an in-depth search on the program point hierarchy tree and returns the test script
-    // of a single APIOperation
-    public String generateTestScript() {
-
-        this.testScript = "valuesToConsiderAsNull = [];\n";
-
-        this.programPointsDepthSearch(this.tree, new ArrayList<>(), null);
-
-        // TODO: CHANGE THIS
-        return this.testScript;
+    public String getChildrenParentBaseVariable() {
+        return childrenParentBaseVariable;
     }
 
-
-    private void programPointsDepthSearch(Tree<String> tree, List<String> parents, String parentBaseVariable) {
-
-        List<String> updatedParents = new ArrayList<>(parents);
-        updatedParents.add(tree.getData());
-
-        // TODO: Rename this variable
-        String result = String.join(HIERARCHY_SEPARATOR, updatedParents);
-
-
-        // Print initial lines of the nesting level TODO: Rename this method
-        // TODO: Static or not?
-        // TODO: RETURNS NEW parentBaseVariable
-        parentBaseVariable = this.generateNestingLevelInitialLines(parents, parentBaseVariable, tree, result);
-
-        for(Tree<String> child: tree.getChildren()) {
-            // TODO: Check recursive behaviour of this.parentBaseVariable here
-            programPointsDepthSearch(child, updatedParents, parentBaseVariable);
-        }
-
-        // TODO: Add closing brackets here (copy from original method)
-
-        // TODO: Improve this condition
-        if(!parents.isEmpty()) {
-            // TODO: The first nesting level (response) should not have a closing if/for, unless there is arrayNesting
-
-
-            String indentationStr = "\t".repeat(Math.max(parents.size() - 1, 0));
-
-            if(tree.getNestingType().equals(NestingType.ARRAY)) {
-                this.testScript += indentationStr + "\t} // Closing for " + parentBaseVariable + "\n";
-            }
-
-            this.testScript += indentationStr + "} // Closing if "+ parentBaseVariable + "\n\n";
-
-        }
-
-        // TODO: Create test cases
-        // Close array nesting conditions
-        Map<Integer, ProgramPoint> arrayNestingProgramPoints = tree.getArrayNestingProgramPoints();
-        if(!arrayNestingProgramPoints.isEmpty()) {
-            int maxArrayNestingLevel = Collections.max(arrayNestingProgramPoints.keySet());
-            for(int i=maxArrayNestingLevel; i >= 1; i--) {
-
-                this.testScript += "} // Closing if array nesting level " + i + "\n";
-                this.testScript += "} // Closing for array nesting level " + i + "\n";
-
-            }
-        }
-
+    public String getInitialLines() {
+        return initialLines;
     }
 
-    // TODO: Consider removing result parameter (I think it can be derived)
-    private String generateNestingLevelInitialLines(List<String> parents, String parentBaseVariable, Tree<String> tree, String result) {
+    public String getClosingLines() {
+        return closingLines;
+    }
+
+    // TODO: DOCUMENT
+    // TODO: Split into multiple methods
+    // TODO: This should be a class
+    // TODO: Currently returns parentBaseVariable name, refactor to return an object with more information
+    // TODO: Implement number of tabulations (based on parents.size)
+    // TODO: Improve parameters, create a class or similar
+    // TODO: Remove result from parameters, is unnecessary
+    // Returns initial lines test scripts and sets the value of the next parentBaseVariable
+    private String generateInitialLinesScript(List<String> parents, String parentBaseVariable, Tree<String> tree, String result) {
 
         String indentationStr = "\t".repeat(Math.max(parents.size() - 1, 0));
 
@@ -227,12 +182,48 @@ public class TestScriptManager {
 
         }
 
-        this.testScript += res;
+        this.childrenParentBaseVariable = parentBaseVariable;
 
-        return parentBaseVariable;
+        return res;
 
     }
 
+
+    // TODO: DOCUMENT
+    private String generateClosingLinesScript(List<String> parents, Tree<String> tree, String parentBaseVariable) {
+
+        String res = "";
+
+        // TODO: Improve this condition
+        if(!parents.isEmpty()) {
+            // TODO: The first nesting level (response) should not have a closing if/for, unless there is arrayNesting
+
+
+            String indentationStr = "\t".repeat(Math.max(parents.size() - 1, 0));
+
+            if(tree.getNestingType().equals(NestingType.ARRAY)) {
+                res += indentationStr + "\t} // Closing for " + parentBaseVariable + "\n";
+            }
+
+            res += indentationStr + "} // Closing if "+ parentBaseVariable + "\n\n";
+
+        }
+
+        // TODO: Create test cases
+        // Close array nesting conditions
+        Map<Integer, ProgramPoint> arrayNestingProgramPoints = tree.getArrayNestingProgramPoints();
+        if(!arrayNestingProgramPoints.isEmpty()) {
+            int maxArrayNestingLevel = Collections.max(arrayNestingProgramPoints.keySet());
+            for(int i=maxArrayNestingLevel; i >= 1; i--) {
+
+                res += "} // Closing if array nesting level " + i + "\n";
+                res += "} // Closing for array nesting level " + i + "\n";
+
+            }
+        }
+
+        return res;
+    }
 
 
 }

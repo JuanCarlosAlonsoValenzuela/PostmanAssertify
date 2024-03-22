@@ -121,6 +121,21 @@ public class APIOperation {
         return res;
     }
 
+    // TODO: DOCUMENT
+    // TODO: Implement strings to consider as null
+    public String generateTestScript() {
+
+        // TODO: This variable name should NOT be hardcoded
+        String res = "valuesToConsiderAsNull = [];\n";
+
+        Tree<String> programPointHierarchy = this.getProgramPointHierarchy();
+
+        res += programPointDepthSearch(programPointHierarchy, new ArrayList<>(), new ArrayList<>(), null);
+
+        return res;
+
+    }
+
     /**
      * @param paths: List of program point names, separated by HIERARCHY_SEPARATOR
      * @return Program point hierarchy tree, derived from the list of paths.
@@ -128,6 +143,7 @@ public class APIOperation {
     // TODO: Update parameters in Javadoc
     // TODO: Create test cases with array nesting
     // TODO: Improve comments
+    // TODO: Convert to private
     public Tree<String> getProgramPointHierarchy() {
 
         // Create a tree with a root node
