@@ -1,7 +1,7 @@
 package agora.postman.assertion.model;
 
-import agora.postman.assertion.model.nestingLevelTree.NestingType;
-import agora.postman.assertion.model.nestingLevelTree.Tree;
+import agora.postman.assertion.testScript.nestingLevelTree.NestingType;
+import agora.postman.assertion.testScript.nestingLevelTree.Tree;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -17,7 +17,8 @@ import java.util.*;
 
 import static agora.postman.assertion.Main.*;
 import static agora.postman.assertion.debug.DebugUtils.printVariableValueScript;
-import static agora.postman.assertion.model.nestingLevelTree.Tree.getNestingTypeFromString;
+import static agora.postman.assertion.testScript.DepthSearch.programPointDepthSearch;
+import static agora.postman.assertion.testScript.nestingLevelTree.Tree.getNestingTypeFromString;
 import static agora.postman.assertion.preRequestScript.ParametersScript.generateCastingVariableScript;
 import static agora.postman.assertion.preRequestScript.ParametersScript.generateGetVariableValueScript;
 import static agora.postman.assertion.preRequestScript.RequestBodyScript.generateBodyParametersScript;
@@ -144,7 +145,7 @@ public class APIOperation {
     // TODO: Create test cases with array nesting
     // TODO: Improve comments
     // TODO: Convert to private
-    public Tree<String> getProgramPointHierarchy() {
+    private Tree<String> getProgramPointHierarchy() {
 
         // Create a tree with a root node
         Tree<String> programPointHierarchy = new Tree<>(Integer.toString(this.responseCode),

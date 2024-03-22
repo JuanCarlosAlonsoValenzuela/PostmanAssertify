@@ -1,7 +1,9 @@
-package agora.postman.assertion.model;
+package agora.postman.assertion.testScript;
 
-import agora.postman.assertion.model.nestingLevelTree.NestingType;
-import agora.postman.assertion.model.nestingLevelTree.Tree;
+import agora.postman.assertion.model.Invariant;
+import agora.postman.assertion.model.ProgramPoint;
+import agora.postman.assertion.testScript.nestingLevelTree.NestingType;
+import agora.postman.assertion.testScript.nestingLevelTree.Tree;
 
 import java.util.Collections;
 import java.util.List;
@@ -12,6 +14,7 @@ import static agora.postman.assertion.debug.DebugUtils.printVariableValueScript;
 
 /**
  * @author Juan C. Alonso
+ * TODO: DOCUMENT
  */
 public class NestingLevelTestScript {
 
