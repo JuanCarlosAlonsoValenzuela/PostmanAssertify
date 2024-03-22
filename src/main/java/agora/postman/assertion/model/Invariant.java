@@ -72,27 +72,39 @@ public class Invariant {
         String res = testCaseIndentation + "// " + this.invariant + "\n";
 
         // Test case first line
-        res = res + testCaseIndentation + "pm.test(\"" + this.invariant.replace("\"", "\\\"") + "\", () => {\n";
-
-        // TODO: Get variable(s) value(s)
-        // TODO: We are assuming only one value, with no nesting
-
-
+        res += testCaseIndentation + "pm.test(\"" + this.invariant.replace("\"", "\\\"") + "\", () => {\n";
 
         // Generate code to access to variable value
         for(Variable variable: this.variables) {
             // TODO: This method should NOT be static
-            res = res + getPostmanVariableValueCode(parentBaseVariable, variable, testCaseIndentation, this.isArrayNestingPpt);
+            res += getPostmanVariableValueCode(parentBaseVariable, variable, testCaseIndentation, this.isArrayNestingPpt);
         }
 
+        // Check that none of the invariants variables is null or one of the values to consider as null
+        res += generateNotNullConditionsSnippet(this.variables, testCaseIndentation);
 
-        // This is the original code, prior to the method implementation
-        // res = res + testCaseIndentation + "\t" + variableName + " = " + parentBaseVariable + "." + variableName + ";\n";
+        // Postman assertion, returned by AGORA
+        // TODO: REMOVE comment characters (//)
+        res += testCaseIndentation + "\t\t//" + this.postmanAssertion + ";\n";
 
-        // TODO: If variable is not null and not part of values to consider null
+        // Close if variable not null and not part of values to consider as null bracket
+        res += testCaseIndentation + "\t}\n";
+
+        // Close test case bracket
+        res += testCaseIndentation + "})\n";
+
+        return res;
+
+    }
+
+    // TODO: DOCUMENT
+    // TODO: Move to a different class
+    private static String generateNotNullConditionsSnippet(List<Variable> variables, String testCaseIndentation) {
+
+        // If variable is not null and not part of values to consider null
         // One not null conditions for each invariant variable
         List<String> notNullConditions = new ArrayList<>();
-        for(Variable variable: this.variables) {
+        for(Variable variable: variables) {
             // Get variable name
             String postmanVariableName = variable.getPostmanVariableName();
 
@@ -100,21 +112,8 @@ public class Invariant {
 
             notNullConditions.add(condition);
         }
-
         // Check that none of the invariants variables is null
-        res = res + testCaseIndentation + "\t" + "if(" + String.join(" && ", notNullConditions) + ") {" + "\n";
-
-        // Postman assertion, returned by AGORA
-        // TODO: REMOVE //
-        res = res + testCaseIndentation + "\t\t//" + this.postmanAssertion + ";\n";
-
-        // Close if variable not null and not part of values to consider as null bracket
-        res = res + testCaseIndentation + "\t}\n";
-
-        // Close test case bracket
-        res = res + testCaseIndentation + "})\n";
-
-        return res;
+        return testCaseIndentation + "\t" + "if(" + String.join(" && ", notNullConditions) + ") {" + "\n";
 
     }
 
