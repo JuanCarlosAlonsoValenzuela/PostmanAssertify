@@ -3,6 +3,9 @@ package agora.postman.assertion.model;
 import java.util.Arrays;
 import java.util.List;
 
+import static agora.postman.assertion.Main.DEBUG_MODE;
+import static agora.postman.assertion.debug.DebugUtils.printVariableValueScript;
+
 /**
  * @author Juan C. Alonso
  */
@@ -90,6 +93,99 @@ public class Variable {
         return postmanVariableName;
 
     }
+
+    // TODO: DOCUMENT
+    // TODO: Split into multiple methods
+    public String getPostmanVariableValueCode(String parentBaseVariable, String baseIndentation, boolean isArrayNestingPpt) {
+
+        String postmanVariableName = this.getPostmanVariableName();
+
+        List<String> variableHierarchyList = this.getVariableHierarchyList();
+
+        String currentIdentation = baseIndentation + "\t";
+        int ifBracketsToClose = 0;
+
+        String res = currentIdentation + "// Getting value of variable: " + postmanVariableName + "\n";
+
+        if(this.isReturn()) {  // Generate code for getting return variables
+
+            if(isArrayNestingPpt) { // Array nesting program points (i.e., %array) only have one return variable (return_array)
+
+                res = res + currentIdentation + postmanVariableName + " = " + parentBaseVariable + ";\n";
+
+            } else {    // If normal program point
+                // First line/nested variable
+                res = res + currentIdentation + postmanVariableName + " = " + parentBaseVariable + "." + variableHierarchyList.get(0) + ";\n";
+
+
+                for(int i = 1; i < variableHierarchyList.size(); i++) {
+
+                    // Check that the variable is not null
+                    res = res + currentIdentation + "if(" + postmanVariableName + " != null) {\n";
+
+                    currentIdentation = currentIdentation + "\t";
+
+                    res = res + currentIdentation + postmanVariableName + " = " + postmanVariableName + "." + variableHierarchyList.get(i) + ";\n";
+
+                    // Increment the number of if brackets to close
+                    ifBracketsToClose++;
+
+                }
+            }
+
+
+        } else {    // Generate code for getting input variables (parameters)
+            // TODO: Test with all datatypes (string, number, boolean)
+            // TODO: for now, we assume that all input variables are query parameters
+            // TODO: Read OAS to determine origin (query, path, body, form) of input parameters
+
+            // TODO: Implement input variables with hierarchy (for now, a exception is thrown)
+            if(variableHierarchyList.size() != 1) {
+                throw new RuntimeException("Input parameters with hierarchy are not supported yet");
+            }
+
+        }
+
+
+        // Close if brackets (common for both input and exit)
+        // TODO: Create test with deep indentation
+        while(ifBracketsToClose > 0) {
+
+            // Reduce indentation level
+            currentIdentation = currentIdentation.substring(0, currentIdentation.length()-1);
+
+            // Close if bracket
+            res = res + currentIdentation + "}\n";
+
+            ifBracketsToClose--;
+        }
+
+
+        // TODO: THIS IS COMMON TO BOTH INPUT AND RETURN
+        // TODO: Create test case for size of input variables
+        // If the variable is the size of an array
+        // Get array size
+        if(this.isSize()) {
+            // If the retrieved array is not null
+            res = res + currentIdentation + "if(" + postmanVariableName + " != null) {\n";
+
+            // Get array size
+            res = res + currentIdentation + "\t" + postmanVariableName + " = " + postmanVariableName + ".length;\n";
+
+            // Close the bracket
+            res = res + currentIdentation + "}\n\n";
+        }
+
+        if(DEBUG_MODE) {
+            res = res + printVariableValueScript(postmanVariableName, currentIdentation);
+        }
+
+        res = res + "\n";
+
+        return res;
+    }
+
+
 
 
     /**
