@@ -27,12 +27,28 @@ public class TestCasesE2ETests {
                 /* e2e_test_script_001: Simple test script
                 Generates test script for an API response with two nesting levels: the first level of type object and
                 the second of type array of objects, each one of them with a single test case (i.e., invariant). The
-                response schema is the one used in the byIdOrTitle operation of the OMDb API.
+                response schema is the one used in the byIdOrTitle operation of the OMDb API. Nesting levels:
+                    /&searchByIdOrTitle&200():::EXIT
+                    /&searchByIdOrTitle&200&Ratings():::EXIT
                  */
                 Arguments.of(
                         "src/test/resources/testScriptGeneration/test_001/oas_omdb_byIdOrTitle.yaml",
                         "src/test/resources/testScriptGeneration/test_001/invariants_test_001.csv",
                         "src/test/resources/testScriptGeneration/test_001/oracle_script_test_001.js"
+                ),
+                /* e2e_test_script_002: Test script with 3 nesting levels and multiple datatypes (all the possible
+                primitive datatypes: string, boolean, number, integer) in the response
+                Generates test script for the Yelp API (3 nesting levels). Nesting levels:
+                    /businesses/search&getBusinesses&200():::EXIT
+                    /businesses/search&getBusinesses&200&businesses():::EXIT
+                    /businesses/search&getBusinesses&200&businesses&categories():::EXIT
+                 */
+                // TODO: Both unary and binary invariants
+                // TODO: Invariants with variables of all possible datatypes (arrays?)
+                Arguments.of(
+                        "src/test/resources/testScriptGeneration/test_002/oas_yelp_getBusinesses.yaml",
+                        "",
+                        ""
                 )
 
         );
@@ -46,6 +62,7 @@ public class TestCasesE2ETests {
         // TODO: Values to consider as null
         // TODO: Test with both unary and binary invariants
         // TODO: Fix indentation
+        // TODO: Rewritten variable names
     }
 
     // TODO: Consider renaming this class (not exactly endToEnd)
