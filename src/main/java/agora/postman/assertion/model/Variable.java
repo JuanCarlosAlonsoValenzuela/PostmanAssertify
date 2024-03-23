@@ -111,21 +111,22 @@ public class Variable {
 
             if(isArrayNestingPpt) { // Array nesting program points (i.e., %array) only have one return variable (return_array)
 
-                res = res + currentIdentation + postmanVariableName + " = " + parentBaseVariable + ";\n";
+                // TODO: Create test cases (for array itself, size and array element)
+                res += currentIdentation + postmanVariableName + " = " + parentBaseVariable + ";\n";
 
             } else {    // If normal program point
                 // First line/nested variable
-                res = res + currentIdentation + postmanVariableName + " = " + parentBaseVariable + "." + variableHierarchyList.get(0) + ";\n";
-
+                res += currentIdentation + postmanVariableName + " = " + parentBaseVariable + "." + variableHierarchyList.get(0) + ";\n";
 
                 for(int i = 1; i < variableHierarchyList.size(); i++) {
 
                     // Check that the variable is not null
-                    res = res + currentIdentation + "if(" + postmanVariableName + " != null) {\n";
+                    res += currentIdentation + "if(" + postmanVariableName + " != null) {\n";
 
                     currentIdentation = currentIdentation + "\t";
 
-                    res = res + currentIdentation + postmanVariableName + " = " + postmanVariableName + "." + variableHierarchyList.get(i) + ";\n";
+                    // Access next hierarchy element
+                    res += currentIdentation + postmanVariableName + " = " + postmanVariableName + "." + variableHierarchyList.get(i) + ";\n";
 
                     // Increment the number of if brackets to close
                     ifBracketsToClose++;
@@ -136,12 +137,41 @@ public class Variable {
 
         } else {    // Generate code for getting input variables (parameters)
             // TODO: Test with all datatypes (string, number, boolean)
-            // TODO: for now, we assume that all input variables are query parameters
-            // TODO: Read OAS to determine origin (query, path, body, form) of input parameters
 
-            // TODO: Implement input variables with hierarchy (for now, a exception is thrown)
-            if(variableHierarchyList.size() != 1) {
-                throw new RuntimeException("Input parameters with hierarchy are not supported yet");
+            // Only if there is nesting level OR if the input variable is the size of an array
+            // TODO: Create test cases for all combinations (considering both isSize AND variableHierarchySize)
+            if(this.isSize() || variableHierarchyList.size() != 1) {
+
+                // Get name of the variable obtained in the pre-request script (i.e., only first hierarchy level)
+                // TODO: START CONVERT INTO FUNCTION 1
+                String firstHierarchyLevelVariableName = "input_" + variableHierarchyList.get(0);
+                // If the variable in the pre-request script is an array
+                // Only the last hierarchy element can be an array
+                if((variableHierarchyList.size() == 1) && (this.variableName.contains("[]") || this.variableName.contains("[..]"))) {
+                    firstHierarchyLevelVariableName += "_array";
+                }
+                // TODO: END CONVERT INTO FUNCTION 1
+
+                // First hierarchy element
+                res += currentIdentation + postmanVariableName + " = " + firstHierarchyLevelVariableName + ";\n";
+
+
+                // Access to the subsequent hierarchy elements
+                for(int i=1; i<variableHierarchyList.size(); i++) {     // TODO: This code is duplicated (convert into function)
+
+                    // Check that the variable is not null
+                    res += currentIdentation + "if(" + postmanVariableName + " != null) {\n";
+
+                    currentIdentation = currentIdentation + "\t";
+
+                    // Access next hierarchy element
+                    res += currentIdentation + postmanVariableName + " = " + postmanVariableName + "." + variableHierarchyList.get(i) + ";\n";
+
+                    // Increment the number of if brackets to close
+                    ifBracketsToClose++;
+
+                }  // TODO: END CONVERT INTO FUNCTION
+
             }
 
         }

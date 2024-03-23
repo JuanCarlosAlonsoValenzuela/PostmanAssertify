@@ -58,10 +58,8 @@ public class Invariant {
     public String getPostmanAssertion() { return postmanAssertion; }
 
     // TODO: Use StringBuilder
-    // TODO: Get variable name
     // TODO: Values of type array
     // TODO: Input and output variables
-    // TODO: One and two variables
     // TODO: Variable datatype
     // TODO: Access base variable (nesting level)
     public String getPostmanTestCase(String parentBaseVariable, String indentationStr) {

@@ -17,7 +17,7 @@ public class Main {
 
     private static String openApiSpecPath = "src/main/resources/oas_vimeo.yaml";
 
-    private static String invariantsPath = "src/main/resources/test3.csv";
+    private static String invariantsPath = "src/main/resources/test_delete.csv";
 
     public static String HIERARCHY_SEPARATOR = "&";
     public static String ARRAY_NESTING_SEPARATOR = "%";
