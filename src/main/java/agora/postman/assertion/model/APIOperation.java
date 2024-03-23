@@ -109,6 +109,7 @@ public class APIOperation {
     // TODO: We do not get the array sizes or elements
     // TODO: Datatypes, it considers everything as a String
     // TODO: Decode uri? I think it is not necessary, create test cases with special characters
+    // TODO: Test with null and NOT null values
     public String generatePreRequestScript() {
 
         String res = "";
@@ -119,11 +120,10 @@ public class APIOperation {
             // Generate the script that extracts the variable value (always as string)
             res = res + generateGetVariableValueScript(parameter);
 
-            // If the parameter is not of type string, generate a script that converts the variable into the
+            // Decode URI component and generate a script that converts the variable into the
             // corresponding datatype, after checking that the variable is not null
-            if(!parameter.getSchema().getType().equals("string")) {
-                res = res + generateCastingVariableScript(parameter);
-            }
+            res = res + generateCastingVariableScript(parameter);
+
 
             if(DEBUG_MODE) {
                 res = res + printVariableValueScript(getInputVariableName(parameter), "");

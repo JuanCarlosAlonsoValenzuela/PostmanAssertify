@@ -1,0 +1,5 @@
+pptname;invariant;invariantType;variables;postmanAssertion;tp
+/videos&search_videos&200&data&categories&icon&sizes():::EXIT;size(input.uris[]) >= 1;daikon.inv.unary.scalar.LowerBound;(size(input.uris[..]));TODO: Implement Postman assertion;1
+/videos&search_videos&200&data&user&skills():::EXIT;size(input.uris[]) >= 1;daikon.inv.unary.scalar.LowerBound;(size(input.uris[..]));TODO: Implement Postman assertion;1
+/videos&search_videos&200&data&user&websites():::EXIT;size(input.uris[]) >= 1;daikon.inv.unary.scalar.LowerBound;(size(input.uris[..]));TODO: Implement Postman assertion;1
+/videos&search_videos&200&data&categories():::EXIT;size(return.pictures.sizes[]) >= size(return.subcategories[]);daikon.inv.binary.twoScalar.IntGreaterEqual;(size(return.pictures.sizes[..]), size(return.subcategories[..]));TODO: Implement Postman assertion;1

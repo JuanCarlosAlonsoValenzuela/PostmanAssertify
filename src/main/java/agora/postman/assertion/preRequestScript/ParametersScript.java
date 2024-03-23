@@ -27,10 +27,12 @@ public class ParametersScript {
         String res = "// Getting value of the " + parameterName + " " + parameterIn + " parameter \n";
         res = switch (parameterIn) {
             case "query" -> res + inputVariableName + " = pm.request.url.query.get(\"" + parameterName + "\");\n";
+            // TODO: CHANGE IMPLEMENTATION, pathParamValue = pm.request.url.path[2]
             case "path" -> res + inputVariableName + " = pm.request.url.variables.get(\"" + parameterName + "\");\n";
             case "form" ->
                 // TODO: IMPLEMENT (requires test cases)
                     throw new RuntimeException("Form parameters not implemented yet");
+            // TODO: TEST AGAIN
             case "header" -> res + inputVariableName + " = pm.request.headers.get(\"" + parameterName + "\");\n";
             default -> throw new RuntimeException("Unexpected value for parameter source, got: " + parameterIn);
         };
@@ -50,6 +52,9 @@ public class ParametersScript {
         String inputVariableName = getInputVariableName(parameter);
 
         String res = "if (" + inputVariableName + " != null) { \n";
+
+        // Decode URI component
+        res += "\t" + inputVariableName + " = decodeURIComponent(" + inputVariableName + ");\n";
 
         switch (parameterType) {
             case "number" ->
@@ -78,6 +83,7 @@ public class ParametersScript {
                     throw new RuntimeException("Array of items that are not strings are not supported yet");
                 }
             }
+            case "string" -> {}
             default -> throw new RuntimeException("Unexpected parameter type: " + parameterType);
         }
 

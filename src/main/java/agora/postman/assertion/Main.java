@@ -15,9 +15,9 @@ import static agora.postman.assertion.files.ReadInvariants.getAllApiOperations;
  */
 public class Main {
 
-    private static String openApiSpecPath = "src/main/resources/oas_vimeo.yaml";
+    private static String openApiSpecPath = "src/main/resources/oas_spotify_artistAlbums.yaml";
 
-    private static String invariantsPath = "src/main/resources/test_delete.csv";
+    private static String invariantsPath = "src/main/resources/invariants_artistAlbums.csv";
 
     public static String HIERARCHY_SEPARATOR = "&";
     public static String ARRAY_NESTING_SEPARATOR = "%";
@@ -53,12 +53,13 @@ public class Main {
 
         APIOperation apiOperation = allApiOperations.get(0);
 
-        System.out.println("############################### PRE-REQUEST SCRIPT ###############################");
+        System.out.println("//////////////////////////// INPUT PARAMETERS SCRIPT ////////////////////////////");
+        // TODO: CHANGE NAME (NOW IT IS PART OF THE TEST SCRIPT AGAIN)
         String preRequestScript = apiOperation.generatePreRequestScript();
         System.out.println(preRequestScript);
 
         // Iterate over program point hierarchy (in-depth search)
-        System.out.println("############################### TEST SCRIPT ###############################");
+        System.out.println("////////////////////////////  TEST SCRIPT ////////////////////////////");
         List<String> valuesToConsiderAsNull = new ArrayList<>(); // TODO: Create test case
 //        valuesToConsiderAsNull.add("N/A");
 //        valuesToConsiderAsNull.add("");
