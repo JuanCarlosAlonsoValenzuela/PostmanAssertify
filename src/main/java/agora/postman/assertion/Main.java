@@ -15,9 +15,9 @@ import static agora.postman.assertion.files.ReadInvariants.getAllApiOperations;
  */
 public class Main {
 
-    private static String openApiSpecPath = "src/main/resources/oas_spotify_artistAlbums.yaml";
+    private static String openApiSpecPath = "src/test/resources/testScriptGeneration/test_001/oas_omdb_byIdOrTitle.yaml";
 
-    private static String invariantsPath = "src/main/resources/invariants_artistAlbums.csv";
+    private static String invariantsPath = "src/test/resources/testScriptGeneration/test_001/invariants_test_001.csv";
 
     public static String HIERARCHY_SEPARATOR = "&";
     public static String ARRAY_NESTING_SEPARATOR = "%";
@@ -28,7 +28,7 @@ public class Main {
 
         // TODO: Manage exceptions of this project properly
         // Read invariants from file
-        OpenAPI specification = getOpenAPISpecification();
+        OpenAPI specification = getOpenAPISpecification(openApiSpecPath);
         List<APIOperation> allApiOperations = getAllApiOperations(specification, invariantsPath);
 
         // Get unique pptnames
@@ -80,13 +80,13 @@ public class Main {
 
 
     // TODO: Move to a different class
-    private static OpenAPI getOpenAPISpecification(){
+    public static OpenAPI getOpenAPISpecification(String oasPath){
 
         ParseOptions parseOptions = new ParseOptions();
         parseOptions.setResolveFully(true);
         parseOptions.setFlatten(true);
 
-        return new OpenAPIV3Parser().read(openApiSpecPath, null, parseOptions);
+        return new OpenAPIV3Parser().read(oasPath, null, parseOptions);
     }
 
 }

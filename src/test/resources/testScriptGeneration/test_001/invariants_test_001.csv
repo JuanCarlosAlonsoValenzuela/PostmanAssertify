@@ -1,0 +1,4 @@
+pptname;invariant;invariantType;variables;postmanAssertion;tp
+/&searchByIdOrTitle&200&Ratings():::EXIT;return.Source one of { "Internet Movie Database", "Metacritic", "Rotten Tomatoes" };daikon.inv.unary.string.OneOfString;(return.Source);pm.expect(["Internet Movie Database", "Metacritic", "Rotten Tomatoes"].includes(return_Source)).to.be.true;1
+/&searchByIdOrTitle&200():::EXIT;input.i == return.imdbID;daikon.inv.binary.twoString.StringEqual;(input.i, return.imdbID);pm.expect(input_i).to.eql(return_imdbID);1
+/&searchByIdOrTitle&200():::EXIT;return.Response == "True";daikon.inv.unary.string.OneOfString;(return.Response);pm.expect(["True"].includes(return_Response)).to.be.true;1
