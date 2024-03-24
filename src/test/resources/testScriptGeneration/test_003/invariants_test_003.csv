@@ -1,0 +1,18 @@
+pptname;invariant;invariantType;variables;postmanAssertion;tp
+/videos&search_videos&200&data&categories&icon&sizes():::EXIT;return.link is Url;daikon.inv.unary.string.IsUrl;(return.link);TODO: Implement Postman assertion;1
+/videos&search_videos&200&data&categories&icon&sizes():::EXIT;size(input.uris[]) >= 1;daikon.inv.unary.scalar.LowerBound;(size(input.uris[..]));TODO: Implement Postman assertion;1
+/videos&search_videos&200&data&categories&pictures&sizes():::EXIT;return.link is Url;daikon.inv.unary.string.IsUrl;(return.link);TODO: Implement Postman assertion;1
+/videos&search_videos&200&data&categories&pictures&sizes():::EXIT;return.height < return.width;daikon.inv.binary.twoScalar.FloatLessThan;(return.height, return.width);TODO: Implement Postman assertion;1
+/videos&search_videos&200&data&categories&subcategories():::EXIT;return.link is Url;daikon.inv.unary.string.IsUrl;(return.link);TODO: Implement Postman assertion;1
+/videos&search_videos&200&data&categories():::EXIT;size(return.pictures.sizes[]) >= size(return.subcategories[]);daikon.inv.binary.twoScalar.IntGreaterEqual;(size(return.pictures.sizes[..]), size(return.subcategories[..]));TODO: Implement Postman assertion;1
+/videos&search_videos&200&data&pictures&sizes():::EXIT;return.link is Url;daikon.inv.unary.string.IsUrl;(return.link);TODO: Implement Postman assertion;1
+/videos&search_videos&200&data&pictures&sizes():::EXIT;return.link_with_play_button is Url;daikon.inv.unary.string.IsUrl;(return.link_with_play_button);TODO: Implement Postman assertion;1
+/videos&search_videos&200&data&spatial&director_timeline():::EXIT;return.roll == 0.0;daikon.inv.unary.scalar.OneOfFloat;(return.roll);TODO: Implement Postman assertion;1
+/videos&search_videos&200&data&tags():::EXIT;LENGTH(return.resource_key)==40;daikon.inv.unary.string.FixedLengthString;(return.resource_key);TODO: Implement Postman assertion;1
+/videos&search_videos&200&data&uploader&pictures&sizes():::EXIT;return.link is Url;daikon.inv.unary.string.IsUrl;(return.link);TODO: Implement Postman assertion;1
+/videos&search_videos&200&data&user&pictures&sizes():::EXIT;return.link is Url;daikon.inv.unary.string.IsUrl;(return.link);TODO: Implement Postman assertion;1
+/videos&search_videos&200&data&user&skills():::EXIT;size(input.uris[]) >= 1;daikon.inv.unary.scalar.LowerBound;(size(input.uris[..]));TODO: Implement Postman assertion;1
+/videos&search_videos&200&data&user&websites():::EXIT;size(input.uris[]) >= 1;daikon.inv.unary.scalar.LowerBound;(size(input.uris[..]));TODO: Implement Postman assertion;1
+/videos&search_videos&200&data():::EXIT;return.edit_session.is_music_licensed == true;daikon.inv.unary.scalar.OneOfScalar;(return.edit_session.is_music_licensed);TODO: Implement Postman assertion;1
+/videos&search_videos&200():::EXIT;return.total >= 0;daikon.inv.unary.scalar.LowerBound;(return.total);TODO: Implement Postman assertion;1
+/videos&search_videos&200():::EXIT;return.page >= 1;daikon.inv.unary.scalar.LowerBound;(return.page);TODO: Implement Postman assertion;1

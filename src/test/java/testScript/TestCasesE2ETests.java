@@ -29,26 +29,87 @@ public class TestCasesE2ETests {
                 the second of type array of objects, each one of them with a single test case (i.e., invariant). The
                 response schema is the one used in the byIdOrTitle operation of the OMDb API. Nesting levels:
                     /&searchByIdOrTitle&200():::EXIT
-                    /&searchByIdOrTitle&200&Ratings():::EXIT
+                        /&searchByIdOrTitle&200&Ratings():::EXIT
                  */
                 Arguments.of(
                         "src/test/resources/testScriptGeneration/test_001/oas_omdb_byIdOrTitle.yaml",
                         "src/test/resources/testScriptGeneration/test_001/invariants_test_001.csv",
-                        "src/test/resources/testScriptGeneration/test_001/oracle_script_test_001.js"
+                        "src/test/resources/testScriptGeneration/test_001/oracle_test_script_001.js"
                 ),
-                /* e2e_test_script_002: Test script with 3 nesting levels and multiple datatypes (all the possible
-                primitive datatypes: string, boolean, number, integer) in the response
-                Generates test script for the Yelp API (3 nesting levels). Nesting levels:
+                /* e2e_test_script_002: Test script with 3 nesting levels and multiple datatypes
+                Generates test script for the Yelp API (3 nesting levels, the first one of type object). Multiple
+                datatypes (array of objects, array of strings and all the possible primitive datatypes: string,
+                boolean, number, integer) in the response. Nesting levels:
                     /businesses/search&getBusinesses&200():::EXIT
-                    /businesses/search&getBusinesses&200&businesses():::EXIT
-                    /businesses/search&getBusinesses&200&businesses&categories():::EXIT
+                        /businesses/search&getBusinesses&200&businesses():::EXIT
+                            /businesses/search&getBusinesses&200&businesses&categories():::EXIT
                  */
-                // TODO: Both unary and binary invariants
-                // TODO: Invariants with variables of all possible datatypes (arrays?)
                 Arguments.of(
                         "src/test/resources/testScriptGeneration/test_002/oas_yelp_getBusinesses.yaml",
-                        "",
-                        ""
+                        "src/test/resources/testScriptGeneration/test_002/invariants_test_002.csv",
+                        "src/test/resources/testScriptGeneration/test_002/oracle_test_script_002.js"
+                ),
+                /* e2e_test_script_003: Complex response
+                Generates test script for the Vimeo API. The response schema of this API operation contains multiple
+                nesting levels. The first nesting level is of type object, there are nesting level of type object and
+                array, some of the nesting levels have multiple children and some of the nesting levels do not have
+                invariants, so it is a perfect test for the depth search algorithm. Nesting levels:
+
+                    /videos&search_videos&200():::EXIT
+
+                        /videos&search_videos&200&data():::EXIT
+
+                            /videos&search_videos&200&data&tags():::EXIT
+
+                            /videos&search_videos&200&data&categories():::EXIT
+
+                                        /videos&search_videos&200&data&categories&icon&sizes():::EXIT
+                                        /videos&search_videos&200&data&categories&pictures&sizes():::EXIT
+
+                                    /videos&search_videos&200&data&categories&subcategories():::EXIT
+
+                                /videos&search_videos&200&data&spatial&director_timeline():::EXIT
+
+
+                            /videos&search_videos&200&data&pictures&sizes():::EXIT
+
+
+                                    /videos&search_videos&200&data&user&pictures&sizes():::EXIT
+                                /videos&search_videos&200&data&user&skills():::EXIT
+                                /videos&search_videos&200&data&user&websites():::EXIT
+
+
+                                    /videos&search_videos&200&data&uploader&pictures&sizes():::EXIT
+
+                Program points hierarchy tree:
+
+                    200
+                      data
+                        user
+                          websites
+                          skills
+                          pictures
+                            sizes
+                        categories
+                          pictures
+                            sizes
+                          subcategories
+                          icon
+                            sizes
+                        pictures
+                          sizes
+                        tags
+                        uploader
+                          pictures
+                            sizes
+                        spatial
+                          director_timeline
+
+                 */
+                Arguments.of(
+                        "src/test/resources/testScriptGeneration/test_003/oas_vimeo.yaml",
+                        "src/test/resources/testScriptGeneration/test_003/invariants_test_003.csv",
+                        "src/test/resources/testScriptGeneration/test_003/oracle_test_script_003.js"
                 )
 
         );

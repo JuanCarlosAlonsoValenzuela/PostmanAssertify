@@ -1,6 +1,7 @@
 package agora.postman.assertion.model;
 
 import agora.postman.assertion.testScript.nestingLevelTree.NestingType;
+import agora.postman.assertion.testScript.nestingLevelTree.PrintIndentedVisitor;
 import agora.postman.assertion.testScript.nestingLevelTree.Tree;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -170,6 +171,9 @@ public class APIOperation {
         String res = "valuesToConsiderAsNull = " + arrayString + ";\n";
 
         Tree<String> programPointHierarchy = this.getProgramPointHierarchy();
+
+        // Prints the program point hierarchy tree
+//        programPointHierarchy.accept(new PrintIndentedVisitor(0));
 
         res += programPointDepthSearch(programPointHierarchy, new ArrayList<>(), null);
 

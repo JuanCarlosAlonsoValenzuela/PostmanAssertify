@@ -15,9 +15,9 @@ import static agora.postman.assertion.files.ReadInvariants.getAllApiOperations;
  */
 public class Main {
 
-    private static String openApiSpecPath = "src/test/resources/testScriptGeneration/test_002/oas_yelp_getBusinesses.yaml";
+    private static String openApiSpecPath = "src/main/resources/oas_vimeo.yaml";
 
-    private static String invariantsPath = "src/test/resources/testScriptGeneration/test_002/invariants_test_002.csv";
+    private static String invariantsPath = "src/main/resources/test3.csv";
 
     public static String HIERARCHY_SEPARATOR = "&";
     public static String ARRAY_NESTING_SEPARATOR = "%";
