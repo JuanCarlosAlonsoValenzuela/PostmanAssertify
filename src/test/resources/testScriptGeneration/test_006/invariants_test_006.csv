@@ -1,0 +1,6 @@
+pptname;invariant;invariantType;variables;tp;postmanAssertion
+/v3.1/alpha&v31ListOfCodes&200%array():::EXIT;size(input.codes[]) >= size(return.array[]);daikon.inv.binary.twoScalar.IntGreaterEqual;(size(input.codes[..]), size(return.array[..]));1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200%array%array():::EXIT;size(input.codes[]) >= size(return.array[]);daikon.inv.binary.twoScalar.IntGreaterEqual;(size(input.codes[..]), size(return.array[..]));1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;LENGTH(return.cca3)==3;daikon.inv.unary.string.FixedLengthString;(return.cca3);1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;return.maps.googleMaps is Url;daikon.inv.unary.string.IsUrl;(return.maps.googleMaps);1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200&users():::EXIT;return.age >= 1;daikon.inv.unary.scalar.LowerBound;(return.age);1;TODO: Postman Assertion

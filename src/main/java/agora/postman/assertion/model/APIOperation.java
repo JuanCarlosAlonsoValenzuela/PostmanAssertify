@@ -222,7 +222,14 @@ public class APIOperation {
                         data = data.split(ARRAY_NESTING_SEPARATOR)[0];
                     }
 
+
+
                     // TODO: START CONVERT INTO FUNCTION
+                    // Iterate through array nesting levels (TODO: Test this exhaustively)
+                    while(currentSchema.getType().equals("array")) {
+                        currentSchema = ((ArraySchema) currentSchema).getItems();
+                    }
+
                     NestingType currentNestingType = getNestingTypeFromString(((Schema) currentSchema.getProperties().get(data)).getType());
 
                     if(currentNestingType.equals(NestingType.ARRAY)) {

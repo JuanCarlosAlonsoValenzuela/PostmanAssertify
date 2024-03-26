@@ -1,0 +1,35 @@
+[
+  {
+    "cca3": "JPN",
+    "maps": {
+      "googleMaps": "https://goo.gl/maps/NGTLSCSrA8bMrvnX9",
+      "openStreetMaps": "https://www.openstreetmap.org/relation/382313"
+    },
+    "users": [
+      {
+        "name": "user1",
+        "age": 25,
+        "admin": true
+      },
+      {
+        "name": "second user",
+        "age": 48,
+        "admin": false
+      }
+    ]
+  },
+  {
+    "cca3": "ESP",
+    "maps": {
+      "googleMaps": "https://goo.gl/maps/138JaXW8EZzRVitY9",
+      "openStreetMaps": "https://www.openstreetmap.org/relation/1311341"
+    },
+    "users": [
+      {
+        "name": "Admin",
+        "age": 12,
+        "admin": true
+      }
+    ]
+  }
+]

@@ -1,0 +1,54 @@
+openapi: 3.0.0
+servers:
+  - url: 'https://restcountries.com'
+info:
+  description: 'REST countries API'
+  title: REST countries API
+  version: v3.1.0
+paths:
+  /v3.1/alpha:
+    get:
+      operationId: v31ListOfCodes
+      parameters:
+        - name: codes
+          description: Search by cca2, ccn3, cca3 or cioc country code (yes, any!)
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    cca3:
+                      type: string
+                    maps:
+                      type: object
+                      properties:
+                        googleMaps:
+                          type: string
+                        openStreetMaps:
+                          type: string
+                    users:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          age:
+                            type: integer
+                          admin:
+                            type: boolean
+#        default:
+#          description: Other responses
+#components:
+#  schemas: { }

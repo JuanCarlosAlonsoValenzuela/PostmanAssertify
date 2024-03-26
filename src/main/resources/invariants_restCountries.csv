@@ -1,0 +1,51 @@
+pptname;invariant;invariantType;variables;tp;postmanAssertion
+/v3.1/alpha&v31ListOfCodes&200%array():::ENTER;size(input.codes[]) >= 1;daikon.inv.unary.scalar.LowerBound;(size(input.codes[..]));1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200%array():::EXIT;size(input.codes[]) >= 1;daikon.inv.unary.scalar.LowerBound;(size(input.codes[..]));1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200%array():::EXIT;size(return.array[]) >= 1;daikon.inv.unary.scalar.LowerBound;(size(return.array[..]));1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200%array():::EXIT;size(input.codes[]) >= size(return.array[]);daikon.inv.binary.twoScalar.IntGreaterEqual;(size(input.codes[..]), size(return.array[..]));1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::ENTER;size(input.codes[]) >= 1;daikon.inv.unary.scalar.LowerBound;(size(input.codes[..]));1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;return.demonyms.eng.f == return.demonyms.eng.m;daikon.inv.binary.twoString.StringEqual;(return.demonyms.eng.f, return.demonyms.eng.m);1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;size(return.latlng[]) == size(return.capitalInfo.latlng[]);daikon.inv.binary.twoScalar.IntEqual;(size(return.latlng[..]), size(return.capitalInfo.latlng[..]));1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;LENGTH(return.cca2)==2;daikon.inv.unary.string.FixedLengthString;(return.cca2);1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;LENGTH(return.ccn3)==3;daikon.inv.unary.string.FixedLengthString;(return.ccn3);1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;LENGTH(return.cca3)==3;daikon.inv.unary.string.FixedLengthString;(return.cca3);1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;LENGTH(return.cioc)==3;daikon.inv.unary.string.FixedLengthString;(return.cioc);1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;"return.status one of { ""officially-assigned"", ""user-assigned"" }";daikon.inv.unary.string.OneOfString;(return.status);1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;LENGTH(return.idd.root)==2;daikon.inv.unary.string.FixedLengthString;(return.idd.root);1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;return.idd.root is Numeric;daikon.inv.unary.string.IsNumeric;(return.idd.root);1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;All the elements of return.borders[] have LENGTH=3;daikon.inv.unary.stringsequence.SequenceFixedLengthString;(return.borders[..]);1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;return.area >= -1.0;daikon.inv.unary.scalar.LowerBoundFloat;(return.area);1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;"return.flag == ""??""";daikon.inv.unary.string.OneOfString;(return.flag);1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;LENGTH(return.flag)==2;daikon.inv.unary.string.FixedLengthString;(return.flag);1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;return.maps.googleMaps is Url;daikon.inv.unary.string.IsUrl;(return.maps.googleMaps);1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;return.population >= 0;daikon.inv.unary.scalar.LowerBound;(return.population);1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;LENGTH(return.fifa)==3;daikon.inv.unary.string.FixedLengthString;(return.fifa);1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;"return.car.side one of { ""left"", ""right"" }";daikon.inv.unary.string.OneOfString;(return.car.side);1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;return.flags.png is Url;daikon.inv.unary.string.IsUrl;(return.flags.png);1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;return.flags.svg is Url;daikon.inv.unary.string.IsUrl;(return.flags.svg);1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;LENGTH(return.coatOfArms.png)==55;daikon.inv.unary.string.FixedLengthString;(return.coatOfArms.png);1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;return.coatOfArms.png is Url;daikon.inv.unary.string.IsUrl;(return.coatOfArms.png);1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;LENGTH(return.coatOfArms.svg)==55;daikon.inv.unary.string.FixedLengthString;(return.coatOfArms.svg);1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;return.coatOfArms.svg is Url;daikon.inv.unary.string.IsUrl;(return.coatOfArms.svg);1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;"return.startOfWeek one of { ""monday"", ""saturday"", ""sunday"" }";daikon.inv.unary.string.OneOfString;(return.startOfWeek);1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;size(input.codes[]) >= 1;daikon.inv.unary.scalar.LowerBound;(size(input.codes[..]));1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;size(return.tld[]) >= 1;daikon.inv.unary.scalar.LowerBound;(size(return.tld[..]));1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;size(return.idd.suffixes[]) >= 1;daikon.inv.unary.scalar.LowerBound;(size(return.idd.suffixes[..]));1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;size(return.capital[]) one of { 1, 2, 3 };daikon.inv.unary.scalar.OneOfScalar;(size(return.capital[..]));1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;size(return.altSpellings[]) >= 1;daikon.inv.unary.scalar.LowerBound;(size(return.altSpellings[..]));1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;size(return.latlng[]) == 2;daikon.inv.unary.scalar.OneOfScalar;(size(return.latlng[..]));1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;size(return.borders[]) >= 1;daikon.inv.unary.scalar.LowerBound;(size(return.borders[..]));1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;size(return.car.signs[]) one of { 1, 2 };daikon.inv.unary.scalar.OneOfScalar;(size(return.car.signs[..]));1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;size(return.timezones[]) >= 1;daikon.inv.unary.scalar.LowerBound;(size(return.timezones[..]));1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;size(return.continents[]) one of { 1, 2 };daikon.inv.unary.scalar.OneOfScalar;(size(return.continents[..]));1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;size(return.capitalInfo.latlng[]) == 2;daikon.inv.unary.scalar.OneOfScalar;(size(return.capitalInfo.latlng[..]));1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;size(return.capital[]) <= size(return.altSpellings[]);daikon.inv.binary.twoScalar.IntLessEqual;(size(return.capital[..]), size(return.altSpellings[..]));1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;size(return.capital[]) <= size(return.borders[]);daikon.inv.binary.twoScalar.IntLessEqual;(size(return.capital[..]), size(return.borders[..]));1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;size(return.altSpellings[]) >= size(return.car.signs[]);daikon.inv.binary.twoScalar.IntGreaterEqual;(size(return.altSpellings[..]), size(return.car.signs[..]);1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;size(return.altSpellings[]) >= size(return.continents[]);daikon.inv.binary.twoScalar.IntGreaterEqual;(size(return.altSpellings[..]), size(return.continents[..]));1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;size(return.latlng[]) >= size(return.car.signs[]);daikon.inv.binary.twoScalar.IntGreaterEqual;(size(return.latlng[..]), size(return.car.signs[..]));1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;size(return.latlng[]) >= size(return.continents[]);daikon.inv.binary.twoScalar.IntGreaterEqual;(size(return.latlng[..]), size(return.continents[..]));1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;size(return.borders[]) >= size(return.car.signs[]);daikon.inv.binary.twoScalar.IntGreaterEqual;(size(return.borders[..]), size(return.car.signs[..]));1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;size(return.borders[]) >= size(return.continents[]);daikon.inv.binary.twoScalar.IntGreaterEqual;(size(return.borders[..]), size(return.continents[..]));1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;size(return.car.signs[]) <= size(return.capitalInfo.latlng[]);daikon.inv.binary.twoScalar.IntLessEqual;(size(return.car.signs[..]), size(return.capitalInfo.latlng[..]));1;TODO: Postman Assertion
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;size(return.continents[]) <= size(return.capitalInfo.latlng[]);daikon.inv.binary.twoScalar.IntLessEqual;(size(return.continents[..]), size(return.capitalInfo.latlng[..]));1;TODO: Postman Assertion

@@ -104,12 +104,52 @@ public class TestCasesE2ETests {
                             sizes
                         spatial
                           director_timeline
-
                  */
                 Arguments.of(
                         "src/test/resources/testScriptGeneration/test_003/oas_vimeo.yaml",
                         "src/test/resources/testScriptGeneration/test_003/invariants_test_003.csv",
                         "src/test/resources/testScriptGeneration/test_003/oracle_test_script_003.js"
+                ),
+                /* e2e_test_script_004: Response of type array
+                Generates test script for the response schema of the v31ListOfCodes operation of the RESTCountries
+                API. This API operation is an array with nested objects. Nesting levels:
+
+                    /v3.1/alpha&v31ListOfCodes&200%array():::EXIT
+                        /v3.1/alpha&v31ListOfCodes&200():::EXIT
+                 */
+                Arguments.of(
+                        "src/test/resources/testScriptGeneration/test_004/oas_v31ListOfCodes_restCountries.yaml",
+                        "src/test/resources/testScriptGeneration/test_004/invariants_test_004.csv",
+                        "src/test/resources/testScriptGeneration/test_004/oracle_test_script_004.js"
+                ),
+                /* e2e_test_script_005: Response of type array 2
+                Generates test script for a modified version of the response schema of the v31ListOfCodes operation of
+                the RESTCountries with an additional nesting level. Nesting levels:
+
+                    /v3.1/alpha&v31ListOfCodes&200%array():::EXIT
+                        /v3.1/alpha&v31ListOfCodes&200():::EXIT
+                            /v3.1/alpha&v31ListOfCodes&200&users():::EXIT
+
+                 */
+                Arguments.of(
+                        "src/test/resources/testScriptGeneration/test_005/oas_v31ListOfCodes_restCountries_modified.yaml",
+                        "src/test/resources/testScriptGeneration/test_005/invariants_test_005.csv",
+                        "src/test/resources/testScriptGeneration/test_005/oracle_test_script_005.js"
+                ),
+                /* e2e_test_script_006: Response of type array 3
+                Generates test script for a modified version of the response schema of the v31ListOfCodes operation of
+                the RESTCountries with two nested arrays in the first nesting level. Nesting levels:
+
+                    /v3.1/alpha&v31ListOfCodes&200%array():::EXIT
+                        /v3.1/alpha&v31ListOfCodes&200%array%array():::EXIT
+                            /v3.1/alpha&v31ListOfCodes&200():::EXIT
+                                /v3.1/alpha&v31ListOfCodes&200&users():::EXIT
+
+                 */
+                Arguments.of(
+                        "src/test/resources/testScriptGeneration/test_006/oas_v31ListOfCodes_restCountries_modified.yaml",
+                        "src/test/resources/testScriptGeneration/test_006/invariants_test_006.csv",
+                        "src/test/resources/testScriptGeneration/test_006/oracle_test_script_006.js"
                 )
 
         );
