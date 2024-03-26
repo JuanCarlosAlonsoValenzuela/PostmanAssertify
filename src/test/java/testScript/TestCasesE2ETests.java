@@ -138,7 +138,7 @@ public class TestCasesE2ETests {
                 ),
                 /* e2e_test_script_006: Response of type array 3
                 Generates test script for a modified version of the response schema of the v31ListOfCodes operation of
-                the RESTCountries with two nested arrays in the first nesting level. Nesting levels:
+                the RESTCountries with TWO nested arrays in the first nesting level. Nesting levels:
 
                     /v3.1/alpha&v31ListOfCodes&200%array():::EXIT
                         /v3.1/alpha&v31ListOfCodes&200%array%array():::EXIT
@@ -150,6 +150,22 @@ public class TestCasesE2ETests {
                         "src/test/resources/testScriptGeneration/test_006/oas_v31ListOfCodes_restCountries_modified.yaml",
                         "src/test/resources/testScriptGeneration/test_006/invariants_test_006.csv",
                         "src/test/resources/testScriptGeneration/test_006/oracle_test_script_006.js"
+                ),
+                /* e2e_test_script_007: Response of type array 4
+                Generates test script for a modified version of the response schema of the v31ListOfCodes operation of
+                the RESTCountries with THREE nested arrays in the first nesting level. Nesting levels:
+
+                    /v3.1/alpha&v31ListOfCodes&200%array():::EXIT
+                        /v3.1/alpha&v31ListOfCodes&200%array%array():::EXIT
+                            /v3.1/alpha&v31ListOfCodes&200%array%array%array():::EXIT
+                                /v3.1/alpha&v31ListOfCodes&200():::EXIT
+                                    /v3.1/alpha&v31ListOfCodes&200&users():::EXIT
+
+                 */
+                Arguments.of(
+                        "src/test/resources/testScriptGeneration/test_007/oas_v31ListOfCodes_restCountries_modified.yaml",
+                        "src/test/resources/testScriptGeneration/test_007/invariants_test_007.csv",
+                        "src/test/resources/testScriptGeneration/test_007/oracle_test_script_007.js"
                 )
 
         );
