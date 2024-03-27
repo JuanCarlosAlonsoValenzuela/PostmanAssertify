@@ -119,7 +119,7 @@ public class APIOperation {
         for(Parameter parameter: this.parameters) {
 
             // Generate the script that extracts the variable value (always as string)
-            res = res + generateGetVariableValueScript(parameter);
+            res = res + generateGetVariableValueScript(parameter, this.endpoint);
 
             // Decode URI component and generate a script that converts the variable into the
             // corresponding datatype, after checking that the variable is not null

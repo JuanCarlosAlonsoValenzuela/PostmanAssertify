@@ -15,7 +15,7 @@ public class ParametersScript {
     // Given a parameter (its source can be one of: query, path, form or header), this function generates the Postman code
     // to obtain its value. The resulting variable will be of type string, use the generateCastingVariableScript function
     // to change its type.
-    public static String generateGetVariableValueScript(Parameter parameter) {
+    public static String generateGetVariableValueScript(Parameter parameter, String endpoint) {
 
         String parameterName = parameter.getName();
         String parameterIn = parameter.getIn();
@@ -25,20 +25,33 @@ public class ParametersScript {
 
 
         String res = "// Getting value of the " + parameterName + " " + parameterIn + " parameter \n";
-        res = switch (parameterIn) {
-            case "query" -> res + inputVariableName + " = pm.request.url.query.get(\"" + parameterName + "\");\n";
-            // TODO: CHANGE IMPLEMENTATION, pathParamValue = pm.request.url.path[2]
-            case "path" -> res + inputVariableName + " = pm.request.url.variables.get(\"" + parameterName + "\");\n";
+        res += switch (parameterIn) {
+            case "query" -> inputVariableName + " = pm.request.url.query.get(\"" + parameterName + "\");\n";
+            case "path" -> inputVariableName + getVariableValueOfPathParameter(parameterName, endpoint);
             case "form" ->
                 // TODO: IMPLEMENT (requires test cases)
                     throw new RuntimeException("Form parameters not implemented yet");
             // TODO: TEST AGAIN
-            case "header" -> res + inputVariableName + " = pm.request.headers.get(\"" + parameterName + "\");\n";
+            case "header" -> inputVariableName + " = pm.request.headers.get(\"" + parameterName + "\");\n";
             default -> throw new RuntimeException("Unexpected value for parameter source, got: " + parameterIn);
         };
 
         return  res;
 
+    }
+
+
+    // TODO: DOCUMENT
+    private static String getVariableValueOfPathParameter(String parameterName, String endpoint) {
+
+        String[] endpointElements = endpoint.split("/");
+        for(int i = 0; i < endpointElements.length; i++) {
+            String endpointElement = endpointElements[i];
+            if(endpointElement.equals("{" + parameterName + "}")) {
+                return " = pm.request.url.path[" + i + "];\n";
+            }
+        }
+        throw new NullPointerException("Path parameter " + parameterName + " not found in endpoint: " + endpoint);
     }
 
 
