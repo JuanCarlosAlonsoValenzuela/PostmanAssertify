@@ -1,0 +1,5 @@
+pptname;invariant;invariantType;variables;postmanAssertion;tp
+/users/playlists&createPlaylist&201():::EXIT;input.name == return.name;daikon.inv.binary.twoString.StringEqual;(input.name, return.name);TODO: IMPLEMENT;1
+/users/playlists&createPlaylist&201():::EXIT;input.description == return.description;daikon.inv.binary.twoString.StringEqual;(input.description, return.description);TODO: IMPLEMENT;1
+/users/playlists&createPlaylist&201():::EXIT;input.public == return.public;daikon.inv.binary.twoScalar.IntEqual;(input.public, return.public);TODO: IMPLEMENT;1
+/users/playlists&createPlaylist&201():::EXIT;input.collaborative == return.collaborative;daikon.inv.binary.twoScalar.IntEqual;(input.collaborative, return.collaborative);TODO: IMPLEMENT;1

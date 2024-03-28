@@ -62,6 +62,12 @@ public class InputParametersScriptGenerationTests {
                         "src/test/resources/inputParametersScriptGeneration/test_006/oas_header_parameters_array_primitive.yaml",
                         "src/test/resources/inputParametersScriptGeneration/test_006/invariants_test_006.csv",
                         "src/test/resources/inputParametersScriptGeneration/test_006/oracle_input_parameters_script_006.js"
+                ),
+                // ipsg_input_parameters_script_007: Simple request body parameters
+                Arguments.of(
+                        "src/test/resources/inputParametersScriptGeneration/test_007/oas_request_body.yaml",
+                        "src/test/resources/inputParametersScriptGeneration/test_007/invariants_test_007.csv",
+                        "src/test/resources/inputParametersScriptGeneration/test_007/oracle_input_parameters_script_007.js"
                 )
         );
     }

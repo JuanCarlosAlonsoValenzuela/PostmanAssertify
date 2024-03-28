@@ -125,21 +125,23 @@ public class APIOperation {
         String res = "";
 
         // Get values of the query, path and form parameters
-        for(Parameter parameter: this.parameters) {
+        List<Parameter> parameters = this.parameters;
+        if (parameters != null) {
+            for(Parameter parameter: this.parameters) {
 
-            // Generate the script that extracts the variable value (always as string)
-            // TODO: Add server
-            res = res + generateGetVariableValueScript(parameter, this.server + this.endpoint);
+                // Generate the script that extracts the variable value (always as string)
+                res = res + generateGetVariableValueScript(parameter, this.server + this.endpoint);
 
-            // Decode URI component and generate a script that converts the variable into the
-            // corresponding datatype, after checking that the variable is not null
-            res = res + generateCastingVariableScript(parameter);
+                // Decode URI component and generate a script that converts the variable into the
+                // corresponding datatype, after checking that the variable is not null
+                res = res + generateCastingVariableScript(parameter);
 
 
-            if(DEBUG_MODE) {
-                res = res + printVariableValueScript(getInputVariableName(parameter), "");
+                if(DEBUG_MODE) {
+                    res = res + printVariableValueScript(getInputVariableName(parameter), "");
+                }
+
             }
-
         }
 
         // Get values of the body parameters

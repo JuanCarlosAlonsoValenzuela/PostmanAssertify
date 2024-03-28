@@ -39,10 +39,7 @@ public class RequestBodyScript {
         Set<String> requestSchemaKeyset = requestSchema.getProperties().keySet();
         for(String requestVariableName: requestSchemaKeyset) {
 
-            // TODO: Consider that the body can be an array
-            Schema variableSchema = (Schema) requestSchema.getProperties().get(requestVariableName);
-
-            res = res + generateSingleBodyPropertyScript(variableSchema);
+            res = res + generateSingleBodyPropertyScript(requestVariableName);
 
         }
 
@@ -52,14 +49,10 @@ public class RequestBodyScript {
 
 
     // TODO: DOCUMENT
-    private static String generateSingleBodyPropertyScript(Schema variableSchema) {
+    private static String generateSingleBodyPropertyScript(String requestVariableName) {
 
         // Get variable name in the postman format
-        String inputVariableName = getInputVariableName(variableSchema);
-
-        // Variable name in the OAS
-        String requestVariableName = variableSchema.getName();
-
+        String inputVariableName = getInputVariableName(requestVariableName);
 
         // Add variable assignation
         String res = "// Getting value of the " + requestVariableName + " property of the request body\n";

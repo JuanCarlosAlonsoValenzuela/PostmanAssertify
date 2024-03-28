@@ -221,6 +221,7 @@ public class TestScriptGenerationTests {
         // TODO: Test with multiple response codes
         // TODO: Values to consider as null
         // TODO: Fix indentation
+        // TODO: Test with nested request body properties
     }
 
     @ParameterizedTest

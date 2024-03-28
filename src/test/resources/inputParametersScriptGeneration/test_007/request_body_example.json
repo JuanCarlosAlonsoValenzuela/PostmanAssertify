@@ -1,0 +1,10 @@
+{
+  "name": "Name with spaces",
+  "age": 20,
+  "score": 99.9,
+  "admin": true,
+  "name_array": ["element 1", "element 2","element 3"],
+  "age_array": [1, 3, -2],
+  "score_array": [33.3, -11.111, 22.22],
+  "admin_array": [true, false, false,false, true]
+}

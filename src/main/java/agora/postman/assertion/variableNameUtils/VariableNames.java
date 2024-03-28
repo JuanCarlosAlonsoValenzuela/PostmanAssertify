@@ -17,8 +17,8 @@ public class VariableNames {
 
     // Used to get an input variable name in the pre-request script
     // TODO: Must be consistent with getPostmanVariableName method
-    public static String getInputVariableName(Schema schema) {
-        return getInputVariableName(schema.getName(), schema.getType());
+    public static String getInputVariableName(String variableName) {
+        return getInputVariableName(variableName, "");
     }
 
     // Used to get an input variable name in the pre-request script
