@@ -166,20 +166,49 @@ public class TestCasesE2ETests {
                         "src/test/resources/testScriptGeneration/test_007/oas_v31ListOfCodes_restCountries_modified.yaml",
                         "src/test/resources/testScriptGeneration/test_007/invariants_test_007.csv",
                         "src/test/resources/testScriptGeneration/test_007/oracle_test_script_007.js"
+                ),
+                /* e2e_test_script_008: Response property of type nested array of object
+                Generates test script for a modified version of the getArtistAlbums operation of the Spotify API with
+                TWO nested arrays as value of the "artists" property. Nesting levels:
+
+                    /artists/{id}/albums&getArtistAlbums&200():::EXIT
+                        /artists/{id}/albums&getArtistAlbums&200&items():::EXIT
+                            /artists/{id}/albums&getArtistAlbums&200&items&artists%array():::EXIT
+                                /artists/{id}/albums&getArtistAlbums&200&items&artists():::EXIT
+                                    /artists/{id}/albums&getArtistAlbums&200&items&artists&arrayProperty():::EXIT
+
+                 */
+                Arguments.of(
+                        "src/test/resources/testScriptGeneration/test_008/oas_spotify_artistAlbums_modified.yaml",
+                        "src/test/resources/testScriptGeneration/test_008/invariants_test_008.csv",
+                        "src/test/resources/testScriptGeneration/test_008/oracle_test_script_008.js"
+                ),
+                /* e2e_test_script_009: Response property of type nested array of object 2
+                Generates test script for a modified version of the getArtistAlbums operation of the Spotify API with
+                THREE nested arrays as value of the "artists" property. Nesting levels:
+
+                    /artists/{id}/albums&getArtistAlbums&200():::EXIT
+                        /artists/{id}/albums&getArtistAlbums&200&items():::EXIT
+                            /artists/{id}/albums&getArtistAlbums&200&items&artists%array():::EXIT
+                                /artists/{id}/albums&getArtistAlbums&200&items&artists%array%array():::EXIT
+                                    /artists/{id}/albums&getArtistAlbums&200&items&artists():::EXIT
+                                        /artists/{id}/albums&getArtistAlbums&200&items&artists&links():::EXIT
+
+                 */
+                Arguments.of(
+                        "src/test/resources/testScriptGeneration/test_009/oas_spotify_artistAlbums_modified.yaml",
+                        "src/test/resources/testScriptGeneration/test_009/invariants_test_009.csv",
+                        "src/test/resources/testScriptGeneration/test_009/oracle_test_script_009.js"
                 )
 
         );
 
+        // TODO: Response with nested arrays in both root and response property
         // TODO: Test with multiple API operations
         // TODO: Test with mulitple response codes
-        // TODO: Response of type array
         // TODO: Multiple Nested arrays (both in root and in deep program point)
-        // TODO: Nesting levels WITHOUT test cases/invariants (e.g., Vimeo)
-        // TODO: Different datatypes
         // TODO: Values to consider as null
-        // TODO: Test with both unary and binary invariants
         // TODO: Fix indentation
-        // TODO: Rewritten variable names
     }
 
     // TODO: Consider renaming this class (not exactly endToEnd)
@@ -199,6 +228,7 @@ public class TestCasesE2ETests {
 
         // Generate the test script
         String testScript = apiOperation.generateTestScript(valuesToConsiderAsNull);
+        System.out.println(testScript);
 
         String[] generatedTestScript = testScript.split("\n");
 

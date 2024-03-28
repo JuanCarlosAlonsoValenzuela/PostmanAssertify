@@ -36,6 +36,10 @@ pm.test("return.page >= 1", () => {
 // 200&data
 response_data = response.data
 if(response_data != null) {
+// Printing value of response_data variable
+console.log("Printing value of response_data");
+console.log(response_data);
+
 	for(response_data_index in response_data) {
 		response_data_element = response_data[response_data_index]
 // Printing value of response_data_element variable
@@ -72,6 +76,10 @@ pm.test("return.edit_session.is_music_licensed == true", () => {
 		// 200&data&user&websites
 		response_data_element_user_websites = response_data_element_user.websites
 		if(response_data_element_user_websites != null) {
+		// Printing value of response_data_element_user_websites variable
+        console.log("Printing value of response_data_element_user_websites");
+        console.log(response_data_element_user_websites);
+
 			for(response_data_element_user_websites_index in response_data_element_user_websites) {
 				response_data_element_user_websites_element = response_data_element_user_websites[response_data_element_user_websites_index]
 		// Printing value of response_data_element_user_websites_element variable
@@ -103,6 +111,10 @@ pm.test("return.edit_session.is_music_licensed == true", () => {
 		// 200&data&user&skills
 		response_data_element_user_skills = response_data_element_user.skills
 		if(response_data_element_user_skills != null) {
+		// Printing value of response_data_element_user_skills variable
+        console.log("Printing value of response_data_element_user_skills");
+        console.log(response_data_element_user_skills);
+
 			for(response_data_element_user_skills_index in response_data_element_user_skills) {
 				response_data_element_user_skills_element = response_data_element_user_skills[response_data_element_user_skills_index]
 		// Printing value of response_data_element_user_skills_element variable
@@ -143,6 +155,10 @@ pm.test("return.edit_session.is_music_licensed == true", () => {
 			// 200&data&user&pictures&sizes
 			response_data_element_user_pictures_sizes = response_data_element_user_pictures.sizes
 			if(response_data_element_user_pictures_sizes != null) {
+			// Printing value of response_data_element_user_pictures_sizes variable
+            console.log("Printing value of response_data_element_user_pictures_sizes");
+            console.log(response_data_element_user_pictures_sizes);
+
 				for(response_data_element_user_pictures_sizes_index in response_data_element_user_pictures_sizes) {
 					response_data_element_user_pictures_sizes_element = response_data_element_user_pictures_sizes[response_data_element_user_pictures_sizes_index]
 			// Printing value of response_data_element_user_pictures_sizes_element variable
@@ -174,6 +190,10 @@ pm.test("return.edit_session.is_music_licensed == true", () => {
 	// 200&data&categories
 	response_data_element_categories = response_data_element.categories
 	if(response_data_element_categories != null) {
+	    // Printing value of response_data_element_categories variable
+        console.log("Printing value of response_data_element_categories");
+        console.log(response_data_element_categories);
+
 		for(response_data_element_categories_index in response_data_element_categories) {
 			response_data_element_categories_element = response_data_element_categories[response_data_element_categories_index]
 	// Printing value of response_data_element_categories_element variable
@@ -225,6 +245,10 @@ pm.test("return.edit_session.is_music_licensed == true", () => {
 			// 200&data&categories&pictures&sizes
 			response_data_element_categories_element_pictures_sizes = response_data_element_categories_element_pictures.sizes
 			if(response_data_element_categories_element_pictures_sizes != null) {
+			    // Printing value of response_data_element_categories_element_pictures_sizes variable
+                console.log("Printing value of response_data_element_categories_element_pictures_sizes");
+                console.log(response_data_element_categories_element_pictures_sizes);
+
 				for(response_data_element_categories_element_pictures_sizes_index in response_data_element_categories_element_pictures_sizes) {
 					response_data_element_categories_element_pictures_sizes_element = response_data_element_categories_element_pictures_sizes[response_data_element_categories_element_pictures_sizes_index]
 			// Printing value of response_data_element_categories_element_pictures_sizes_element variable
@@ -274,6 +298,10 @@ pm.test("return.edit_session.is_music_licensed == true", () => {
 		// 200&data&categories&subcategories
 		response_data_element_categories_element_subcategories = response_data_element_categories_element.subcategories
 		if(response_data_element_categories_element_subcategories != null) {
+		    // Printing value of response_data_element_categories_element_subcategories variable
+            console.log("Printing value of response_data_element_categories_element_subcategories");
+            console.log(response_data_element_categories_element_subcategories);
+
 			for(response_data_element_categories_element_subcategories_index in response_data_element_categories_element_subcategories) {
 				response_data_element_categories_element_subcategories_element = response_data_element_categories_element_subcategories[response_data_element_categories_element_subcategories_index]
 		// Printing value of response_data_element_categories_element_subcategories_element variable
@@ -310,6 +338,10 @@ pm.test("return.edit_session.is_music_licensed == true", () => {
 			// 200&data&categories&icon&sizes
 			response_data_element_categories_element_icon_sizes = response_data_element_categories_element_icon.sizes
 			if(response_data_element_categories_element_icon_sizes != null) {
+			    // Printing value of response_data_element_categories_element_icon_sizes variable
+                console.log("Printing value of response_data_element_categories_element_icon_sizes");
+                console.log(response_data_element_categories_element_icon_sizes);
+
 				for(response_data_element_categories_element_icon_sizes_index in response_data_element_categories_element_icon_sizes) {
 					response_data_element_categories_element_icon_sizes_element = response_data_element_categories_element_icon_sizes[response_data_element_categories_element_icon_sizes_index]
 			// Printing value of response_data_element_categories_element_icon_sizes_element variable
@@ -368,6 +400,10 @@ pm.test("return.edit_session.is_music_licensed == true", () => {
 		// 200&data&pictures&sizes
 		response_data_element_pictures_sizes = response_data_element_pictures.sizes
 		if(response_data_element_pictures_sizes != null) {
+		    // Printing value of response_data_element_pictures_sizes variable
+        	console.log("Printing value of response_data_element_pictures_sizes");
+        	console.log(response_data_element_pictures_sizes);
+
 			for(response_data_element_pictures_sizes_index in response_data_element_pictures_sizes) {
 				response_data_element_pictures_sizes_element = response_data_element_pictures_sizes[response_data_element_pictures_sizes_index]
 		// Printing value of response_data_element_pictures_sizes_element variable
@@ -410,6 +446,10 @@ pm.test("return.edit_session.is_music_licensed == true", () => {
 	// 200&data&tags
 	response_data_element_tags = response_data_element.tags
 	if(response_data_element_tags != null) {
+	    // Printing value of response_data_element_tags variable
+        console.log("Printing value of response_data_element_tags");
+        console.log(response_data_element_tags);
+
 		for(response_data_element_tags_index in response_data_element_tags) {
 			response_data_element_tags_element = response_data_element_tags[response_data_element_tags_index]
 	// Printing value of response_data_element_tags_element variable
@@ -455,6 +495,10 @@ pm.test("return.edit_session.is_music_licensed == true", () => {
 			// 200&data&uploader&pictures&sizes
 			response_data_element_uploader_pictures_sizes = response_data_element_uploader_pictures.sizes
 			if(response_data_element_uploader_pictures_sizes != null) {
+			    // Printing value of response_data_element_uploader_pictures_sizes variable
+                console.log("Printing value of response_data_element_uploader_pictures_sizes");
+                console.log(response_data_element_uploader_pictures_sizes);
+
 				for(response_data_element_uploader_pictures_sizes_index in response_data_element_uploader_pictures_sizes) {
 					response_data_element_uploader_pictures_sizes_element = response_data_element_uploader_pictures_sizes[response_data_element_uploader_pictures_sizes_index]
 			// Printing value of response_data_element_uploader_pictures_sizes_element variable
@@ -495,6 +539,10 @@ pm.test("return.edit_session.is_music_licensed == true", () => {
 		// 200&data&spatial&director_timeline
 		response_data_element_spatial_director_timeline = response_data_element_spatial.director_timeline
 		if(response_data_element_spatial_director_timeline != null) {
+		    // Printing value of response_data_element_spatial_director_timeline variable
+            console.log("Printing value of response_data_element_spatial_director_timeline");
+            console.log(response_data_element_spatial_director_timeline);
+
 			for(response_data_element_spatial_director_timeline_index in response_data_element_spatial_director_timeline) {
 				response_data_element_spatial_director_timeline_element = response_data_element_spatial_director_timeline[response_data_element_spatial_director_timeline_index]
 		// Printing value of response_data_element_spatial_director_timeline_element variable

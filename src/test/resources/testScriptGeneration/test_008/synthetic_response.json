@@ -1,0 +1,66 @@
+{
+  "limit":2,
+  "total":417,
+  "items":[
+    {
+      "id":"6hrZ1awK85nsFnLgClaNRq",
+      "artists":[
+        [
+          {
+            "name":"Artist 1",
+            "type":"artist",
+            "links":[
+              {
+                "url":"https://www.url1.com",
+                "available":true
+              },
+              {
+                "url":"https://www.url2.com",
+                "available":true
+              }
+            ]
+          },
+          {
+            "name":"Artist 2",
+            "type":"artist",
+            "links":[
+              {
+                "url":"https://www.urlArtist2.com",
+                "available":true
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "name":"Artist 3",
+            "type":"artist",
+            "links":[
+              {
+                "url":"https://www.urlArtist4.com",
+                "available":true
+              }
+            ]
+          }
+        ]
+      ]
+    },
+    {
+      "id":"6ARRrYhKDTUXIu8MLR1Yvb",
+      "artists":[
+        [
+          {
+            "name":"Final independent artist",
+            "type":"artist",
+            "links":[
+              {
+                "url":"https://www.urlFinal.com",
+                "available":true
+              }
+            ]
+          }
+        ]
+      ]
+    }
+  ]
+}

@@ -7,6 +7,9 @@ import agora.postman.assertion.testScript.nestingLevelTree.Tree;
 import java.util.Collections;
 import java.util.Map;
 
+import static agora.postman.assertion.Main.DEBUG_MODE;
+import static agora.postman.assertion.debug.DebugUtils.printVariableValueScript;
+
 /**
  * @author Juan C. Alonso
  */
@@ -24,9 +27,11 @@ public class ArrayNestingSnippets {
 
         // Iterate over all the array nesting levels
         for(int i=1; i<= maxArrayNestingLevel; i++) {
-            // Get nesting level variable
-            // parentBaseVariable is an array, we have to iterate over it
-            snippet += "if(" + parentBaseVariable + " != null) {\n";
+            if(i > 1) {
+                // Get nesting level variable
+                // parentBaseVariable is an array, we have to iterate over it
+                snippet += "if(" + parentBaseVariable + " != null) {\n";
+            }
 
             // Generate test cases of this nesting level
             snippet += generateProgramPointTestCases(arrayNestingProgramPoints.get(i), parentBaseVariable, indentationStr);
@@ -39,11 +44,33 @@ public class ArrayNestingSnippets {
             parentBaseVariable = accessNextArrayNestingLevelSnippet.newParentBaseVariable();
             snippet += accessNextArrayNestingLevelSnippet.snippet();
 
+            if(DEBUG_MODE) {
+                snippet += printVariableValueScript(parentBaseVariable, "");
+            }
+
         }
 
         return new ScriptSnippet(parentBaseVariable, snippet);
 
     }
+
+    // TODO: Document and add more code
+    // TODO: Implement proper indentation
+//    public static ScriptSnippet generatePropertyArrayNestingSnippet(
+//            Map<Integer, ProgramPoint> arrayNestingProgramPoints, String parentBaseVariable, String indentationStr
+//    ) {
+//        String snippet = "";
+//
+//        int maxArrayNestingLevel = Collections.max(arrayNestingProgramPoints.keySet());
+//
+//        // Iterate over all the array nesting levels
+//        for(int i=1; i<= maxArrayNestingLevel; i++) {
+//            // Update parentBaseVariable
+//            snippet +=
+//
+//        }
+//
+//    }
 
     // TODO: DOCUMENT
     // TODO: Rename

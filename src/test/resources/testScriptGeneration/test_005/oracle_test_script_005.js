@@ -5,7 +5,6 @@ response = pm.response.json();
 console.log("Printing value of response");
 console.log(response);
 
-if(response != null) {
 // Invariants of this nesting level:
 // size(input.codes[]) >= size(return.array[])
 pm.test("size(input.codes[]) >= size(return.array[])", () => {
@@ -39,6 +38,10 @@ pm.test("size(input.codes[]) >= size(return.array[])", () => {
 // Access to the next nesting level
 	for(response_index in response) {
 		response_element = response[response_index]
+// Printing value of response_element variable
+console.log("Printing value of response_element");
+console.log(response_element);
+
 // Invariants of this nesting level:
 // LENGTH(return.cca3)==3
 pm.test("LENGTH(return.cca3)==3", () => {
@@ -73,6 +76,10 @@ pm.test("return.maps.googleMaps is Url", () => {
 // 200&users
 response_element_users = response_element.users
 if(response_element_users != null) {
+// Printing value of response_element_users variable
+console.log("Printing value of response_element_users");
+console.log(response_element_users);
+
 	for(response_element_users_index in response_element_users) {
 		response_element_users_element = response_element_users[response_element_users_index]
 // Printing value of response_element_users_element variable
@@ -97,5 +104,4 @@ pm.test("return.age >= 1", () => {
 	} // Closing for response_element
 } // Closing if response_element
 
-} // Closing if array nesting level 1
 } // Closing for array nesting level 1

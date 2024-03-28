@@ -57,6 +57,10 @@ pm.test("return.total >= size(return.businesses[])", () => {
 // 200&businesses
 response_businesses = response.businesses
 if(response_businesses != null) {
+// Printing value of response_businesses variable
+console.log("Printing value of response_businesses");
+console.log(response_businesses);
+
 	for(response_businesses_index in response_businesses) {
 		response_businesses_element = response_businesses[response_businesses_index]
 // Printing value of response_businesses_element variable
@@ -160,6 +164,10 @@ pm.test("size(return.location.display_address[]) >= 1", () => {
 	// 200&businesses&categories
 	response_businesses_element_categories = response_businesses_element.categories
 	if(response_businesses_element_categories != null) {
+	// Printing value of response_businesses_element_categories variable
+	console.log("Printing value of response_businesses_element_categories");
+	console.log(response_businesses_element_categories);
+
 		for(response_businesses_element_categories_index in response_businesses_element_categories) {
 			response_businesses_element_categories_element = response_businesses_element_categories[response_businesses_element_categories_index]
 	// Printing value of response_businesses_element_categories_element variable

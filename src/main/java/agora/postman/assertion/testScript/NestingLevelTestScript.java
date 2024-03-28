@@ -29,7 +29,6 @@ public class NestingLevelTestScript {
         // This method also sets the value of this.childrenParentBaseVariable
         this.initialLines = generateInitialLinesScript(tree, parents, parentBaseVariable);
 
-        // TODO: Change parameters order
         this.closingLines = generateClosingLinesScript(tree, parents, parentBaseVariable);
     }
 
@@ -63,8 +62,6 @@ public class NestingLevelTestScript {
             res += "response = pm.response.json();\n";
             parentBaseVariable = "response";
 
-            // TODO: Implement if response == null ?? Create test case
-
             if(DEBUG_MODE) {
                 res += printVariableValueScript(parentBaseVariable, "");
             }
@@ -84,27 +81,36 @@ public class NestingLevelTestScript {
 
         } else {    // If we are in a deeper nesting level
 
-            // TODO: Implement multiple array nesting (%array), e.g., 200&data%array%array
-            Map<Integer, ProgramPoint> arrayNestingProgramPoints = tree.getArrayNestingProgramPoints();
-            if(!arrayNestingProgramPoints.isEmpty()) {
-                // TODO: IMPLEMENT
-            }
-
             // Access next object in the nesting hierarchy
             ScriptSnippet accessNextObjectNestingLevelSnippet = generateAccessNextObjectNestingLevelSnippet(tree, parentBaseVariable, indentationStr);
             parentBaseVariable = accessNextObjectNestingLevelSnippet.newParentBaseVariable();
             res += accessNextObjectNestingLevelSnippet.snippet();
 
+            if(DEBUG_MODE) {
+                res += printVariableValueScript(parentBaseVariable, indentationStr);
+            }
+
             // If the nesting type value is array
             if(tree.getNestingType().equals(NestingType.ARRAY)) {
+                Map<Integer, ProgramPoint> arrayNestingProgramPoints = tree.getArrayNestingProgramPoints();
+                // TODO: Implement multiple array nesting (%array), e.g., 200&data%array%array
+                if(!arrayNestingProgramPoints.isEmpty()) {
+                    // Generate code to access to all the nested arrays program points
+                    ScriptSnippet propertyArrayNestingSnippet = generateRootArrayNestingSnippet(arrayNestingProgramPoints, parentBaseVariable, indentationStr);
+
+                    parentBaseVariable = propertyArrayNestingSnippet.newParentBaseVariable();
+                    res += propertyArrayNestingSnippet.snippet();
+                }
+
                 // Generate the code to access to the next nesting level
                 ScriptSnippet accessNextArrayNestingLevelSnippet = generateAccessNextArrayNestingLevelSnippet(parentBaseVariable, indentationStr);
                 parentBaseVariable = accessNextArrayNestingLevelSnippet.newParentBaseVariable();
                 res += accessNextArrayNestingLevelSnippet.snippet();
-            }
 
-            if(DEBUG_MODE) {
-                res += printVariableValueScript(parentBaseVariable, indentationStr);
+                if(DEBUG_MODE) {
+                    res += printVariableValueScript(parentBaseVariable, indentationStr);
+                }
+
             }
 
             res += generateProgramPointTestCases(tree.getProgramPoint(), parentBaseVariable, indentationStr);
@@ -123,10 +129,7 @@ public class NestingLevelTestScript {
 
         String res = "";
 
-        // TODO: Improve this condition
         if(!parents.isEmpty()) {
-            // TODO: The first nesting level (response) should not have a closing if/for, unless there is arrayNesting
-
 
             String indentationStr = "\t".repeat(Math.max(parents.size() - 1, 0));
 
@@ -145,9 +148,13 @@ public class NestingLevelTestScript {
             int maxArrayNestingLevel = Collections.max(arrayNestingProgramPoints.keySet());
             for(int i=maxArrayNestingLevel; i >= 1; i--) {
 
-                res += "} // Closing if array nesting level " + i + "\n";
+                // This if is not necessary for the first nesting level:
+                //  If the nesting is in the root, it makes no sense to check whether the whole response is null
+                //  If the nesting is in a property, the "if" clause would be duplicated
+                if(i != 1) {
+                    res += "} // Closing if array nesting level " + i + "\n";
+                }
                 res += "} // Closing for array nesting level " + i + "\n";
-
             }
         }
 

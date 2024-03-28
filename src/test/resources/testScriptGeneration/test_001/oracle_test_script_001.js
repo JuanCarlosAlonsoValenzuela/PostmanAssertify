@@ -42,6 +42,10 @@ pm.test("return.Response == \"True\"", () => {
 // 200&Ratings
 response_Ratings = response.Ratings
 if(response_Ratings != null) {
+// Printing value of response_Ratings variable
+console.log("Printing value of response_Ratings");
+console.log(response_Ratings);
+
 	for(response_Ratings_index in response_Ratings) {
 		response_Ratings_element = response_Ratings[response_Ratings_index]
 // Printing value of response_Ratings_element variable
