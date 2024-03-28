@@ -1,0 +1,3 @@
+pptname;invariant;invariantType;variables;postmanAssertion;tp
+/businesses/search&getBusinesses&200&businesses():::EXIT;LENGTH(return.id)==22;daikon.inv.unary.string.FixedLengthString;(return.id);pm.expect(return_id).to.have.length(22);1
+/businesses/search&getBusinesses&200():::EXIT;return.total >= 0;daikon.inv.unary.scalar.LowerBound;(return.total);warning: method daikon.inv.unary.scalar.LowerBound.format(OutputFormat:Postman) needs to be implemented: return.total >= 0;1

@@ -30,7 +30,7 @@ public class InputParametersScriptGenerationTests {
                         "src/test/resources/inputParametersScriptGeneration/test_001/oracle_input_parameters_script_001.js"
                 ),
                 /* ipsg_input_parameters_script_002: Path parameters of all primitive datatypes
-                The name of the server in the OAS specification has been modified so it also includes a path
+                The name of the server in the OAS specification has been modified, it also includes a path
                  */
                 Arguments.of(
                         "src/test/resources/inputParametersScriptGeneration/test_002/oas_path_parameters_primitive.yaml",
@@ -50,12 +50,18 @@ public class InputParametersScriptGenerationTests {
                         "src/test/resources/inputParametersScriptGeneration/test_004/oracle_input_parameters_script_004.js"
                 ),
                 /* ipsg_input_parameters_script_005: Path parameters of arrays of all primitive datatypes
-                The name of the server in the OAS specification has been modified so it also includes a path
+                The name of the server in the OAS specification has been modified, it also includes a path
                  */
                 Arguments.of(
                         "src/test/resources/inputParametersScriptGeneration/test_005/oas_path_parameters_array_primitive.yaml",
                         "src/test/resources/inputParametersScriptGeneration/test_005/invariants_test_005.csv",
                         "src/test/resources/inputParametersScriptGeneration/test_005/oracle_input_parameters_script_005.js"
+                ),
+                // ipsg_input_parameters_script_006: Header parameters of arrays of all primitive datatypes
+                Arguments.of(
+                        "src/test/resources/inputParametersScriptGeneration/test_006/oas_header_parameters_array_primitive.yaml",
+                        "src/test/resources/inputParametersScriptGeneration/test_006/invariants_test_006.csv",
+                        "src/test/resources/inputParametersScriptGeneration/test_006/oracle_input_parameters_script_006.js"
                 )
         );
     }

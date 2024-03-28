@@ -15,9 +15,9 @@ import static agora.postman.assertion.files.ReadInvariants.getAllApiOperations;
  */
 public class Main {
 
-    private static String openApiSpecPath = "src/test/resources/inputParametersScriptGeneration/test_005/oas_path_parameters_array_primitive.yaml";
+    private static String openApiSpecPath = "src/test/resources/inputParametersScriptGeneration/test_006/oas_header_parameters_array_primitive.yaml";
 
-    private static String invariantsPath = "src/test/resources/inputParametersScriptGeneration/test_005/invariants_test_005.csv";
+    private static String invariantsPath = "src/test/resources/inputParametersScriptGeneration/test_006/invariants_test_006.csv";
 
     // Server to use for generating the API requests, if null, the first server available in the OAS will be used
     public static String server = null;
