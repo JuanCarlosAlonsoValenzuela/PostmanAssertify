@@ -9,7 +9,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-//        // TODO: The root could be the response code
 //        // Create a tree with a root node
 //        Tree<String> forest = new Tree<String>("root");
 //
@@ -33,10 +32,6 @@ public class Main {
 //        }
 //
 //        forest.accept(new PrintIndentedVisitor(0));
-//
-//
-//
-//
 //
     }
 

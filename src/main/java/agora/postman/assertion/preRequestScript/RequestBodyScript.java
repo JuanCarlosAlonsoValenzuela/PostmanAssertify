@@ -25,7 +25,6 @@ public class RequestBodyScript {
 
         // Get all the variables (only first nesting level) of the request body
         // The remaining nesting levels are obtained in the Test script
-        // TODO: Check behavior of different datatypes
         Collection<MediaType> mediaTypes = requestBody.getContent().values();
         if(mediaTypes.isEmpty()) {
             throw new NullPointerException("Request body is empty");

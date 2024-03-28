@@ -16,7 +16,6 @@ import static agora.postman.assertion.debug.DebugUtils.printVariableValueScript;
 public class ArrayNestingSnippets {
 
     // TODO: Document and add more comments
-    // TODO: Implement proper indentation
     public static ScriptSnippet generateRootArrayNestingSnippet(
             Map<Integer, ProgramPoint> arrayNestingProgramPoints, String parentBaseVariable, String indentationStr
     ) {
@@ -53,24 +52,6 @@ public class ArrayNestingSnippets {
         return new ScriptSnippet(parentBaseVariable, snippet);
 
     }
-
-    // TODO: Document and add more code
-    // TODO: Implement proper indentation
-//    public static ScriptSnippet generatePropertyArrayNestingSnippet(
-//            Map<Integer, ProgramPoint> arrayNestingProgramPoints, String parentBaseVariable, String indentationStr
-//    ) {
-//        String snippet = "";
-//
-//        int maxArrayNestingLevel = Collections.max(arrayNestingProgramPoints.keySet());
-//
-//        // Iterate over all the array nesting levels
-//        for(int i=1; i<= maxArrayNestingLevel; i++) {
-//            // Update parentBaseVariable
-//            snippet +=
-//
-//        }
-//
-//    }
 
     // TODO: DOCUMENT
     // TODO: Rename

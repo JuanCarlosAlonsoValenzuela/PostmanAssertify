@@ -113,13 +113,9 @@ public class APIOperation {
      *
      * @return Pre-Request script containing variables with the values of all the input parameters
      */
-    // TODO: Test with all possible datatypes and parameter sources
     // TODO: Create test cases checking that the variable names are consistent
     // TODO: Explain that we only get the top point of the hierarchy
     // TODO: We do not get the array sizes or elements
-    // TODO: Datatypes, it considers everything as a String
-    // TODO: Decode uri? I think it is not necessary, create test cases with special characters
-    // TODO: Test with null and NOT null values
     public String generateInputParametersScript() {
 
         String res = "";
@@ -358,7 +354,6 @@ public class APIOperation {
             String splitPptNameFirstElement = splitPptName[0];
 
             if(splitPptNameFirstElement.contains(ARRAY_NESTING_SEPARATOR)) { // If the input string contains the response code followed by the array hierarchy separator (e.g., 200%array():EXIT())
-                // TODO: Create multiple tests
                 String[] arrayNesting = splitPptNameFirstElement.split(ARRAY_NESTING_SEPARATOR);
 
                 // Return the response code

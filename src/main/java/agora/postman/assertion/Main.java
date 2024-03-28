@@ -28,7 +28,7 @@ public class Main {
     public static boolean DEBUG_MODE = true;
 
     public static void main(String[] args) {
-        
+
         // Read invariants from file
         OpenAPI specification = getOpenAPISpecification(openApiSpecPath);
         List<APIOperation> allApiOperations = getAllApiOperations(specification, invariantsPath);

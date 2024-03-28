@@ -87,17 +87,12 @@ public class ParametersScript {
             case "number" -> res = res + "\t" + inputVariableName + " = Number(" + inputVariableName + ");\n";
             case "integer" -> res = res + "\t" + inputVariableName + " = parseInt(" + inputVariableName + ");\n";
             case "boolean" -> res = res + "\t" + inputVariableName + " = (" + inputVariableName + " == \"true\");\n";
-            case "object" ->
-                // TODO: Implement (check properties datatype), requires test cases
-                    System.err.println("Object input parameters not implemented");
             case "array" -> {
-                // TODO: Convert into a different function (or recursivity), requires test cases
 
                 String separator = ",";
                 String itemsDatatype = ((ArraySchema) parameter.getSchema()).getItems().getType();
 
-                // TODO: Check items datatype and convert them
-
+                // Check items datatype and convert them
                 res+= switch (itemsDatatype) {
                     case "string" -> "\t" + inputVariableName + " = " + inputVariableName + ".split(\"" + separator + "\").map(item => item.trim());\n";
                     case "integer" -> "\t" + inputVariableName + " = " + inputVariableName + ".split(\"" + separator + "\").map(item => parseInt(item.trim()));\n";
@@ -106,10 +101,6 @@ public class ParametersScript {
                     default -> throw new RuntimeException("Unexpected input array items datatype: " + itemsDatatype);
                 };
 
-//                if (!itemsDatatype.equals("string")) {
-//                     TODO: IMPLEMENT, with test cases
-//                    throw new RuntimeException("Array of items that are not strings are not supported yet");
-//                }
             }
             case "string" -> {}
             default -> throw new RuntimeException("Unexpected parameter type: " + parameterType);

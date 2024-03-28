@@ -19,9 +19,9 @@ public class ProgramPoint {
 
     private String pptname;
     private PptType pptType;
-    private String endpoint;                    // TODO: REDUNDANT
-    private String operationId;                 // TODO: REDUNDANT
-    private int responseCode;                   // TODO: REDUNDANT
+    private String endpoint;
+    private String operationId;
+    private int responseCode;
 
     // Number of %array in the last level
     private int arrayNesting;
@@ -44,11 +44,10 @@ public class ProgramPoint {
         this.arrayNesting = countArrayNesting(pptnameComponents.get(pptnameComponents.size()-1));
 
 
-        this.responseCode = getResponseCodeValue(pptnameComponents.get(2));     // TODO: Create test (with and without %array)
+        this.responseCode = getResponseCodeValue(pptnameComponents.get(2));
 
 
         // The input are the elements of the list that contain the nested variables
-        // TODO: Create test (with and without %array)
         this.variableHierarchy = getVariableHierarchy(pptnameComponents.subList(3, pptnameComponents.size()));
 
         this.invariants = invariants;
@@ -104,15 +103,17 @@ public class ProgramPoint {
         return String.join(HIERARCHY_SEPARATOR, this.variableHierarchy);
     }
 
-    // TODO: Update
     @Override
     public String toString() {
         return "ProgramPoint{" +
-                "pptType=" + pptType +
+                "pptname='" + pptname + '\'' +
+                ", pptType=" + pptType +
                 ", endpoint='" + endpoint + '\'' +
                 ", operationId='" + operationId + '\'' +
                 ", responseCode=" + responseCode +
+                ", arrayNesting=" + arrayNesting +
                 ", variableHierarchy=" + variableHierarchy +
+                ", invariants=" + invariants +
                 '}';
     }
 
@@ -168,7 +169,7 @@ public class ProgramPoint {
         String lastVariableName = splitLastVariable[0];
 
         // The last variable is the only one that can contain array nesting (e.g., lastVariableName%array%array)
-        if(lastVariableName.contains(ARRAY_NESTING_SEPARATOR)) {    // TODO: Create test case
+        if(lastVariableName.contains(ARRAY_NESTING_SEPARATOR)) {
             String[] splitLastVariableName = lastVariableName.split(ARRAY_NESTING_SEPARATOR);
 
             lastVariableName = splitLastVariableName[0];

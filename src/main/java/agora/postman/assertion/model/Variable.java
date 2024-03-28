@@ -136,10 +136,7 @@ public class Variable {
 
 
         } else {    // Generate code for getting input variables (parameters)
-            // TODO: Test with all datatypes (string, number, boolean)
-
             // Only if there is nesting level OR if the input variable is the size of an array
-            // TODO: Create test cases for all combinations (considering both isSize AND variableHierarchySize)
             if(this.isSize() || variableHierarchyList.size() != 1) {
 
                 // Get name of the variable obtained in the pre-request script (i.e., only first hierarchy level)
@@ -178,7 +175,6 @@ public class Variable {
 
 
         // Close if brackets (common for both input and exit)
-        // TODO: Create test with deep indentation
         while(ifBracketsToClose > 0) {
 
             // Reduce indentation level

@@ -46,8 +46,6 @@ public class NestingLevelTestScript {
 
     // TODO: DOCUMENT
     // TODO: Split into multiple methods
-    // TODO: Implement number of tabulations (based on parents.size)
-    // TODO: Improve parameters, create a class or similar
     // Returns initial lines test scripts and sets the value of the next parentBaseVariable
     private String generateInitialLinesScript(Tree<String> tree, List<String> parents, String parentBaseVariable) {
 
@@ -68,7 +66,6 @@ public class NestingLevelTestScript {
 
             // Invariants of nested arrays in root (e.g., 200%array%array)
             Map<Integer, ProgramPoint> arrayNestingProgramPoints = tree.getArrayNestingProgramPoints();
-            // TODO: TEST Multiple nesting levels, but maybe not all of them are present (e.g., maybe there are invariants for %array and %array%array%array, but not for %array%array)
             if(!arrayNestingProgramPoints.isEmpty()) {
                 ScriptSnippet rootArrayNestingSnippet = generateRootArrayNestingSnippet(arrayNestingProgramPoints, parentBaseVariable, indentationStr);
 
@@ -93,7 +90,6 @@ public class NestingLevelTestScript {
             // If the nesting type value is array
             if(tree.getNestingType().equals(NestingType.ARRAY)) {
                 Map<Integer, ProgramPoint> arrayNestingProgramPoints = tree.getArrayNestingProgramPoints();
-                // TODO: Implement multiple array nesting (%array), e.g., 200&data%array%array
                 if(!arrayNestingProgramPoints.isEmpty()) {
                     // Generate code to access to all the nested arrays program points
                     ScriptSnippet propertyArrayNestingSnippet = generateRootArrayNestingSnippet(arrayNestingProgramPoints, parentBaseVariable, indentationStr);
@@ -141,7 +137,6 @@ public class NestingLevelTestScript {
 
         }
 
-        // TODO: Create test cases
         // Close array nesting conditions
         Map<Integer, ProgramPoint> arrayNestingProgramPoints = tree.getArrayNestingProgramPoints();
         if(!arrayNestingProgramPoints.isEmpty()) {
