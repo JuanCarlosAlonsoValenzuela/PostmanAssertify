@@ -37,13 +37,17 @@ public class InputParametersScriptGenerationTests {
                         "src/test/resources/inputParametersScriptGeneration/test_002/invariants_test_002.csv",
                         "src/test/resources/inputParametersScriptGeneration/test_002/oracle_input_parameters_script_002.js"
                 ),
-                /* ipsg_input_parameters_script_002: Header parameters of all primitive datatypes
-
-                 */
+                // ipsg_input_parameters_script_003: Header parameters of all primitive datatypes
                 Arguments.of(
                         "src/test/resources/inputParametersScriptGeneration/test_003/oas_header_parameters_primitive.yaml",
                         "src/test/resources/inputParametersScriptGeneration/test_003/invariants_test_003.csv",
                         "src/test/resources/inputParametersScriptGeneration/test_003/oracle_input_parameters_script_003.js"
+                ),
+                // ipsg_input_parameters_script_004: Query parameters of arrays of all primitive datatypes
+                Arguments.of(
+                        "src/test/resources/inputParametersScriptGeneration/test_004/oas_query_parameters_primitive.yaml",
+                        "src/test/resources/inputParametersScriptGeneration/test_004/invariants_test_004.csv",
+                        "src/test/resources/inputParametersScriptGeneration/test_004/oracle_input_parameters_script_004.js"
                 )
         );
     }

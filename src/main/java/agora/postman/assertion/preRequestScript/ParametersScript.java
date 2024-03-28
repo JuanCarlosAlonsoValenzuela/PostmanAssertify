@@ -31,9 +31,6 @@ public class ParametersScript {
         res += switch (parameterIn) {
             case "query" -> inputVariableName + " = pm.request.url.query.get(\"" + parameterName + "\");\n";
             case "path" -> inputVariableName + getVariableValueOfPathParameter(parameterName, completeURI);
-            case "form" ->
-                // TODO: IMPLEMENT (requires test cases)
-                    throw new RuntimeException("Form parameters not implemented yet");
             case "header" -> inputVariableName +
                     " = pm.request.headers.find(header => !header.disabled && header.key==\"" + parameterName + "\");\n" +
                     "if(" + inputVariableName + " != null){\n" +
@@ -87,13 +84,8 @@ public class ParametersScript {
         res += "\t" + inputVariableName + " = decodeURIComponent(" + inputVariableName + ");\n";
 
         switch (parameterType) {
-            case "number" ->
-                // TODO: Test with negative number
-                // TODO: Create test comparing integer with number and check behavior
-                    res = res + "\t" + inputVariableName + " = Number(" + inputVariableName + ");\n";
-            case "integer" ->
-                // TODO: Test with negative integer
-                    res = res + "\t" + inputVariableName + " = parseInt(" + inputVariableName + ");\n";
+            case "number" -> res = res + "\t" + inputVariableName + " = Number(" + inputVariableName + ");\n";
+            case "integer" -> res = res + "\t" + inputVariableName + " = parseInt(" + inputVariableName + ");\n";
             case "boolean" -> res = res + "\t" + inputVariableName + " = (" + inputVariableName + " == \"true\");\n";
             case "object" ->
                 // TODO: Implement (check properties datatype), requires test cases
@@ -102,16 +94,22 @@ public class ParametersScript {
                 // TODO: Convert into a different function (or recursivity), requires test cases
 
                 String separator = ",";
-
-                // TODO: Check items datatype and convert them
-                res = res + "\t" + inputVariableName + " = " + inputVariableName + ".split(\"" + separator + "\").map(item => item.trim());\n";
-
                 String itemsDatatype = ((ArraySchema) parameter.getSchema()).getItems().getType();
 
-                if (!itemsDatatype.equals("string")) {
-                    // TODO: IMPLEMENT, with test cases
-                    throw new RuntimeException("Array of items that are not strings are not supported yet");
-                }
+                // TODO: Check items datatype and convert them
+
+                res+= switch (itemsDatatype) {
+                    case "string" -> "\t" + inputVariableName + " = " + inputVariableName + ".split(\"" + separator + "\").map(item => item.trim());\n";
+                    case "integer" -> "\t" + inputVariableName + " = " + inputVariableName + ".split(\"" + separator + "\").map(item => parseInt(item.trim()));\n";
+                    case "number" -> "\t" + inputVariableName + " = " + inputVariableName + ".split(\"" + separator + "\").map(item => Number(item.trim()));\n";
+                    case "boolean" -> "\t" + inputVariableName + " = " + inputVariableName + ".split(\"" + separator + "\").map(item => item.trim() == \"true\");\n";
+                    default -> throw new RuntimeException("Unexpected input array items datatype: " + itemsDatatype);
+                };
+
+//                if (!itemsDatatype.equals("string")) {
+//                     TODO: IMPLEMENT, with test cases
+//                    throw new RuntimeException("Array of items that are not strings are not supported yet");
+//                }
             }
             case "string" -> {}
             default -> throw new RuntimeException("Unexpected parameter type: " + parameterType);
