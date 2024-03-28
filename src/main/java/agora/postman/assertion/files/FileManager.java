@@ -20,8 +20,7 @@ public class FileManager {
             myWriter.close();
             System.out.println("Successfully wrote to the file.");
         } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
+            throw new RuntimeException("Error reading file");
         }
     }
 
@@ -45,9 +44,8 @@ public class FileManager {
         try {
             return file.createNewFile();
         } catch (IOException e) {
-            System.err.println("Exception: "  + e);
+            throw new RuntimeException("Error reading file");
         }
-        return null;
     }
 
 }

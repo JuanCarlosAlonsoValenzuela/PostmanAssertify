@@ -33,8 +33,7 @@ public class CSVManager {
                 values.add(record.get(0));
 
         }catch (IOException ex) {
-            System.err.println("Error parsing CSV file: {}" + path);
-            System.err.println("Exception " + ex);
+            throw new RuntimeException("Error reading file");
         }
 
         return values;
@@ -54,8 +53,7 @@ public class CSVManager {
                 rows.add(currentRow);
             }
         } catch (IOException ex) {
-            System.err.println("Error parsing CSV file: {}" + path);
-            System.err.println("Exception " + ex);
+            throw new RuntimeException("Error reading file");
         }
 
         return rows;
@@ -70,8 +68,7 @@ public class CSVManager {
             }
             res = csvRecords.get(0);
         } catch (IOException e) {
-            System.err.println("Error parsing CSV file");
-            System.err.println("Exception " + e);
+            throw new RuntimeException("Error reading file");
         }
         return res;
     }
