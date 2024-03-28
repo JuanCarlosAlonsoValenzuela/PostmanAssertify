@@ -68,6 +68,12 @@ public class InputParametersScriptGenerationTests {
                         "src/test/resources/inputParametersScriptGeneration/test_007/oas_request_body.yaml",
                         "src/test/resources/inputParametersScriptGeneration/test_007/invariants_test_007.csv",
                         "src/test/resources/inputParametersScriptGeneration/test_007/oracle_input_parameters_script_007.js"
+                ),
+                //ipsg_input_parameters_script_008: Request body parameter with object hierarchy
+                Arguments.of(
+                        "src/test/resources/inputParametersScriptGeneration/test_008/oas_complex_request_body.yaml",
+                        "src/test/resources/inputParametersScriptGeneration/test_008/invariants_test_008.csv",
+                        "src/test/resources/inputParametersScriptGeneration/test_008/oracle_input_parameters_script_008.js"
                 )
         );
     }
