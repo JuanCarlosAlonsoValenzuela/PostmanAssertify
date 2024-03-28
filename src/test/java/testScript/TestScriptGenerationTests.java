@@ -218,11 +218,11 @@ public class TestScriptGenerationTests {
         );
 
         // TODO: Test with multiple API operations
-        // TODO: Test with mulitple response codes
+        // TODO: Test with multiple response codes
         // TODO: Values to consider as null
         // TODO: Fix indentation
     }
-    
+
     @ParameterizedTest
     @MethodSource("testScriptGeneration")
     public void testScriptGeneration(String oasSpecPath, String invariantsCsvPath, String oracleScriptPath) throws IOException {
@@ -258,10 +258,5 @@ public class TestScriptGenerationTests {
                     generatedTestScript[i].trim(),
                     "The content of line " + lineNumber + " content is different from the expected");
         }
-
-
-
-
     }
-
 }

@@ -111,7 +111,7 @@ public class APIOperation {
     // TODO: Datatypes, it considers everything as a String
     // TODO: Decode uri? I think it is not necessary, create test cases with special characters
     // TODO: Test with null and NOT null values
-    public String generatePreRequestScript() {
+    public String generateInputParametersScript() {
 
         String res = "";
 

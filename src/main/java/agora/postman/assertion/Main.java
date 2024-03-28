@@ -15,9 +15,9 @@ import static agora.postman.assertion.files.ReadInvariants.getAllApiOperations;
  */
 public class Main {
 
-    private static String openApiSpecPath = "src/test/resources/testScriptGeneration/test_010/oas_v31ListOfCodes_restCountries_modified.yaml";
+    private static String openApiSpecPath = "src/test/resources/inputParametersScriptGeneration/test_001/oas_query_parameters_primitive.yaml";
 
-    private static String invariantsPath = "src/test/resources/testScriptGeneration/test_010/invariants_test_010.csv";
+    private static String invariantsPath = "src/test/resources/inputParametersScriptGeneration/test_001/invariants_test_001.csv";
 
     public static String HIERARCHY_SEPARATOR = "&";
     public static String ARRAY_NESTING_SEPARATOR = "%";
@@ -49,14 +49,12 @@ public class Main {
         // TODO: We are assuming that these program points are grouped by endpoint, operationId and responseCode
         // TODO: This tree is for a single operation
         // Create program point hierarchy tree from list of paths
-        // TODO: Change from static method to method of the APIOperation class
 
         APIOperation apiOperation = allApiOperations.get(0);
 
         System.out.println("//////////////////////////// INPUT PARAMETERS SCRIPT ////////////////////////////");
-        // TODO: CHANGE NAME (NOW IT IS PART OF THE TEST SCRIPT AGAIN)
-        String preRequestScript = apiOperation.generatePreRequestScript();
-        System.out.println(preRequestScript);
+        String inputParametersScript = apiOperation.generateInputParametersScript();
+        System.out.println(inputParametersScript);
 
         // Iterate over program point hierarchy (in-depth search)
         System.out.println("////////////////////////////  TEST SCRIPT ////////////////////////////");
@@ -79,7 +77,6 @@ public class Main {
 
 
 
-    // TODO: Move to a different class
     public static OpenAPI getOpenAPISpecification(String oasPath){
 
         ParseOptions parseOptions = new ParseOptions();
