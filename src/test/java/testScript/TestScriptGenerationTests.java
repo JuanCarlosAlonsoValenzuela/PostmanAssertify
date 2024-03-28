@@ -20,11 +20,11 @@ import static agora.postman.assertion.files.ReadInvariants.getAllApiOperations;
 /**
  * @author Juan C. Alonso
  */
-public class TestCasesE2ETests {
+public class TestScriptGenerationTests {
 
     private static Stream<Arguments> testScriptGeneration() {
         return Stream.of(
-                /* e2e_test_script_001: Simple test script
+                /* tsg_test_script_001: Simple test script
                 Generates test script for an API response with two nesting levels: the first level of type object and
                 the second of type array of objects, each one of them with a single test case (i.e., invariant). The
                 response schema is the one used in the byIdOrTitle operation of the OMDb API. Nesting levels:
@@ -36,7 +36,7 @@ public class TestCasesE2ETests {
                         "src/test/resources/testScriptGeneration/test_001/invariants_test_001.csv",
                         "src/test/resources/testScriptGeneration/test_001/oracle_test_script_001.js"
                 ),
-                /* e2e_test_script_002: Test script with 3 nesting levels and multiple datatypes
+                /* tsg_test_script_002: Test script with 3 nesting levels and multiple datatypes
                 Generates test script for the Yelp API (3 nesting levels, the first one of type object). Multiple
                 datatypes (array of objects, array of strings and all the possible primitive datatypes: string,
                 boolean, number, integer) in the response. Nesting levels:
@@ -49,7 +49,7 @@ public class TestCasesE2ETests {
                         "src/test/resources/testScriptGeneration/test_002/invariants_test_002.csv",
                         "src/test/resources/testScriptGeneration/test_002/oracle_test_script_002.js"
                 ),
-                /* e2e_test_script_003: Complex response
+                /* tsg_test_script_003: Complex response
                 Generates test script for the Vimeo API. The response schema of this API operation contains multiple
                 nesting levels. The first nesting level is of type object, there are nesting level of type object and
                 array, some of the nesting levels have multiple children and some of the nesting levels do not have
@@ -110,7 +110,7 @@ public class TestCasesE2ETests {
                         "src/test/resources/testScriptGeneration/test_003/invariants_test_003.csv",
                         "src/test/resources/testScriptGeneration/test_003/oracle_test_script_003.js"
                 ),
-                /* e2e_test_script_004: Response of type array
+                /* tsg_test_script_004: Response of type array
                 Generates test script for the response schema of the v31ListOfCodes operation of the RESTCountries
                 API. This API operation is an array with nested objects. Nesting levels:
 
@@ -122,7 +122,7 @@ public class TestCasesE2ETests {
                         "src/test/resources/testScriptGeneration/test_004/invariants_test_004.csv",
                         "src/test/resources/testScriptGeneration/test_004/oracle_test_script_004.js"
                 ),
-                /* e2e_test_script_005: Response of type array 2
+                /* tsg_test_script_005: Response of type array 2
                 Generates test script for a modified version of the response schema of the v31ListOfCodes operation of
                 the RESTCountries with an additional nesting level. Nesting levels:
 
@@ -136,7 +136,7 @@ public class TestCasesE2ETests {
                         "src/test/resources/testScriptGeneration/test_005/invariants_test_005.csv",
                         "src/test/resources/testScriptGeneration/test_005/oracle_test_script_005.js"
                 ),
-                /* e2e_test_script_006: Response of type array 3
+                /* tsg_test_script_006: Response of type array 3
                 Generates test script for a modified version of the response schema of the v31ListOfCodes operation of
                 the RESTCountries with TWO nested arrays in the first nesting level. Nesting levels:
 
@@ -151,7 +151,7 @@ public class TestCasesE2ETests {
                         "src/test/resources/testScriptGeneration/test_006/invariants_test_006.csv",
                         "src/test/resources/testScriptGeneration/test_006/oracle_test_script_006.js"
                 ),
-                /* e2e_test_script_007: Response of type array 4
+                /* tsg_test_script_007: Response of type array 4
                 Generates test script for a modified version of the response schema of the v31ListOfCodes operation of
                 the RESTCountries with THREE nested arrays in the first nesting level. Nesting levels:
 
@@ -167,7 +167,7 @@ public class TestCasesE2ETests {
                         "src/test/resources/testScriptGeneration/test_007/invariants_test_007.csv",
                         "src/test/resources/testScriptGeneration/test_007/oracle_test_script_007.js"
                 ),
-                /* e2e_test_script_008: Response property of type nested array of object
+                /* tsg_test_script_008: Response property of type nested array of object
                 Generates test script for a modified version of the getArtistAlbums operation of the Spotify API with
                 TWO nested arrays as value of the "artists" property. Nesting levels:
 
@@ -183,7 +183,7 @@ public class TestCasesE2ETests {
                         "src/test/resources/testScriptGeneration/test_008/invariants_test_008.csv",
                         "src/test/resources/testScriptGeneration/test_008/oracle_test_script_008.js"
                 ),
-                /* e2e_test_script_009: Response property of type nested array of object 2
+                /* tsg_test_script_009: Response property of type nested array of object 2
                 Generates test script for a modified version of the getArtistAlbums operation of the Spotify API with
                 THREE nested arrays as value of the "artists" property. Nesting levels:
 
@@ -200,7 +200,7 @@ public class TestCasesE2ETests {
                         "src/test/resources/testScriptGeneration/test_009/invariants_test_009.csv",
                         "src/test/resources/testScriptGeneration/test_009/oracle_test_script_009.js"
                 ),
-                /* e2e_test_script_010: Nested arrays in both root and response property
+                /* tsg_test_script_010: Nested arrays in both root and response property
                 Generates test script for a modified version of the response schema of the v31ListOfCodes operation of
                 the RESTCountries, with array nesting levels ini both the root and a response property. Nesting levels:
 
@@ -222,8 +222,7 @@ public class TestCasesE2ETests {
         // TODO: Values to consider as null
         // TODO: Fix indentation
     }
-
-    // TODO: Consider renaming this class (not exactly endToEnd)
+    
     @ParameterizedTest
     @MethodSource("testScriptGeneration")
     public void testScriptGeneration(String oasSpecPath, String invariantsCsvPath, String oracleScriptPath) throws IOException {
