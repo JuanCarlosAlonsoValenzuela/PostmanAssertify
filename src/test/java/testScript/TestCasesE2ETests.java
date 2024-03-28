@@ -199,14 +199,26 @@ public class TestCasesE2ETests {
                         "src/test/resources/testScriptGeneration/test_009/oas_spotify_artistAlbums_modified.yaml",
                         "src/test/resources/testScriptGeneration/test_009/invariants_test_009.csv",
                         "src/test/resources/testScriptGeneration/test_009/oracle_test_script_009.js"
-                )
+                ),
+                /* e2e_test_script_010: Nested arrays in both root and response property
+                Generates test script for a modified version of the response schema of the v31ListOfCodes operation of
+                the RESTCountries, with array nesting levels ini both the root and a response property. Nesting levels:
 
+                    /v3.1/alpha&v31ListOfCodes&200%array():::EXIT
+                        /v3.1/alpha&v31ListOfCodes&200():::EXIT
+                            /v3.1/alpha&v31ListOfCodes&200&users%array():::EXIT
+                                /v3.1/alpha&v31ListOfCodes&200&users():::EXIT
+
+                 */
+                Arguments.of(
+                        "src/test/resources/testScriptGeneration/test_010/oas_v31ListOfCodes_restCountries_modified.yaml",
+                        "src/test/resources/testScriptGeneration/test_010/invariants_test_010.csv",
+                        "src/test/resources/testScriptGeneration/test_010/oracle_test_script_010.js"
+                )
         );
 
-        // TODO: Response with nested arrays in both root and response property
         // TODO: Test with multiple API operations
         // TODO: Test with mulitple response codes
-        // TODO: Multiple Nested arrays (both in root and in deep program point)
         // TODO: Values to consider as null
         // TODO: Fix indentation
     }
