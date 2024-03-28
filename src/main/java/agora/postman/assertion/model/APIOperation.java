@@ -1,5 +1,6 @@
 package agora.postman.assertion.model;
 
+import agora.postman.assertion.Main;
 import agora.postman.assertion.testScript.nestingLevelTree.NestingType;
 import agora.postman.assertion.testScript.nestingLevelTree.PrintIndentedVisitor;
 import agora.postman.assertion.testScript.nestingLevelTree.Tree;
@@ -31,6 +32,7 @@ import static agora.postman.assertion.variableNameUtils.VariableNames.getInputVa
 // TODO: Consider renaming this class because it also includes the response code
 public class APIOperation {
 
+    private final String server;
     private final String endpoint;
     private final String operationId;
     private final int responseCode;
@@ -46,6 +48,13 @@ public class APIOperation {
     public APIOperation(String pptname, List<ProgramPoint> programPoints, OpenAPI specification) {
 
         List<String> pptnameComponents = Arrays.stream(pptname.split(HIERARCHY_SEPARATOR)).toList();
+
+        // If no default server is provided, we use the first one of the OAS
+        String serverName = (Main.server==null) ? specification.getServers().get(0).getUrl(): Main.server;
+        if(serverName.endsWith("/")) {
+            serverName = serverName.substring(0, serverName.length() - 1);
+        }
+        this.server = serverName;
 
         this.endpoint = pptnameComponents.get(0);
         this.operationId = pptnameComponents.get(1);
@@ -119,7 +128,8 @@ public class APIOperation {
         for(Parameter parameter: this.parameters) {
 
             // Generate the script that extracts the variable value (always as string)
-            res = res + generateGetVariableValueScript(parameter, this.endpoint);
+            // TODO: Add server
+            res = res + generateGetVariableValueScript(parameter, this.server + this.endpoint);
 
             // Decode URI component and generate a script that converts the variable into the
             // corresponding datatype, after checking that the variable is not null

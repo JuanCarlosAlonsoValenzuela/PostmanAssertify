@@ -3,6 +3,9 @@ package agora.postman.assertion.preRequestScript;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import static agora.postman.assertion.variableNameUtils.VariableNames.getInputVariableName;
 
 /**
@@ -15,7 +18,7 @@ public class ParametersScript {
     // Given a parameter (its source can be one of: query, path, form or header), this function generates the Postman code
     // to obtain its value. The resulting variable will be of type string, use the generateCastingVariableScript function
     // to change its type.
-    public static String generateGetVariableValueScript(Parameter parameter, String endpoint) {
+    public static String generateGetVariableValueScript(Parameter parameter, String completeURI) {
 
         String parameterName = parameter.getName();
         String parameterIn = parameter.getIn();
@@ -27,7 +30,7 @@ public class ParametersScript {
         String res = "// Getting value of the " + parameterName + " " + parameterIn + " parameter \n";
         res += switch (parameterIn) {
             case "query" -> inputVariableName + " = pm.request.url.query.get(\"" + parameterName + "\");\n";
-            case "path" -> inputVariableName + getVariableValueOfPathParameter(parameterName, endpoint);
+            case "path" -> inputVariableName + getVariableValueOfPathParameter(parameterName, completeURI);
             case "form" ->
                 // TODO: IMPLEMENT (requires test cases)
                     throw new RuntimeException("Form parameters not implemented yet");
@@ -42,16 +45,26 @@ public class ParametersScript {
 
 
     // TODO: DOCUMENT
-    private static String getVariableValueOfPathParameter(String parameterName, String endpoint) {
+    // completeURI = server + endpoint
+    private static String getVariableValueOfPathParameter(String parameterName, String completeURI) {
 
-        String[] endpointElements = endpoint.split("/");
+
+        String path = null;
+        try {
+            path = new URL(completeURI).getPath();
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("The value of the URI: " + completeURI + " is not valid");
+        }
+        path = path.replaceFirst("/", "");
+
+        String[] endpointElements = path.split("/");
         for(int i = 0; i < endpointElements.length; i++) {
             String endpointElement = endpointElements[i];
             if(endpointElement.equals("{" + parameterName + "}")) {
                 return " = pm.request.url.path[" + i + "];\n";
             }
         }
-        throw new NullPointerException("Path parameter " + parameterName + " not found in endpoint: " + endpoint);
+        throw new NullPointerException("Path parameter " + parameterName + " not found in endpoint: " + completeURI);
     }
 
 
