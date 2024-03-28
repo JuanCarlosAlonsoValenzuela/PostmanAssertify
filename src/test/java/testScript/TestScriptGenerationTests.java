@@ -214,6 +214,17 @@ public class TestScriptGenerationTests {
                         "src/test/resources/testScriptGeneration/test_010/oas_v31ListOfCodes_restCountries_modified.yaml",
                         "src/test/resources/testScriptGeneration/test_010/invariants_test_010.csv",
                         "src/test/resources/testScriptGeneration/test_010/oracle_test_script_010.js"
+                ),
+                /* tsg_test_script_011: Complex request body property
+                Generates test script for an API  operation with a deep hierarchy in the request body. Nesting levels:
+
+                    /users/playlists&createPlaylist&201()
+
+                 */
+                Arguments.of(
+                        "src/test/resources/testScriptGeneration/test_011/oas_complex_request_body.yaml",
+                        "src/test/resources/testScriptGeneration/test_011/invariants_test_011.csv",
+                        "src/test/resources/testScriptGeneration/test_011/oracle_test_script_011.js"
                 )
         );
 

@@ -1,0 +1,2 @@
+pptname;invariant;invariantType;variables;postmanAssertion;tp
+/users/playlists&createPlaylist&201():::EXIT;input.user.contact.email == return.user_data.email;daikon.inv.binary.twoString.StringEqual;(input.user.contact.email, return.user_data.email);TODO: IMPLEMENT;1
