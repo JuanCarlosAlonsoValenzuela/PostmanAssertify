@@ -45,9 +45,17 @@ public class InputParametersScriptGenerationTests {
                 ),
                 // ipsg_input_parameters_script_004: Query parameters of arrays of all primitive datatypes
                 Arguments.of(
-                        "src/test/resources/inputParametersScriptGeneration/test_004/oas_query_parameters_primitive.yaml",
+                        "src/test/resources/inputParametersScriptGeneration/test_004/oas_query_parameters_array_primitive.yaml",
                         "src/test/resources/inputParametersScriptGeneration/test_004/invariants_test_004.csv",
                         "src/test/resources/inputParametersScriptGeneration/test_004/oracle_input_parameters_script_004.js"
+                ),
+                /* ipsg_input_parameters_script_005: Path parameters of arrays of all primitive datatypes
+                The name of the server in the OAS specification has been modified so it also includes a path
+                 */
+                Arguments.of(
+                        "src/test/resources/inputParametersScriptGeneration/test_005/oas_path_parameters_array_primitive.yaml",
+                        "src/test/resources/inputParametersScriptGeneration/test_005/invariants_test_005.csv",
+                        "src/test/resources/inputParametersScriptGeneration/test_005/oracle_input_parameters_script_005.js"
                 )
         );
     }
