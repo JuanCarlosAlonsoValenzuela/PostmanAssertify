@@ -194,7 +194,6 @@ public class APIOperation {
      * @return Program point hierarchy tree, derived from the list of paths.
      */
     // TODO: Update parameters in Javadoc
-    // TODO: Create test cases with array nesting
     // TODO: Improve comments
     private Tree<String> getProgramPointHierarchy() {
 
@@ -341,7 +340,7 @@ public class APIOperation {
      *                                response code followed by the array hierarchy separator (e.g., 200%array():EXIT())
      * @return The API response code as int
      */
-    public static int getResponseCodeValue(String pptnameResponseCodeItem) {    // TODO: Can contain %array
+    public static int getResponseCodeValue(String pptnameResponseCodeItem) {
 
         if(pptnameResponseCodeItem.contains("():::")) {    // If the element contains the program point suffix (e.g., 200():::EXIT())
 
