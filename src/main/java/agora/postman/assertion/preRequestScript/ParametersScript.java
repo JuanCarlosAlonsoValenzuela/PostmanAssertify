@@ -34,8 +34,12 @@ public class ParametersScript {
             case "form" ->
                 // TODO: IMPLEMENT (requires test cases)
                     throw new RuntimeException("Form parameters not implemented yet");
-            // TODO: TEST AGAIN
-            case "header" -> inputVariableName + " = pm.request.headers.get(\"" + parameterName + "\");\n";
+            case "header" -> inputVariableName +
+                    " = pm.request.headers.find(header => !header.disabled && header.key==\"" + parameterName + "\");\n" +
+                    "if(" + inputVariableName + " != null){\n" +
+                    inputVariableName + " = " + inputVariableName + ".value;\n" +
+                    "}\n";
+
             default -> throw new RuntimeException("Unexpected value for parameter source, got: " + parameterIn);
         };
 

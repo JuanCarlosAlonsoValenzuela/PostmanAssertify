@@ -23,19 +23,27 @@ public class InputParametersScriptGenerationTests {
 
     private static Stream<Arguments> inputParametersScriptGeneration() {
         return Stream.of(
-                // ipsg_input_parameters_script_001: Query parameters of all primitive datatype
+                // ipsg_input_parameters_script_001: Query parameters of all primitive datatypes
                 Arguments.of(
                         "src/test/resources/inputParametersScriptGeneration/test_001/oas_query_parameters_primitive.yaml",
                         "src/test/resources/inputParametersScriptGeneration/test_001/invariants_test_001.csv",
                         "src/test/resources/inputParametersScriptGeneration/test_001/oracle_input_parameters_script_001.js"
                 ),
-                /* ipsg_input_parameters_script_002: Path parameters of all primitive datatype
+                /* ipsg_input_parameters_script_002: Path parameters of all primitive datatypes
                 The name of the server in the OAS specification has been modified so it also includes a path
                  */
                 Arguments.of(
                         "src/test/resources/inputParametersScriptGeneration/test_002/oas_path_parameters_primitive.yaml",
                         "src/test/resources/inputParametersScriptGeneration/test_002/invariants_test_002.csv",
                         "src/test/resources/inputParametersScriptGeneration/test_002/oracle_input_parameters_script_002.js"
+                ),
+                /* ipsg_input_parameters_script_002: Header parameters of all primitive datatypes
+
+                 */
+                Arguments.of(
+                        "src/test/resources/inputParametersScriptGeneration/test_003/oas_header_parameters_primitive.yaml",
+                        "src/test/resources/inputParametersScriptGeneration/test_003/invariants_test_003.csv",
+                        "src/test/resources/inputParametersScriptGeneration/test_003/oracle_input_parameters_script_003.js"
                 )
         );
     }
