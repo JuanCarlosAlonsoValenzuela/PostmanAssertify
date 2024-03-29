@@ -21,6 +21,9 @@ public class Query implements Serializable
     @SerializedName("value")
     @Expose
     private String value;
+    @SerializedName("disabled")
+    @Expose
+    private Boolean disabled;
     private final static long serialVersionUID = 2856330039437107078L;
 
     /**
@@ -42,6 +45,7 @@ public class Query implements Serializable
     public Query(Parameter parameter) {
         this.key = parameter.getName();
         this.value = "";
+        this.disabled = true;
     }
 
     public String getKey() {
@@ -60,4 +64,11 @@ public class Query implements Serializable
         this.value = value;
     }
 
+    public Boolean getDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(Boolean disabled) {
+        this.disabled = disabled;
+    }
 }
