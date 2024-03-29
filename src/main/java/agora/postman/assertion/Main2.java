@@ -14,8 +14,8 @@ import static agora.postman.assertion.Main.getOpenAPISpecification;
  */
 public class Main2 {
 
-    private static String openApiSpecPath = "src/test/resources/testScriptGeneration/test_003/oas_vimeo.yaml";
-    private static String invariantsPath = "src/test/resources/testScriptGeneration/test_003/invariants_test_003.csv";
+    private static String openApiSpecPath = "src/test/resources/inputParametersScriptGeneration/test_003/oas_header_parameters_primitive.yaml";
+    private static String invariantsPath = "src/test/resources/inputParametersScriptGeneration/test_003/invariants_test_003.csv";
 
     // TODO: READ FROM .properties file
     public static String POSTMAN_COLLECTION_SCHEMA = "https://schema.getpostman.com/json/collection/v2.1.0/collection.json";

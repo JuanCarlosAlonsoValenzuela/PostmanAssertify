@@ -2,9 +2,14 @@
 package agora.postman.assertion.model.postmanCollection;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+
+import agora.postman.assertion.model.APIOperation;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import static agora.postman.assertion.model.postmanCollection.Header.getAllHeaders;
 
 /**
  * @author Juan C. Alonso
@@ -25,6 +30,15 @@ public class Request implements Serializable
     @Expose
     private Body body;
     private final static long serialVersionUID = 5015692323996114517L;
+
+    public Request(APIOperation apiOperation) {
+        this.method = apiOperation.getMethod();
+
+        this.header = getAllHeaders(apiOperation.getParameters());
+//        this.url = "";
+        // The body is empty
+        this.body = new Body();
+    }
 
     public String getMethod() {
         return method;

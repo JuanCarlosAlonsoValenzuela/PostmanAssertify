@@ -2,6 +2,11 @@
 package agora.postman.assertion.model.postmanCollection;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import io.swagger.v3.oas.models.parameters.Parameter;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -24,6 +29,28 @@ public class Header implements Serializable
     @Expose
     private Boolean disabled;
     private final static long serialVersionUID = -6136304426128785655L;
+
+    /**
+     * @param parameters: List of all the parameters of an operation (including different sources)
+     * @return List of headers objects, created from all the input parameters that use "header" as source
+     */
+    public static List<Header> getAllHeaders(List<Parameter> parameters) {
+        List<Header> res = new ArrayList<>();
+
+        for(Parameter parameter: parameters) {
+            if(parameter.getIn().equals("header")) {
+                res.add(new Header(parameter));
+            }
+        }
+        return res;
+    }
+
+    public Header(Parameter parameter) {
+        this.key = parameter.getName();
+        this.value = "";
+        this.type = "";
+        this.disabled = true;
+    }
 
     public String getKey() {
         return key;

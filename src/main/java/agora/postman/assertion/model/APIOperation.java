@@ -2,7 +2,6 @@ package agora.postman.assertion.model;
 
 import agora.postman.assertion.Main;
 import agora.postman.assertion.testScript.nestingLevelTree.NestingType;
-import agora.postman.assertion.testScript.nestingLevelTree.PrintIndentedVisitor;
 import agora.postman.assertion.testScript.nestingLevelTree.Tree;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -41,9 +40,12 @@ public class APIOperation {
     private List<ProgramPoint> exitProgramPoints;
 
     // These attributes are derived from the OAS
+    private final String method;
     private final List<Parameter> parameters;
     private final RequestBody requestBody;
     private final Schema responseSchema;
+
+
 
     public APIOperation(String pptname, List<ProgramPoint> programPoints, OpenAPI specification) {
 
@@ -64,8 +66,12 @@ public class APIOperation {
         this.enterProgramPoints = programPoints.stream().filter(x-> x.getPptType().equals(PptType.ENTER)).toList();
         this.exitProgramPoints = programPoints.stream().filter(x-> x.getPptType().equals(PptType.EXIT)).toList();
 
-        // Get the operation of the OAS with the endpoint and the operationId
-        Operation oasOperation = getOASOperation(specification, endpoint, operationId);
+        // Get the HttpMethod (verb) and the operation of the OAS with the endpoint and the operationId
+        Map.Entry<PathItem.HttpMethod, Operation> pathItemEntry = getOASOperation(specification, endpoint, operationId);
+        Operation oasOperation = pathItemEntry.getValue();
+
+        // Get the method
+        this.method = pathItemEntry.getKey().name();
 
         // Get the parameters
         this.parameters = oasOperation.getParameters();
@@ -87,6 +93,10 @@ public class APIOperation {
 
     public int getResponseCode() {
         return responseCode;
+    }
+
+    public String getMethod() {
+        return method;
     }
 
     public List<Parameter> getParameters() {
@@ -285,7 +295,7 @@ public class APIOperation {
     }
 
     // TODO: Change to private?
-    public static Operation getOASOperation(OpenAPI specification, String targetEndpoint, String targetOperationId) {
+    public static Map.Entry<PathItem.HttpMethod, Operation> getOASOperation(OpenAPI specification, String targetEndpoint, String targetOperationId) {
 
         Paths paths = specification.getPaths();
 
@@ -304,7 +314,7 @@ public class APIOperation {
                     String operationId = operation.getOperationId();
 
                     if(operationId.equals(targetOperationId)) {
-                        return operation;
+                        return operationEntry;
                     }
                 }
             }
