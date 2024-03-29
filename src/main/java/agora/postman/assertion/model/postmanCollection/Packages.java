@@ -3,6 +3,9 @@ package agora.postman.assertion.model.postmanCollection;
 
 import java.io.Serializable;
 
+/**
+ * @author Juan C. Alonso
+ */
 public class Packages implements Serializable
 {
 

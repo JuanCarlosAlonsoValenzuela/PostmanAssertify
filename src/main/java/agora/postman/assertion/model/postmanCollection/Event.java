@@ -5,6 +5,9 @@ import java.io.Serializable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * @author Juan C. Alonso
+ */
 public class Event implements Serializable
 {
 
