@@ -1,14 +1,13 @@
 package agora.postman.assertion;
 
-import agora.postman.assertion.model.*;
+import agora.postman.assertion.model.postmanCollection.PostmanCollection;
+import com.google.gson.Gson;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.OpenAPIV3Parser;
 import io.swagger.v3.parser.core.models.ParseOptions;
-import org.checkerframework.checker.units.qual.A;
 
-import java.util.*;
-
-import static agora.postman.assertion.files.ReadInvariants.getAllApiOperations;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  * @author Juan C. Alonso
@@ -19,56 +18,46 @@ public class Main {
 
     private static String invariantsPath = "src/test/resources/inputParametersScriptGeneration/test_008/invariants_test_008.csv";
 
-    // Server to use for generating the API requests, if null, the first server available in the OAS will be used
-    public static String server = null;
+    public static boolean DEBUG_MODE = true;
 
     public static String HIERARCHY_SEPARATOR = "&";
     public static String ARRAY_NESTING_SEPARATOR = "%";
 
-    public static boolean DEBUG_MODE = true;
+    // TODO: READ FROM .properties file
+    // Server to use for generating the API requests, if null, the first server available in the OAS will be used
+    public static String server = null;
+
+    // TODO: READ FROM .properties file
+    public static String POSTMAN_COLLECTION_SCHEMA = "https://schema.getpostman.com/json/collection/v2.1.0/collection.json";
 
     public static void main(String[] args) {
 
         // Read invariants from file
         OpenAPI specification = getOpenAPISpecification(openApiSpecPath);
-        List<APIOperation> allApiOperations = getAllApiOperations(specification, invariantsPath);
-
-        // Get unique pptnames
-        // TODO: There can be multiple status codes and multiple API operations
-        // TODO: Distinguish between ENTER and EXIT program point names.
-        // TODO: ENTER program points are duplicated
 
 
-        // TODO: We are assuming that these program points are grouped by endpoint, operationId and responseCode
-        // TODO: This tree is for a single operation
-        // Create program point hierarchy tree from list of paths
+        // TODO: Reimplement ApiOperation, grouping by response code
+        // TODO: Implement Strings to consider as null!!!
+        // TODO: Test with multiple response codes
+        // TODO: Test with multiple Http verbs
+        // TODO: Test with multiple test with multiple operations, endpoints and paths
+        // TODO: ENTER program points?
+        // Create PostmanCollection
+        PostmanCollection postmanCollection = new PostmanCollection(specification, invariantsPath);
 
-        APIOperation apiOperation = allApiOperations.get(0);
+        // Create Gson instance
+        Gson gson = new Gson();
 
-        System.out.println("//////////////////////////// INPUT PARAMETERS SCRIPT ////////////////////////////");
-        String inputParametersScript = apiOperation.generateInputParametersScript();
-        System.out.println(inputParametersScript);
-
-        // Iterate over program point hierarchy (in-depth search)
-        System.out.println("////////////////////////////  TEST SCRIPT ////////////////////////////");
-        List<String> valuesToConsiderAsNull = new ArrayList<>(); // TODO: Create test case
-//        valuesToConsiderAsNull.add("N/A");
-//        valuesToConsiderAsNull.add("");
-
-        String testScript = apiOperation.generateTestScript(valuesToConsiderAsNull);
-        System.out.println(testScript);
-
-
-        /**
-         * For each of these program points (in-depth search order):
-         * 1.- Locate the variable from the response (check for non-null values)
-         * 2.- If there is a program point for this nesting level
-         * 3.- Generate all the test cases.
-          */
+        // TODO: Change output file name and path
+        try(FileWriter fileWriter = new FileWriter("output.json")) {
+            // Convert POJO to JSON and write to file
+            // TODO: Export with indentation
+            gson.toJson(postmanCollection, fileWriter);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
-
-
 
     public static OpenAPI getOpenAPISpecification(String oasPath){
 
