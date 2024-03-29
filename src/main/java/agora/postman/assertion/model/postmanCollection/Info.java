@@ -4,6 +4,9 @@ package agora.postman.assertion.model.postmanCollection;
 import java.io.Serializable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import io.swagger.v3.oas.models.OpenAPI;
+
+import static agora.postman.assertion.Main2.POSTMAN_COLLECTION_SCHEMA;
 
 /**
  * @author Juan C. Alonso
@@ -11,26 +14,23 @@ import com.google.gson.annotations.SerializedName;
 public class Info implements Serializable
 {
 
-    @SerializedName("_postman_id")
-    @Expose
-    private String postmanId;
     @SerializedName("name")
     @Expose
     private String name;
+    @SerializedName("description")
+    @Expose
+    private String description;
     @SerializedName("schema")
     @Expose
     private String schema;
-    @SerializedName("_exporter_id")
-    @Expose
-    private String exporterId;
+
+
     private final static long serialVersionUID = -9168111175055072215L;
 
-    public String getPostmanId() {
-        return postmanId;
-    }
-
-    public void setPostmanId(String postmanId) {
-        this.postmanId = postmanId;
+    public Info(OpenAPI specification) {
+        this.name = specification.getInfo().getTitle();
+        this.description = specification.getInfo().getDescription();
+        this.schema = POSTMAN_COLLECTION_SCHEMA;
     }
 
     public String getName() {
@@ -41,6 +41,14 @@ public class Info implements Serializable
         this.name = name;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getSchema() {
         return schema;
     }
@@ -49,12 +57,6 @@ public class Info implements Serializable
         this.schema = schema;
     }
 
-    public String getExporterId() {
-        return exporterId;
-    }
 
-    public void setExporterId(String exporterId) {
-        this.exporterId = exporterId;
-    }
 
 }
