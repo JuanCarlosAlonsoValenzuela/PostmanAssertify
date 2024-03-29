@@ -16,6 +16,10 @@ public class ProtocolProfileBehavior implements Serializable
     private Boolean disableBodyPruning;
     private final static long serialVersionUID = 6415001091087088832L;
 
+    public ProtocolProfileBehavior() {
+        this.disableBodyPruning = true;
+    }
+
     public Boolean getDisableBodyPruning() {
         return disableBodyPruning;
     }

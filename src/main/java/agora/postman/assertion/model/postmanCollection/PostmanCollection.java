@@ -39,7 +39,7 @@ public class PostmanCollection implements Serializable
                 .collect(groupingBy(APIOperation::getEndpoint));
 
         for(String endpointApiOperations: apiOperationsByEndpoint.keySet()) {
-            // Create a folder, each folden contains all the operations with a specific endpoint
+            // Create a folder, each folder contains all the operations with a specific endpoint
             itemFolders.add(new ItemFolder(endpointApiOperations, apiOperationsByEndpoint.get(endpointApiOperations)));
         }
 

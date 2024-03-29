@@ -2,7 +2,11 @@
 package agora.postman.assertion.model.postmanCollection;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import agora.postman.assertion.model.APIOperation;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -28,6 +32,14 @@ public class ItemRequest implements Serializable
     @Expose
     private ProtocolProfileBehavior protocolProfileBehavior;
     private final static long serialVersionUID = 849339939549916296L;
+
+    public ItemRequest(APIOperation apiOperation) {
+        this.name = apiOperation.getOperationId() + "_" + apiOperation.getResponseCode();
+        this.event = Collections.singletonList(new Event(apiOperation));
+        this.request = new Request(apiOperation);
+        this.response = new ArrayList<>();
+        this.protocolProfileBehavior = new ProtocolProfileBehavior();
+    }
 
     public String getName() {
         return name;
