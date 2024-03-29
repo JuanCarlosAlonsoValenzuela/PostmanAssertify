@@ -37,9 +37,11 @@ public class Header implements Serializable
     public static List<Header> getAllHeaders(List<Parameter> parameters) {
         List<Header> res = new ArrayList<>();
 
-        for(Parameter parameter: parameters) {
-            if(parameter.getIn().equals("header")) {
-                res.add(new Header(parameter));
+        if(parameters != null) {
+            for (Parameter parameter : parameters) {
+                if (parameter.getIn().equals("header")) {
+                    res.add(new Header(parameter));
+                }
             }
         }
         return res;

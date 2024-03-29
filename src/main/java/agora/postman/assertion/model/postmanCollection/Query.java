@@ -33,9 +33,11 @@ public class Query implements Serializable
     public static List<Query> getAllQueryParameters(List<Parameter> parameters) {
         List<Query> res = new ArrayList<>();
 
-        for(Parameter parameter: parameters){
-            if(parameter.getIn().equals("query")) {
-                res.add(new Query(parameter));
+        if(parameters != null) {
+            for (Parameter parameter : parameters) {
+                if (parameter.getIn().equals("query")) {
+                    res.add(new Query(parameter));
+                }
             }
         }
 

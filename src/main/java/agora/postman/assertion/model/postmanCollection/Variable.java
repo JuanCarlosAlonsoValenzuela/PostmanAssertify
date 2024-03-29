@@ -31,9 +31,11 @@ public class Variable implements Serializable
     public static List<Variable> getAllPathVariables(List<Parameter> parameters) {
         List<Variable> res = new ArrayList<>();
 
-        for(Parameter parameter: parameters) {
-            if(parameter.getIn().equals("path")) {
-                res.add(new Variable(parameter));
+        if(parameters != null) {
+            for (Parameter parameter : parameters) {
+                if (parameter.getIn().equals("path")) {
+                    res.add(new Variable(parameter));
+                }
             }
         }
         return res;

@@ -2,6 +2,7 @@ package agora.postman.assertion;
 
 import agora.postman.assertion.model.postmanCollection.PostmanCollection;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.OpenAPIV3Parser;
 import io.swagger.v3.parser.core.models.ParseOptions;
@@ -46,7 +47,7 @@ public class Main {
         PostmanCollection postmanCollection = new PostmanCollection(specification, invariantsPath);
 
         // Create Gson instance
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         // TODO: Change output file name and path
         try(FileWriter fileWriter = new FileWriter("output.json")) {
@@ -54,7 +55,7 @@ public class Main {
             // TODO: Export with indentation
             gson.toJson(postmanCollection, fileWriter);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
     }
