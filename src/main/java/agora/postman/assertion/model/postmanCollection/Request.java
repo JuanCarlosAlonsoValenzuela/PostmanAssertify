@@ -35,7 +35,7 @@ public class Request implements Serializable
         this.method = apiOperation.getMethod();
 
         this.header = getAllHeaders(apiOperation.getParameters());
-//        this.url = "";
+        this.url = new Url(apiOperation);
         // The body is empty
         this.body = new Body();
     }

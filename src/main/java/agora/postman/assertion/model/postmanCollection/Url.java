@@ -2,9 +2,17 @@
 package agora.postman.assertion.model.postmanCollection;
 
 import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
+
+import agora.postman.assertion.model.APIOperation;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import static agora.postman.assertion.model.postmanCollection.Query.getAllQueryParameters;
+import static agora.postman.assertion.model.postmanCollection.Variable.getAllPathVariables;
 
 /**
  * @author Juan C. Alonso
@@ -31,6 +39,35 @@ public class Url implements Serializable
     @Expose
     private List<Variable> variable;
     private final static long serialVersionUID = 2243623560081581229L;
+
+    public Url(APIOperation apiOperation) {
+        this.raw = apiOperation.getServer() + apiOperation.getEndpoint();
+
+        URL url;
+        try {
+            url = new URL(apiOperation.getServer() + apiOperation.getEndpoint());
+        } catch (MalformedURLException e) {
+            throw new IllegalArgumentException(e);
+        }
+
+        this.protocol = url.getProtocol();
+        this.host = Arrays.asList(url.getHost().split("\\."));
+
+        // Remove the first "/" and replace the path parameters delimiters ("{" and "}") with the ":" character,
+        // used in Postman to identify path variables
+        this.path = Arrays.stream(url.getPath()
+                .replaceFirst("/", "")
+                .replace("{", ":")
+                .replace("}", "").split("/"))
+                .toList();
+
+        // Get the query parameters
+        this.query = getAllQueryParameters(apiOperation.getParameters());
+
+        // Set the path parameters as Postman variables
+        this.variable = getAllPathVariables(apiOperation.getParameters());
+
+    }
 
     public String getRaw() {
         return raw;

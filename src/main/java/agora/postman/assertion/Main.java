@@ -38,15 +38,6 @@ public class Main {
         // TODO: Distinguish between ENTER and EXIT program point names.
         // TODO: ENTER program points are duplicated
 
-        /**
-         * TODOs:
-         * 1.- Group all program points (ppts) by: endpoint, operationId, responseCode
-         * 2.- Order ppts by length of their variable hierarchy list
-         * 3.- Create hierarchy, increasing size one by one
-         * 4.- If there are still ppts not in the hierarchy, assign them to the closest point in the hierarchy
-         * 5.- Apply to both ENTER and EXIT ppts (for now, only EXIT)
-         */
-
 
         // TODO: We are assuming that these program points are grouped by endpoint, operationId and responseCode
         // TODO: This tree is for a single operation

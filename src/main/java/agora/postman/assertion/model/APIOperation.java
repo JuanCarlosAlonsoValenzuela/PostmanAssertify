@@ -83,6 +83,10 @@ public class APIOperation {
 
     }
 
+    public String getServer() {
+        return server;
+    }
+
     public String getEndpoint() {
         return endpoint;
     }
