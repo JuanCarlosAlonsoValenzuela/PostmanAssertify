@@ -9,6 +9,7 @@ import io.swagger.v3.parser.core.models.ParseOptions;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Path;
 
 /**
  * @author Juan C. Alonso
@@ -43,16 +44,18 @@ public class Main {
         // TODO: Test with multiple Http verbs
         // TODO: Test with multiple test with multiple operations, endpoints and paths
         // TODO: ENTER program points?
+        // TODO: Closing brackets comments are incorrect
         // Create PostmanCollection
         PostmanCollection postmanCollection = new PostmanCollection(specification, invariantsPath);
+
+        // Output path
+        String outputPath = getOutputPath(specification.getInfo().getTitle() + ".json", openApiSpecPath);
 
         // Create Gson instance
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-        // TODO: Change output file name and path
-        try(FileWriter fileWriter = new FileWriter("output.json")) {
+        try(FileWriter fileWriter = new FileWriter(outputPath)) {
             // Convert POJO to JSON and write to file
-            // TODO: Export with indentation
             gson.toJson(postmanCollection, fileWriter);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -67,6 +70,15 @@ public class Main {
         parseOptions.setFlatten(true);
 
         return new OpenAPIV3Parser().read(oasPath, null, parseOptions);
+    }
+
+    private static String getOutputPath(String filename, String folder) {
+        Path path = java.nio.file.Paths.get(folder);      // openApiSpecPath
+        Path dir = path.getParent();
+        Path fn = path.getFileSystem().getPath(filename);
+        Path target = (dir == null) ? fn : dir.resolve(fn);
+
+        return target.toString();
     }
 
 }
