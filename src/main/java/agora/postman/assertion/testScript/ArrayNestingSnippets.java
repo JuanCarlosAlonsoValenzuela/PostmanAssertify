@@ -17,7 +17,7 @@ public class ArrayNestingSnippets {
 
     // TODO: Document and add more comments
     public static ScriptSnippet generateRootArrayNestingSnippet(
-            Map<Integer, ProgramPoint> arrayNestingProgramPoints, String parentBaseVariable, String indentationStr
+            Map<Integer, ProgramPoint> arrayNestingProgramPoints, String parentBaseVariable
     ) {
 
         String snippet = "";
@@ -33,18 +33,18 @@ public class ArrayNestingSnippets {
             }
 
             // Generate test cases of this nesting level
-            snippet += generateProgramPointTestCases(arrayNestingProgramPoints.get(i), parentBaseVariable, indentationStr);
+            snippet += generateProgramPointTestCases(arrayNestingProgramPoints.get(i), parentBaseVariable);
 
             snippet += "// Access to the next nesting level\n";
 
             // Generate the code to access to the next nesting level
-            ScriptSnippet accessNextArrayNestingLevelSnippet = generateAccessNextArrayNestingLevelSnippet(parentBaseVariable, indentationStr);
+            ScriptSnippet accessNextArrayNestingLevelSnippet = generateAccessNextArrayNestingLevelSnippet(parentBaseVariable);
 
             parentBaseVariable = accessNextArrayNestingLevelSnippet.newParentBaseVariable();
             snippet += accessNextArrayNestingLevelSnippet.snippet();
 
             if(DEBUG_MODE) {
-                snippet += printVariableValueScript(parentBaseVariable, "");
+                snippet += printVariableValueScript(parentBaseVariable);
             }
 
         }
@@ -55,15 +55,15 @@ public class ArrayNestingSnippets {
 
     // TODO: DOCUMENT
     // TODO: Rename
-    public static ScriptSnippet generateAccessNextObjectNestingLevelSnippet(Tree<String> tree, String parentBaseVariable, String indentationStr) {
+    public static ScriptSnippet generateAccessNextObjectNestingLevelSnippet(Tree<String> tree, String parentBaseVariable) {
 
         String data = tree.getData();
 
-        String baseVariableAsignation = parentBaseVariable + "_" + data + " = " + parentBaseVariable + "." + data;
+        String baseVariableAssignation = parentBaseVariable + "_" + data + " = " + parentBaseVariable + "." + data;
         parentBaseVariable = parentBaseVariable + "_" + data;
 
-        String snippet = indentationStr + baseVariableAsignation + "\n";
-        snippet += indentationStr + "if(" + parentBaseVariable + " != null) {\n";
+        String snippet = baseVariableAssignation + "\n";
+        snippet += "if(" + parentBaseVariable + " != null) {\n";
 
         return new ScriptSnippet(parentBaseVariable, snippet);
     }
@@ -72,31 +72,31 @@ public class ArrayNestingSnippets {
     // TODO: DOCUMENT
     // TODO: Rename
     // Used when the next nesting level is of type array
-    public static ScriptSnippet generateAccessNextArrayNestingLevelSnippet(String parentBaseVariable, String indentationStr) {
+    public static ScriptSnippet generateAccessNextArrayNestingLevelSnippet(String parentBaseVariable) {
 
         String baseVariableIndex = parentBaseVariable + "_index";
         String baseVariableElement = parentBaseVariable + "_element";
 
-        String snippet = indentationStr + "\tfor(" + baseVariableIndex + " in " + parentBaseVariable + ") {\n";
-        snippet += indentationStr + "\t\t" + baseVariableElement + " = " + parentBaseVariable + "[" + baseVariableIndex + "]\n";
+        String snippet = "for(" + baseVariableIndex + " in " + parentBaseVariable + ") {\n";
+        snippet += baseVariableElement + " = " + parentBaseVariable + "[" + baseVariableIndex + "]\n";
 
         return new ScriptSnippet(baseVariableElement, snippet);
     }
 
     // TODO: Move to a different class
     // TODO: DOCUMENT
-    public static String generateProgramPointTestCases(ProgramPoint programPoint, String parentBaseVariable, String indentationStr) {
+    public static String generateProgramPointTestCases(ProgramPoint programPoint, String parentBaseVariable) {
         String res = "";
         if(programPoint != null) {
 
-            res += indentationStr + "// Invariants of this nesting level:\n";
+            res += "// Invariants of this nesting level:\n";
 
             for(Invariant inv: programPoint.getInvariants()) {
-                res += inv.getPostmanTestCase(parentBaseVariable, indentationStr);
+                res += inv.getPostmanTestCase(parentBaseVariable);
             }
 
         } else {
-            res += indentationStr + "// This nesting level has no invariants\n";
+            res += "// This nesting level has no invariants\n";
         }
 
         res += "\n";

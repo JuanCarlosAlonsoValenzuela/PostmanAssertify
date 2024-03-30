@@ -148,7 +148,7 @@ public class APIOperation {
 
 
                 if(DEBUG_MODE) {
-                    res = res + printVariableValueScript(getInputVariableName(parameter), "");
+                    res = res + printVariableValueScript(getInputVariableName(parameter));
                 }
 
             }
@@ -162,7 +162,7 @@ public class APIOperation {
             res = res + "let request_body = JSON.parse(pm.request.body.raw);\n";
 
             if(DEBUG_MODE) {
-                res = res + printVariableValueScript("request_body", "");
+                res = res + printVariableValueScript("request_body");
             }
 
             // Generates the code that obtains the value of all the body parameters (first nesting level) specified in
@@ -204,7 +204,6 @@ public class APIOperation {
     }
 
     /**
-     * @param paths: List of program point names, separated by HIERARCHY_SEPARATOR
      * @return Program point hierarchy tree, derived from the list of paths.
      */
     // TODO: Update parameters in Javadoc

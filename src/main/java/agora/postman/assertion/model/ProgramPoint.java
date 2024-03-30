@@ -39,17 +39,11 @@ public class ProgramPoint {
         this.pptType = getPptType(pptname);
         this.endpoint = pptnameComponents.get(0);
         this.operationId = pptnameComponents.get(1);
-
-        // TODO: Create test cases
         this.arrayNesting = countArrayNesting(pptnameComponents.get(pptnameComponents.size()-1));
-
-
         this.responseCode = getResponseCodeValue(pptnameComponents.get(2));
-
 
         // The input are the elements of the list that contain the nested variables
         this.variableHierarchy = getVariableHierarchy(pptnameComponents.subList(3, pptnameComponents.size()));
-
         this.invariants = invariants;
 
     }
@@ -140,8 +134,6 @@ public class ProgramPoint {
         }
 
     }
-
-
 
 
     /**

@@ -59,7 +59,7 @@ public class RequestBodyScript {
         res = res + inputVariableName + " = request_body." + requestVariableName + ";\n";
 
         if(DEBUG_MODE) {
-            res = res + printVariableValueScript(inputVariableName, "");
+            res = res + printVariableValueScript(inputVariableName);
         }
 
         return res;

@@ -49,10 +49,8 @@ public class NestingLevelTestScript {
     // Returns initial lines test scripts and sets the value of the next parentBaseVariable
     private String generateInitialLinesScript(Tree<String> tree, List<String> parents, String parentBaseVariable) {
 
-        String indentationStr = "\t".repeat(Math.max(parents.size() - 1, 0));
-
         // Print current nesting level (e.g., 200&data)
-        String res = indentationStr + "// " + String.join(HIERARCHY_SEPARATOR, parents) + HIERARCHY_SEPARATOR + tree.getData() + "\n";
+        String res = "// " + String.join(HIERARCHY_SEPARATOR, parents) + HIERARCHY_SEPARATOR + tree.getData() + "\n";
 
         if(parents.isEmpty()){  // If we are in the first nesting level
 
@@ -61,30 +59,30 @@ public class NestingLevelTestScript {
             parentBaseVariable = "response";
 
             if(DEBUG_MODE) {
-                res += printVariableValueScript(parentBaseVariable, "");
+                res += printVariableValueScript(parentBaseVariable);
             }
 
             // Invariants of nested arrays in root (e.g., 200%array%array)
             Map<Integer, ProgramPoint> arrayNestingProgramPoints = tree.getArrayNestingProgramPoints();
             if(!arrayNestingProgramPoints.isEmpty()) {
-                ScriptSnippet rootArrayNestingSnippet = generateRootArrayNestingSnippet(arrayNestingProgramPoints, parentBaseVariable, indentationStr);
+                ScriptSnippet rootArrayNestingSnippet = generateRootArrayNestingSnippet(arrayNestingProgramPoints, parentBaseVariable);
 
                 parentBaseVariable = rootArrayNestingSnippet.newParentBaseVariable();
                 res += rootArrayNestingSnippet.snippet();
             }
 
             // Get invariants of this nesting level
-            res += generateProgramPointTestCases(tree.getProgramPoint(), parentBaseVariable, indentationStr);
+            res += generateProgramPointTestCases(tree.getProgramPoint(), parentBaseVariable);
 
         } else {    // If we are in a deeper nesting level
 
             // Access next object in the nesting hierarchy
-            ScriptSnippet accessNextObjectNestingLevelSnippet = generateAccessNextObjectNestingLevelSnippet(tree, parentBaseVariable, indentationStr);
+            ScriptSnippet accessNextObjectNestingLevelSnippet = generateAccessNextObjectNestingLevelSnippet(tree, parentBaseVariable);
             parentBaseVariable = accessNextObjectNestingLevelSnippet.newParentBaseVariable();
             res += accessNextObjectNestingLevelSnippet.snippet();
 
             if(DEBUG_MODE) {
-                res += printVariableValueScript(parentBaseVariable, indentationStr);
+                res += printVariableValueScript(parentBaseVariable);
             }
 
             // If the nesting type value is array
@@ -92,24 +90,24 @@ public class NestingLevelTestScript {
                 Map<Integer, ProgramPoint> arrayNestingProgramPoints = tree.getArrayNestingProgramPoints();
                 if(!arrayNestingProgramPoints.isEmpty()) {
                     // Generate code to access to all the nested arrays program points
-                    ScriptSnippet propertyArrayNestingSnippet = generateRootArrayNestingSnippet(arrayNestingProgramPoints, parentBaseVariable, indentationStr);
+                    ScriptSnippet propertyArrayNestingSnippet = generateRootArrayNestingSnippet(arrayNestingProgramPoints, parentBaseVariable);
 
                     parentBaseVariable = propertyArrayNestingSnippet.newParentBaseVariable();
                     res += propertyArrayNestingSnippet.snippet();
                 }
 
                 // Generate the code to access to the next nesting level
-                ScriptSnippet accessNextArrayNestingLevelSnippet = generateAccessNextArrayNestingLevelSnippet(parentBaseVariable, indentationStr);
+                ScriptSnippet accessNextArrayNestingLevelSnippet = generateAccessNextArrayNestingLevelSnippet(parentBaseVariable);
                 parentBaseVariable = accessNextArrayNestingLevelSnippet.newParentBaseVariable();
                 res += accessNextArrayNestingLevelSnippet.snippet();
 
                 if(DEBUG_MODE) {
-                    res += printVariableValueScript(parentBaseVariable, indentationStr);
+                    res += printVariableValueScript(parentBaseVariable);
                 }
 
             }
 
-            res += generateProgramPointTestCases(tree.getProgramPoint(), parentBaseVariable, indentationStr);
+            res += generateProgramPointTestCases(tree.getProgramPoint(), parentBaseVariable);
 
         }
 
@@ -127,13 +125,11 @@ public class NestingLevelTestScript {
 
         if(!parents.isEmpty()) {
 
-            String indentationStr = "\t".repeat(Math.max(parents.size() - 1, 0));
-
             if(tree.getNestingType().equals(NestingType.ARRAY)) {
-                res += indentationStr + "\t} // Closing for " + parentBaseVariable + "\n";
+                res += "} // Closing for " + parentBaseVariable + "\n";
             }
 
-            res += indentationStr + "} // Closing if "+ parentBaseVariable + "\n\n";
+            res += "} // Closing if "+ parentBaseVariable + "\n\n";
 
         }
 

@@ -58,37 +58,31 @@ public class Invariant {
     public String getPostmanAssertion() { return postmanAssertion; }
 
     // TODO: Use StringBuilder
-    // TODO: Values of type array
-    // TODO: Input and output variables
-    // TODO: Variable datatype
-    // TODO: Access base variable (nesting level)
-    public String getPostmanTestCase(String parentBaseVariable, String indentationStr) {
+    // TODO: Array item
+    public String getPostmanTestCase(String parentBaseVariable) {
 
-        // TODO: Change this condition (hardcoded)
-        String testCaseIndentation = (!parentBaseVariable.equals("response")) ? indentationStr: "";
-
-        String res = testCaseIndentation + "// " + this.invariant + "\n";
+        String res =  "// " + this.invariant + "\n";
 
         // Test case first line
-        res += testCaseIndentation + "pm.test(\"" + this.invariant.replace("\"", "\\\"") + "\", () => {\n";
+        res +=  "pm.test(\"" + this.invariant.replace("\"", "\\\"") + "\", () => {\n";
 
         // Generate code to access to variable value
         for(Variable variable: this.variables) {
-            res += variable.getPostmanVariableValueCode(parentBaseVariable, testCaseIndentation, this.isArrayNestingPpt);
+            res += variable.getPostmanVariableValueCode(parentBaseVariable, this.isArrayNestingPpt);
         }
 
         // Check that none of the invariants variables is null or one of the values to consider as null
-        res += generateNotNullConditionsSnippet(this.variables, testCaseIndentation);
+        res += generateNotNullConditionsSnippet(this.variables);
 
         // Postman assertion, returned by AGORA
         // TODO: REMOVE comment characters (//)
-        res += testCaseIndentation + "\t\t//" + this.postmanAssertion + ";\n";
+        res += "//" + this.postmanAssertion + ";\n";
 
         // Close if variable not null and not part of values to consider as null bracket
-        res += testCaseIndentation + "\t}\n";
+        res += "}\n";
 
         // Close test case bracket
-        res += testCaseIndentation + "})\n";
+        res += "})\n";
 
         return res;
 
@@ -96,7 +90,7 @@ public class Invariant {
 
     // TODO: DOCUMENT
     // TODO: Move to a different class
-    private static String generateNotNullConditionsSnippet(List<Variable> variables, String testCaseIndentation) {
+    private static String generateNotNullConditionsSnippet(List<Variable> variables) {
 
         // If variable is not null and not part of values to consider null
         // One not null conditions for each invariant variable
@@ -110,7 +104,7 @@ public class Invariant {
             notNullConditions.add(condition);
         }
         // Check that none of the invariants variables is null
-        return testCaseIndentation + "\t" + "if(" + String.join(" && ", notNullConditions) + ") {" + "\n";
+        return "if(" + String.join(" && ", notNullConditions) + ") {" + "\n";
 
     }
 

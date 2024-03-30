@@ -49,8 +49,7 @@ public class ParametersScript {
     // completeURI = server + endpoint
     private static String getVariableValueOfPathParameter(String parameterName, String completeURI) {
 
-
-        String path = null;
+        String path;
         try {
             path = new URL(completeURI).getPath();
         } catch (MalformedURLException e) {
@@ -81,12 +80,12 @@ public class ParametersScript {
         String res = "if (" + inputVariableName + " != null) { \n";
 
         // Decode URI component
-        res += "\t" + inputVariableName + " = decodeURIComponent(" + inputVariableName + ");\n";
+        res += inputVariableName + " = decodeURIComponent(" + inputVariableName + ");\n";
 
         switch (parameterType) {
-            case "number" -> res = res + "\t" + inputVariableName + " = Number(" + inputVariableName + ");\n";
-            case "integer" -> res = res + "\t" + inputVariableName + " = parseInt(" + inputVariableName + ");\n";
-            case "boolean" -> res = res + "\t" + inputVariableName + " = (" + inputVariableName + " == \"true\");\n";
+            case "number" -> res = res + inputVariableName + " = Number(" + inputVariableName + ");\n";
+            case "integer" -> res = res + inputVariableName + " = parseInt(" + inputVariableName + ");\n";
+            case "boolean" -> res = res + inputVariableName + " = (" + inputVariableName + " == \"true\");\n";
             case "array" -> {
 
                 String separator = ",";
@@ -94,10 +93,10 @@ public class ParametersScript {
 
                 // Check items datatype and convert them
                 res+= switch (itemsDatatype) {
-                    case "string" -> "\t" + inputVariableName + " = " + inputVariableName + ".split(\"" + separator + "\").map(item => item.trim());\n";
-                    case "integer" -> "\t" + inputVariableName + " = " + inputVariableName + ".split(\"" + separator + "\").map(item => parseInt(item.trim()));\n";
-                    case "number" -> "\t" + inputVariableName + " = " + inputVariableName + ".split(\"" + separator + "\").map(item => Number(item.trim()));\n";
-                    case "boolean" -> "\t" + inputVariableName + " = " + inputVariableName + ".split(\"" + separator + "\").map(item => item.trim() == \"true\");\n";
+                    case "string" -> inputVariableName + " = " + inputVariableName + ".split(\"" + separator + "\").map(item => item.trim());\n";
+                    case "integer" -> inputVariableName + " = " + inputVariableName + ".split(\"" + separator + "\").map(item => parseInt(item.trim()));\n";
+                    case "number" -> inputVariableName + " = " + inputVariableName + ".split(\"" + separator + "\").map(item => Number(item.trim()));\n";
+                    case "boolean" -> inputVariableName + " = " + inputVariableName + ".split(\"" + separator + "\").map(item => item.trim() == \"true\");\n";
                     default -> throw new RuntimeException("Unexpected input array items datatype: " + itemsDatatype);
                 };
 
@@ -106,7 +105,7 @@ public class ParametersScript {
             default -> throw new RuntimeException("Unexpected parameter type: " + parameterType);
         }
 
-        res = res + "}\n";
+        res += "}\n";
 
         return res;
 

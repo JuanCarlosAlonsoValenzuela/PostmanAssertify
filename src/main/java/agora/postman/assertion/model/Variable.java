@@ -96,37 +96,34 @@ public class Variable {
 
     // TODO: DOCUMENT
     // TODO: Split into multiple methods
-    public String getPostmanVariableValueCode(String parentBaseVariable, String baseIndentation, boolean isArrayNestingPpt) {
+    public String getPostmanVariableValueCode(String parentBaseVariable, boolean isArrayNestingPpt) {
 
         String postmanVariableName = this.getPostmanVariableName();
 
         List<String> variableHierarchyList = this.getVariableHierarchyList();
 
-        String currentIdentation = baseIndentation + "\t";
         int ifBracketsToClose = 0;
 
-        String res = currentIdentation + "// Getting value of variable: " + postmanVariableName + "\n";
+        String res = "// Getting value of variable: " + postmanVariableName + "\n";
 
         if(this.isReturn()) {  // Generate code for getting return variables
 
             if(isArrayNestingPpt) { // Array nesting program points (i.e., %array) only have one return variable (return_array)
 
-                // TODO: Create test cases (for array itself, size and array element)
-                res += currentIdentation + postmanVariableName + " = " + parentBaseVariable + ";\n";
+                // TODO: Create test cases for array element
+                res += postmanVariableName + " = " + parentBaseVariable + ";\n";
 
             } else {    // If normal program point
                 // First line/nested variable
-                res += currentIdentation + postmanVariableName + " = " + parentBaseVariable + "." + variableHierarchyList.get(0) + ";\n";
+                res += postmanVariableName + " = " + parentBaseVariable + "." + variableHierarchyList.get(0) + ";\n";
 
                 for(int i = 1; i < variableHierarchyList.size(); i++) {
 
                     // Check that the variable is not null
-                    res += currentIdentation + "if(" + postmanVariableName + " != null) {\n";
-
-                    currentIdentation = currentIdentation + "\t";
+                    res += "if(" + postmanVariableName + " != null) {\n";
 
                     // Access next hierarchy element
-                    res += currentIdentation + postmanVariableName + " = " + postmanVariableName + "." + variableHierarchyList.get(i) + ";\n";
+                    res += postmanVariableName + " = " + postmanVariableName + "." + variableHierarchyList.get(i) + ";\n";
 
                     // Increment the number of if brackets to close
                     ifBracketsToClose++;
@@ -150,19 +147,17 @@ public class Variable {
                 // TODO: END CONVERT INTO FUNCTION 1
 
                 // First hierarchy element
-                res += currentIdentation + postmanVariableName + " = " + firstHierarchyLevelVariableName + ";\n";
+                res += postmanVariableName + " = " + firstHierarchyLevelVariableName + ";\n";
 
 
                 // Access to the subsequent hierarchy elements
                 for(int i=1; i<variableHierarchyList.size(); i++) {     // TODO: This code is duplicated (convert into function)
 
                     // Check that the variable is not null
-                    res += currentIdentation + "if(" + postmanVariableName + " != null) {\n";
-
-                    currentIdentation = currentIdentation + "\t";
+                    res += "if(" + postmanVariableName + " != null) {\n";
 
                     // Access next hierarchy element
-                    res += currentIdentation + postmanVariableName + " = " + postmanVariableName + "." + variableHierarchyList.get(i) + ";\n";
+                    res += postmanVariableName + " = " + postmanVariableName + "." + variableHierarchyList.get(i) + ";\n";
 
                     // Increment the number of if brackets to close
                     ifBracketsToClose++;
@@ -177,36 +172,32 @@ public class Variable {
         // Close if brackets (common for both input and exit)
         while(ifBracketsToClose > 0) {
 
-            // Reduce indentation level
-            currentIdentation = currentIdentation.substring(0, currentIdentation.length()-1);
-
             // Close if bracket
-            res = res + currentIdentation + "}\n";
+            res += "}\n";
 
             ifBracketsToClose--;
         }
 
 
-        // TODO: THIS IS COMMON TO BOTH INPUT AND RETURN
-        // TODO: Create test case for size of input variables
+        // THIS IS COMMON TO BOTH INPUT AND RETURN
         // If the variable is the size of an array
         // Get array size
         if(this.isSize()) {
             // If the retrieved array is not null
-            res = res + currentIdentation + "if(" + postmanVariableName + " != null) {\n";
+            res += "if(" + postmanVariableName + " != null) {\n";
 
             // Get array size
-            res = res + currentIdentation + "\t" + postmanVariableName + " = " + postmanVariableName + ".length;\n";
+            res += postmanVariableName + " = " + postmanVariableName + ".length;\n";
 
             // Close the bracket
-            res = res + currentIdentation + "}\n\n";
+            res += "}\n\n";
         }
 
         if(DEBUG_MODE) {
-            res = res + printVariableValueScript(postmanVariableName, currentIdentation);
+            res+= printVariableValueScript(postmanVariableName);
         }
 
-        res = res + "\n";
+        res += "\n";
 
         return res;
     }
