@@ -45,6 +45,7 @@ public class Main {
         // TODO: Test with multiple test with multiple operations, endpoints and paths
         // TODO: ENTER program points?
         // TODO: Closing brackets comments are incorrect
+        // TODO: Apply modifications in Beet (or Daikon) to avoid confusing shift with kebab-case
         // Create PostmanCollection
         PostmanCollection postmanCollection = new PostmanCollection(specification, invariantsPath);
 
