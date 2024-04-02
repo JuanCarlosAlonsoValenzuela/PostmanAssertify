@@ -20,6 +20,8 @@ public class Variable {
     private boolean isSize;
     private List<String> variableHierarchyList;
 
+    private String shift;
+
     public Variable(String variableName) {
         this.variableName = variableName;
 
@@ -40,9 +42,27 @@ public class Variable {
         return isSize;
     }
 
-
     public List<String> getVariableHierarchyList() {
         return variableHierarchyList;
+    }
+
+    public String getShift() {
+        return shift;
+    }
+
+    public void setShift(String shift) {
+        this.shift = shift;
+    }
+
+    @Override
+    public String toString() {
+        return "Variable{" +
+                "variableName='" + variableName + '\'' +
+                ", isReturn=" + isReturn +
+                ", isSize=" + isSize +
+                ", variableHierarchyList=" + variableHierarchyList +
+                ", shift='" + shift + '\'' +
+                '}';
     }
 
     // TODO: THIS METHOD MUST BE IDENTICAL TO THE ONE IN DAIKON, every modification performed here must be performed in Daikon too!!!
@@ -189,6 +209,8 @@ public class Variable {
             // Get array size
             res += postmanVariableName + " = " + postmanVariableName + ".length;\n";
 
+            // TODO: shift here, avoid collision with other types of shift
+
             // Close the bracket
             res += "}\n\n";
         }
@@ -217,12 +239,27 @@ public class Variable {
         // Determine whether the variable is the size of an array
         this.isSize = false;
         if(variableHierarchyString.startsWith("size(")) {
-
-            variableHierarchyString = variableHierarchyString
-                    .substring("size(".length(), variableHierarchyString.length() - 1);
-
             this.isSize = true;
+
+            // If there is some type of shift. For example: size(return.users[])-1
+            if(!variableHierarchyString.endsWith(")")) {
+                // Store shift (e.g., "+1", "-1")
+                this.shift = variableHierarchyString
+                        .substring(
+                                variableHierarchyString.lastIndexOf(")") + 1
+                        );
+            }
+
+            // Update the value of variableHierarchyString by removing "size(" at the start and ")" (and the possible
+            // shift) at the end
+            variableHierarchyString = variableHierarchyString
+                    .substring(
+                            "size(".length(),
+                            variableHierarchyString.lastIndexOf(")")
+                    );
         }
+
+        // TODO: Can a variable be size of array element??
 
         // Remove array characters
         variableHierarchyString = variableHierarchyString.replace("[]", "");
