@@ -1,0 +1,2 @@
+pptname;invariant;invariantType;variables;postmanAssertion;tp
+/shopping/hotel-offers&getMultiHotelOffers&200():::EXIT;size(input.hotelIds[]) -1 >= size(return.data[]) -1;daikon.inv.binary.twoScalar.IntGreaterEqual;(size(input.hotelIds[..]) -1, size(return.data[..]) -1);pm.expect(input_hotelIds_size_array_minus_1).to.be.at.least(return_data_size_array_minus_1);1

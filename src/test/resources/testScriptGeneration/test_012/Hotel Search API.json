@@ -1,0 +1,284 @@
+{
+  "info": {
+    "name": "Hotel Search API",
+    "description": "Before using this API, we recommend you read our **[Authorization Guide](https://developers.amadeus.com/self-service/apis-docs/guides/authorization-262)** for more information on how to generate an access token. \n\nPlease also be aware that our test environment is based on a subset of the production for this API it may change dynamically. For your tests, use big cities like LON (London) or NYC (New-York).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "/shopping/hotel-offers",
+      "item": [
+        {
+          "name": "getMultiHotelOffers_200",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Getting value of the hotelIds query parameter \r",
+                  "input_hotelIds_array \u003d pm.request.url.query.get(\"hotelIds\");\r",
+                  "if (input_hotelIds_array !\u003d null) { \r",
+                  "input_hotelIds_array \u003d decodeURIComponent(input_hotelIds_array);\r",
+                  "input_hotelIds_array \u003d input_hotelIds_array.split(\",\").map(item \u003d\u003e item.trim());\r",
+                  "}\r",
+                  "// Printing value of input_hotelIds_array variable\r",
+                  "console.log(\"Printing value of input_hotelIds_array\");\r",
+                  "console.log(input_hotelIds_array);\r",
+                  "\r",
+                  "// Getting value of the adults query parameter \r",
+                  "input_adults \u003d pm.request.url.query.get(\"adults\");\r",
+                  "if (input_adults !\u003d null) { \r",
+                  "input_adults \u003d decodeURIComponent(input_adults);\r",
+                  "input_adults \u003d parseInt(input_adults);\r",
+                  "}\r",
+                  "// Printing value of input_adults variable\r",
+                  "console.log(\"Printing value of input_adults\");\r",
+                  "console.log(input_adults);\r",
+                  "\r",
+                  "// Getting value of the checkInDate query parameter \r",
+                  "input_checkInDate \u003d pm.request.url.query.get(\"checkInDate\");\r",
+                  "if (input_checkInDate !\u003d null) { \r",
+                  "input_checkInDate \u003d decodeURIComponent(input_checkInDate);\r",
+                  "}\r",
+                  "// Printing value of input_checkInDate variable\r",
+                  "console.log(\"Printing value of input_checkInDate\");\r",
+                  "console.log(input_checkInDate);\r",
+                  "\r",
+                  "// Getting value of the checkOutDate query parameter \r",
+                  "input_checkOutDate \u003d pm.request.url.query.get(\"checkOutDate\");\r",
+                  "if (input_checkOutDate !\u003d null) { \r",
+                  "input_checkOutDate \u003d decodeURIComponent(input_checkOutDate);\r",
+                  "}\r",
+                  "// Printing value of input_checkOutDate variable\r",
+                  "console.log(\"Printing value of input_checkOutDate\");\r",
+                  "console.log(input_checkOutDate);\r",
+                  "\r",
+                  "// Getting value of the countryOfResidence query parameter \r",
+                  "input_countryOfResidence \u003d pm.request.url.query.get(\"countryOfResidence\");\r",
+                  "if (input_countryOfResidence !\u003d null) { \r",
+                  "input_countryOfResidence \u003d decodeURIComponent(input_countryOfResidence);\r",
+                  "}\r",
+                  "// Printing value of input_countryOfResidence variable\r",
+                  "console.log(\"Printing value of input_countryOfResidence\");\r",
+                  "console.log(input_countryOfResidence);\r",
+                  "\r",
+                  "// Getting value of the roomQuantity query parameter \r",
+                  "input_roomQuantity \u003d pm.request.url.query.get(\"roomQuantity\");\r",
+                  "if (input_roomQuantity !\u003d null) { \r",
+                  "input_roomQuantity \u003d decodeURIComponent(input_roomQuantity);\r",
+                  "input_roomQuantity \u003d parseInt(input_roomQuantity);\r",
+                  "}\r",
+                  "// Printing value of input_roomQuantity variable\r",
+                  "console.log(\"Printing value of input_roomQuantity\");\r",
+                  "console.log(input_roomQuantity);\r",
+                  "\r",
+                  "// Getting value of the priceRange query parameter \r",
+                  "input_priceRange \u003d pm.request.url.query.get(\"priceRange\");\r",
+                  "if (input_priceRange !\u003d null) { \r",
+                  "input_priceRange \u003d decodeURIComponent(input_priceRange);\r",
+                  "}\r",
+                  "// Printing value of input_priceRange variable\r",
+                  "console.log(\"Printing value of input_priceRange\");\r",
+                  "console.log(input_priceRange);\r",
+                  "\r",
+                  "// Getting value of the currency query parameter \r",
+                  "input_currency \u003d pm.request.url.query.get(\"currency\");\r",
+                  "if (input_currency !\u003d null) { \r",
+                  "input_currency \u003d decodeURIComponent(input_currency);\r",
+                  "}\r",
+                  "// Printing value of input_currency variable\r",
+                  "console.log(\"Printing value of input_currency\");\r",
+                  "console.log(input_currency);\r",
+                  "\r",
+                  "// Getting value of the paymentPolicy query parameter \r",
+                  "input_paymentPolicy \u003d pm.request.url.query.get(\"paymentPolicy\");\r",
+                  "if (input_paymentPolicy !\u003d null) { \r",
+                  "input_paymentPolicy \u003d decodeURIComponent(input_paymentPolicy);\r",
+                  "}\r",
+                  "// Printing value of input_paymentPolicy variable\r",
+                  "console.log(\"Printing value of input_paymentPolicy\");\r",
+                  "console.log(input_paymentPolicy);\r",
+                  "\r",
+                  "// Getting value of the boardType query parameter \r",
+                  "input_boardType \u003d pm.request.url.query.get(\"boardType\");\r",
+                  "if (input_boardType !\u003d null) { \r",
+                  "input_boardType \u003d decodeURIComponent(input_boardType);\r",
+                  "}\r",
+                  "// Printing value of input_boardType variable\r",
+                  "console.log(\"Printing value of input_boardType\");\r",
+                  "console.log(input_boardType);\r",
+                  "\r",
+                  "// Getting value of the includeClosed query parameter \r",
+                  "input_includeClosed \u003d pm.request.url.query.get(\"includeClosed\");\r",
+                  "if (input_includeClosed !\u003d null) { \r",
+                  "input_includeClosed \u003d decodeURIComponent(input_includeClosed);\r",
+                  "input_includeClosed \u003d (input_includeClosed \u003d\u003d \"true\");\r",
+                  "}\r",
+                  "// Printing value of input_includeClosed variable\r",
+                  "console.log(\"Printing value of input_includeClosed\");\r",
+                  "console.log(input_includeClosed);\r",
+                  "\r",
+                  "// Getting value of the bestRateOnly query parameter \r",
+                  "input_bestRateOnly \u003d pm.request.url.query.get(\"bestRateOnly\");\r",
+                  "if (input_bestRateOnly !\u003d null) { \r",
+                  "input_bestRateOnly \u003d decodeURIComponent(input_bestRateOnly);\r",
+                  "input_bestRateOnly \u003d (input_bestRateOnly \u003d\u003d \"true\");\r",
+                  "}\r",
+                  "// Printing value of input_bestRateOnly variable\r",
+                  "console.log(\"Printing value of input_bestRateOnly\");\r",
+                  "console.log(input_bestRateOnly);\r",
+                  "\r",
+                  "// Getting value of the lang query parameter \r",
+                  "input_lang \u003d pm.request.url.query.get(\"lang\");\r",
+                  "if (input_lang !\u003d null) { \r",
+                  "input_lang \u003d decodeURIComponent(input_lang);\r",
+                  "}\r",
+                  "// Printing value of input_lang variable\r",
+                  "console.log(\"Printing value of input_lang\");\r",
+                  "console.log(input_lang);\r",
+                  "\r",
+                  "valuesToConsiderAsNull \u003d [];\r",
+                  "// \u0026200\r",
+                  "response \u003d pm.response.json();\r",
+                  "// Printing value of response variable\r",
+                  "console.log(\"Printing value of response\");\r",
+                  "console.log(response);\r",
+                  "\r",
+                  "// Invariants of this nesting level:\r",
+                  "// size(input.hotelIds[]) -1 \u003e\u003d size(return.data[]) -1\r",
+                  "pm.test(\"size(input.hotelIds[]) -1 \u003e\u003d size(return.data[]) -1\", () \u003d\u003e {\r",
+                  "// Getting value of variable: input_hotelIds_size_array_minus_1\r",
+                  "input_hotelIds_size_array_minus_1 \u003d input_hotelIds_array;\r",
+                  "if(input_hotelIds_size_array_minus_1 !\u003d null) {\r",
+                  "input_hotelIds_size_array_minus_1 \u003d input_hotelIds_size_array_minus_1.length;\r",
+                  "}\r",
+                  "\r",
+                  "if(input_hotelIds_size_array_minus_1 !\u003d null) {\r",
+                  "input_hotelIds_size_array_minus_1 \u003d input_hotelIds_size_array_minus_1  -1;\r",
+                  "}\r",
+                  "// Printing value of input_hotelIds_size_array_minus_1 variable\r",
+                  "console.log(\"Printing value of input_hotelIds_size_array_minus_1\");\r",
+                  "console.log(input_hotelIds_size_array_minus_1);\r",
+                  "\r",
+                  "\r",
+                  "// Getting value of variable: return_data_size_array_minus_1\r",
+                  "return_data_size_array_minus_1 \u003d response.data;\r",
+                  "if(return_data_size_array_minus_1 !\u003d null) {\r",
+                  "return_data_size_array_minus_1 \u003d return_data_size_array_minus_1.length;\r",
+                  "}\r",
+                  "\r",
+                  "if(return_data_size_array_minus_1 !\u003d null) {\r",
+                  "return_data_size_array_minus_1 \u003d return_data_size_array_minus_1  -1;\r",
+                  "}\r",
+                  "// Printing value of return_data_size_array_minus_1 variable\r",
+                  "console.log(\"Printing value of return_data_size_array_minus_1\");\r",
+                  "console.log(return_data_size_array_minus_1);\r",
+                  "\r",
+                  "\r",
+                  "if((input_hotelIds_size_array_minus_1 !\u003d null) \u0026\u0026 (!valuesToConsiderAsNull.includes(input_hotelIds_size_array_minus_1)) \u0026\u0026 (return_data_size_array_minus_1 !\u003d null) \u0026\u0026 (!valuesToConsiderAsNull.includes(return_data_size_array_minus_1))) {\r",
+                  "//pm.expect(input_hotelIds_size_array_minus_1).to.be.at.least(return_data_size_array_minus_1);\r",
+                  "}\r",
+                  "})\r"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://test.api.amadeus.com/v3/shopping/hotel-offers",
+              "protocol": "https",
+              "host": [
+                "test",
+                "api",
+                "amadeus",
+                "com"
+              ],
+              "path": [
+                "v3",
+                "shopping",
+                "hotel-offers"
+              ],
+              "query": [
+                {
+                  "key": "hotelIds",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "adults",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "checkInDate",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "checkOutDate",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "countryOfResidence",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "roomQuantity",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "priceRange",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "currency",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "paymentPolicy",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "boardType",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "includeClosed",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "bestRateOnly",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "lang",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "body": {}
+          },
+          "response": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ]
+    }
+  ]
+}

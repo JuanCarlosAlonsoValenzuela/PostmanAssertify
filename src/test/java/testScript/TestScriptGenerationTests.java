@@ -225,6 +225,15 @@ public class TestScriptGenerationTests {
                         "src/test/resources/testScriptGeneration/test_011/oas_complex_request_body.yaml",
                         "src/test/resources/testScriptGeneration/test_011/invariants_test_011.csv",
                         "src/test/resources/testScriptGeneration/test_011/oracle_test_script_011.js"
+                ),
+                /* tsg_test_script_012: Variables with shift
+                Generates test script with a single Postman test chat includes two variables (in input and return) with
+                shift, conforming the invariant: "size(input.hotelIds[]) -1 >= size(return.data[]) -1"
+                 */
+                Arguments.of(
+                        "src/test/resources/testScriptGeneration/test_012/oas_amadeusHotel_simplified.yaml",
+                        "src/test/resources/testScriptGeneration/test_012/invariants_test_012.csv",
+                        "src/test/resources/testScriptGeneration/test_012/oracle_test_script_012.js"
                 )
         );
 

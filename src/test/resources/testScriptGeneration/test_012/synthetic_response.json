@@ -1,0 +1,19 @@
+{
+  "data": [
+    {
+      "type": "hotel-offers",
+      "available": true,
+      "self": "https://www.url.com"
+    },
+    {
+      "type": "hotel-offers",
+      "available": true,
+      "self": "https://www.url.com"
+    },
+    {
+      "type": "hotel-offers",
+      "available": true,
+      "self": "https://www.url.com"
+    }
+  ]
+}
