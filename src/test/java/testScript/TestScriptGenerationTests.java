@@ -233,6 +233,7 @@ public class TestScriptGenerationTests {
         // TODO: Values to consider as null
         // TODO: Fix indentation
         // TODO: Test with nested request body properties
+        // TODO: Test with kebab-case (both in input and output)
     }
 
     @ParameterizedTest

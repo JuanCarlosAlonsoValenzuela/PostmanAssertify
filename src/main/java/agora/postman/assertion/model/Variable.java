@@ -25,7 +25,7 @@ public class Variable {
     public Variable(String variableName) {
         this.variableName = variableName;
 
-        // This method sets the values of the "variableHierarchyList", "isSize" and "isReturn" attributes
+        // This method sets the values of the "variableHierarchyList", "isSize", "isReturn" and "shift" attributes
         this.setVariableHierarchyList();
 
     }
@@ -69,6 +69,7 @@ public class Variable {
     // TODO: Document properly (with multiple input/output example)
     // TODO: Consider moving to a different class
     // TODO: Program points that are nested arrays? (e.g., GitHub)
+    // TODO: Replace special characters (e.g., kebab case is not allowed in JS)
     // Returns the variable name in the format used in the Postman assertion
     public String getPostmanVariableName() {
 
@@ -84,6 +85,19 @@ public class Variable {
         }
 
         String postmanVariableName = originalVariableName;
+
+        // If the variable contains shift
+        String shiftSuffix = "";
+        if (postmanVariableName.matches(".* [+]{1}[0-9]{1,}$")) {            // increase
+            int plusIndex = postmanVariableName.lastIndexOf(" +");
+            shiftSuffix = "_plus_" + postmanVariableName.substring(plusIndex+2);
+            postmanVariableName = postmanVariableName.substring(0, plusIndex);
+
+        } else if (postmanVariableName.matches(".* [-]{1}[0-9]{1,}$")) {    // decrease
+            int minusIndex = postmanVariableName.lastIndexOf(" -");
+            shiftSuffix = "_minus_" + postmanVariableName.substring(minusIndex+2);
+            postmanVariableName = postmanVariableName.substring(0, minusIndex);
+        }
 
         // If the variable is the size of an array
         if(postmanVariableName.startsWith("size(")) {
@@ -103,8 +117,11 @@ public class Variable {
             postmanVariableName = postmanVariableName.replace("[..]", "");
 
             // Add suffix
-            postmanVariableName = postmanVariableName + "_array";
+            postmanVariableName += "_array";
         }
+
+        // Add shift suffix
+        postmanVariableName += shiftSuffix;
 
         // Replace variable hierarchy separator with snake_case
         postmanVariableName = postmanVariableName.replace(".", "_");
@@ -143,37 +160,9 @@ public class Variable {
                     // Check that the variable is not null
                     res += "if(" + postmanVariableName + " != null) {\n";
 
-                    String variableHierarchyElement = variableHierarchyList.get(i);
+                    // Access next hierarchy element
+                    res += postmanVariableName + " = " + postmanVariableName + "." + variableHierarchyList.get(i) + ";\n";
 
-                    // If there is shift in the LAST ELEMENT. This happens if the element ends with +/- followed by an integer
-                    // (e.g., return.user.age-1)
-                    if((i == variableHierarchyList.size()-1) && (variableHierarchyElement.matches(".*[+-]{1}[0-9]{1,}$"))) {
-
-                        // Access next hierarchy element (without using the shift value)
-                        int lastIndex = Math.max(
-                                variableHierarchyElement.lastIndexOf("+"),
-                                variableHierarchyElement.lastIndexOf("-")
-                        );
-
-                        String nextHierarchyElement = variableHierarchyElement.substring(0, lastIndex);
-
-                        res += postmanVariableName + " = " + postmanVariableName + "." + nextHierarchyElement + ";\n";
-
-                        // If the variable is not null
-                        res += "if(" + postmanVariableName + " != null) {\n";
-
-                        // Compute shift
-                        String shiftString = variableHierarchyElement.substring(lastIndex);
-
-                        res += postmanVariableName + " = " + postmanVariableName + " " + shiftString + ";\n";
-
-                        // Increment number of if brackets to close (1 more for shift)
-                        ifBracketsToClose++;
-
-                    } else {
-                        // Access next hierarchy element
-                        res += postmanVariableName + " = " + postmanVariableName + "." + variableHierarchyElement + ";\n";
-                    }
 
                     // Increment the number of if brackets to close
                     ifBracketsToClose++;
@@ -208,65 +197,13 @@ public class Variable {
                     // Check that the variable is not null
                     res += "if(" + postmanVariableName + " != null) {\n";
 
-                    String variableHierarchyElement = variableHierarchyList.get(i);
-
-                    // If there is shift in the LAST ELEMENT. This happens if the element ends with +/- followed by an integer
-                    // (e.g., return.user.age-1)
-                    if((i == variableHierarchyList.size()-1) && (variableHierarchyElement.matches(".*[+-]{1}[0-9]{1,}$"))) {
-
-                        // Access next hierarchy element (without using the shift value)
-                        int lastIndex = Math.max(
-                                variableHierarchyElement.lastIndexOf("+"),
-                                variableHierarchyElement.lastIndexOf("-")
-                        );
-
-                        String nextHierarchyElement = variableHierarchyElement.substring(0, lastIndex);
-
-                        res += postmanVariableName + " = " + postmanVariableName + "." + nextHierarchyElement + ";\n";
-
-                        // If the variable is not null
-                        res += "if(" + postmanVariableName + " != null) {\n";
-
-                        // Compute shift
-                        String shiftString = variableHierarchyElement.substring(lastIndex);
-
-                        res += postmanVariableName + " = " + postmanVariableName + " " + shiftString + ";\n";
-
-                        // Increment number of if brackets to close (1 more for shift)
-                        ifBracketsToClose++;
-
-                    } else {
-                        // Access next hierarchy element
-                        res += postmanVariableName + " = " + postmanVariableName + "." + variableHierarchyElement + ";\n";
-                    }
+                    // Access next hierarchy element
+                    res += postmanVariableName + " = " + postmanVariableName + "." + variableHierarchyList.get(i) + ";\n";
 
                     // Increment the number of if brackets to close
                     ifBracketsToClose++;
 
                 }  // TODO: END CONVERT INTO FUNCTION
-
-            } else if (variableHierarchyList.get(0).matches(".*[+-]{1}[0-9]{1,}$")) {
-                // If the input variable has hierarchy size == 1 and has shift
-                // TODO: An input variable with hierarchy size == 1 can have shift. IMPLEMENT!!!
-                // TODO: Test and check variable name behavior
-
-                // Access next hierarchy element (without using the shift value)
-                String variableHierarchyElement = variableHierarchyList.get(0);
-                int lastIndex = Math.max(
-                        variableHierarchyElement.lastIndexOf("+"),
-                        variableHierarchyElement.lastIndexOf("-")
-                );
-
-                // If the variable is not null
-                res += "if(" + postmanVariableName + " != null) {\n";
-
-                // Compute shift
-                String shiftString = variableHierarchyElement.substring(lastIndex);
-
-                res += postmanVariableName + " = " + postmanVariableName + " " + shiftString + ";\n";
-
-                // Increment number of if brackets to close (1 more for shift)
-                ifBracketsToClose++;
 
             }
 
@@ -290,13 +227,24 @@ public class Variable {
             // If the retrieved array is not null
             res += "if(" + postmanVariableName + " != null) {\n";
 
-            // Get array size, and add shift if not null
-            String shiftValue = (this.shift != null) ? " " + this.shift: "";
-            res += postmanVariableName + " = " + postmanVariableName + ".length" + shiftValue + ";\n";
-
+            // Get array size
+            res += postmanVariableName + " = " + postmanVariableName + ".length;\n";
 
             // Close the bracket
             res += "}\n\n";
+        }
+
+        // Add shift (only the last element can have shift)
+        // This is common for input, return and array size
+        if(this.shift != null) {
+            // If the variable is not null
+            res += "if(" + postmanVariableName + " != null) {\n";
+
+            // Compute variable with shift
+            res += postmanVariableName + " = " + postmanVariableName + " " + this.shift + ";\n";
+
+            // Close if bracket
+            res += "}\n";
         }
 
         if(DEBUG_MODE) {
@@ -320,22 +268,29 @@ public class Variable {
         // Split AGORA variable name to extract variable hierarchy
         String variableHierarchyString = this.variableName;
 
+        // Set value of shift
+        // If the variable name ends with a white space followed by +/- and a number (integer)
+        if(variableHierarchyString.matches(".* [+-]{1}[0-9]{1,}$")) {
+
+            // Last occurrence of one of the +/- characters (-1 to include whitespace as part of the shift)
+            int shiftIndex = Math.max(
+                    variableHierarchyString.lastIndexOf("+"),
+                    variableHierarchyString.lastIndexOf("-")
+            ) - 1;
+
+            // Set shift value
+            this.shift = variableHierarchyString.substring(shiftIndex);
+
+            // Remove shift value from variableHierarchyString
+            variableHierarchyString = variableHierarchyString.substring(0, shiftIndex);
+        }
+
         // Determine whether the variable is the size of an array
         this.isSize = false;
         if(variableHierarchyString.startsWith("size(")) {
             this.isSize = true;
 
-            // If there is some type of shift. For example: size(return.users[])-1
-            if(!variableHierarchyString.endsWith(")")) {
-                // Store shift (e.g., "+1", "-1")
-                this.shift = variableHierarchyString
-                        .substring(
-                                variableHierarchyString.lastIndexOf(")") + 1
-                        );
-            }
-
-            // Update the value of variableHierarchyString by removing "size(" at the start and ")" (and the possible
-            // shift) at the end
+            // Update the value of variableHierarchyString by removing "size(" at the start and ")" at the end
             variableHierarchyString = variableHierarchyString
                     .substring(
                             "size(".length(),
