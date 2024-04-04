@@ -280,7 +280,7 @@ public class TestScriptGenerationTests {
         List<String> valuesToConsiderAsNull = new ArrayList<>();
 
         // Generate the test script
-        String testScript = apiOperation.generateTestScript(valuesToConsiderAsNull);
+        String testScript = apiOperation.generateTestScript(valuesToConsiderAsNull, "pm.response.json()");
         System.out.println(testScript);
 
         String[] generatedTestScript = testScript.split("\n");

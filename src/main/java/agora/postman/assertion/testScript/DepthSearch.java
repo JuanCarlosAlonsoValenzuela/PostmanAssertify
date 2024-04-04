@@ -11,9 +11,9 @@ import java.util.List;
 public class DepthSearch {
 
     // TODO: Document.
-    public static String programPointDepthSearch(Tree<String> tree, List<String> parents, String parentBaseVariable) {
+    public static String programPointDepthSearch(Tree<String> tree, List<String> parents, String parentBaseVariable, String response) {
 
-        NestingLevelTestScript nLTS = new NestingLevelTestScript(tree, parents, parentBaseVariable);
+        NestingLevelTestScript nLTS = new NestingLevelTestScript(tree, parents, parentBaseVariable, response);
 
         String res = nLTS.getInitialLines();
 
@@ -26,7 +26,7 @@ public class DepthSearch {
 
         // Generate children test scripts
         for(Tree<String> child: tree.getChildren()) {
-            res += programPointDepthSearch(child, updatedParents, parentBaseVariable);
+            res += programPointDepthSearch(child, updatedParents, parentBaseVariable, response);
         }
 
         // Add closing lines (i.e., closing if/for brackets)

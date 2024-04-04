@@ -4,8 +4,10 @@ package agora.postman.assertion.model.postmanCollection;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import agora.postman.assertion.model.APIOperation;
+import agora.postman.assertion.mutation.MutatedTestCase;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -31,6 +33,7 @@ public class Request implements Serializable
     private Body body;
     private final static long serialVersionUID = 5015692323996114517L;
 
+    // Standard PostmanCollection creation
     public Request(APIOperation apiOperation) {
         this.method = apiOperation.getMethod();
 
@@ -38,6 +41,26 @@ public class Request implements Serializable
         this.url = new Url(apiOperation);
         // The body is empty
         this.body = new Body();
+    }
+
+    // Postman collection creation for experiment 2 (JSONMutator)
+    // TODO: Header parameters and body parameter
+    public Request(
+            APIOperation apiOperation,
+            Map<String, String> queryParameters,
+            Map<String, String> pathParameters
+    ) {
+        this.method = apiOperation.getMethod();
+
+        // TODO: IMPLEMENT
+//        this.header = ;
+
+        // TODO: IMPLEMENT
+        this.url = new Url(apiOperation, queryParameters, pathParameters);
+
+        // TODO: IMPLEMENT
+//        this.header = ;
+
     }
 
     public String getMethod() {

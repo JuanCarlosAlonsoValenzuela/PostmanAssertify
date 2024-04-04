@@ -2,6 +2,7 @@
 package agora.postman.assertion.model.postmanCollection;
 
 import java.io.Serializable;
+import java.util.Map;
 
 import agora.postman.assertion.model.APIOperation;
 import com.google.gson.annotations.Expose;
@@ -26,6 +27,12 @@ public class Event implements Serializable
         this.listen = "test";
         this.script = new Script(apiOperation);
 
+    }
+
+    // Postman collection creation for experiment 2 (JSONMutator)
+    public Event(APIOperation apiOperation, String responseBody) {
+        this.listen = "test";
+        this.script = new Script(apiOperation, responseBody);
     }
 
     public String getListen() {

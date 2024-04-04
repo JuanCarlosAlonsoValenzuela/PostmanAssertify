@@ -160,7 +160,7 @@ public class APIOperation {
     }
 
     // TODO: DOCUMENT
-    public String generateTestScript(List<String> valuesToConsiderAsNull) {
+    public String generateTestScript(List<String> valuesToConsiderAsNull, String response) {
 
         // Create array of strings to consider as null
         String arrayString = "[";
@@ -181,7 +181,7 @@ public class APIOperation {
         // Prints the program point hierarchy tree
 //        programPointHierarchy.accept(new PrintIndentedVisitor(0));
 
-        res += programPointDepthSearch(programPointHierarchy, new ArrayList<>(), null);
+        res += programPointDepthSearch(programPointHierarchy, new ArrayList<>(), null, response);
 
         return res;
 

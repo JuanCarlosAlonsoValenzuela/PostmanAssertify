@@ -3,6 +3,7 @@ package agora.postman.assertion.model.postmanCollection;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +29,7 @@ public class PostmanCollection implements Serializable
     private List<ItemFolder> itemFolders;
     private final static long serialVersionUID = 8612284934075767955L;
 
+    // Standard PostmanCollection creation
     public PostmanCollection(OpenAPI specification, String invariantsPath) {
         this.info = new Info(specification);
 
@@ -44,6 +46,23 @@ public class PostmanCollection implements Serializable
         }
 
         this.itemFolders = itemFolders;
+    }
+
+    // Postman collection creation for experiment 2 (JSONMutator), it can only contain a single APIOperation
+    public PostmanCollection(OpenAPI specification, String invariantsPath, String mutantsPath) {
+        this.info = new Info(specification);
+
+        // Get all the API operations grouped by endpoints
+        List<APIOperation> apiOperations = getAllApiOperations(specification, invariantsPath);
+
+        // In experiment 2, there can only be one APIOperation
+        if(apiOperations.size() != 1) {
+            throw new IllegalArgumentException("Experiment 2 only supports a maximum of one API operation");
+        }
+
+        // A single ItemFolder
+        this.itemFolders = Collections.singletonList(new ItemFolder("MutatedTestCases", apiOperations.get(0), mutantsPath));
+
     }
 
     public Info getInfo() {

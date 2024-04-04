@@ -29,14 +29,21 @@ public class Script implements Serializable
     private final static long serialVersionUID = 5950281285453780232L;
 
     public Script(APIOperation apiOperation) {
-        this.exec = generateExec(apiOperation);
+        this.exec = generateExec(apiOperation, "pm.response.json()");
         this.type = "text/javascript";
         this.packages = new Packages();
     }
 
-    private static List<String> generateExec(APIOperation apiOperation) {
+    // Postman collection creation for experiment 2 (JSONMutator)
+    public Script(APIOperation apiOperation, String mockResponseBody) {
+        this.exec = generateExec(apiOperation, mockResponseBody);
+        this.type = "text/javascript";
+        this.packages = new Packages();
+    }
+
+    private static List<String> generateExec(APIOperation apiOperation, String response) {
         return Arrays.stream(
-                (apiOperation.generateInputParametersScript() + apiOperation.generateTestScript(new ArrayList<>()))
+                (apiOperation.generateInputParametersScript() + apiOperation.generateTestScript(new ArrayList<>(), response))
                         .split("\n")
                 )
                 .map(x-> x + "\r")

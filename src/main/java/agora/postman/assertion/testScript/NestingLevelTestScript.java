@@ -26,9 +26,9 @@ public class NestingLevelTestScript {
     private String closingLines;
 
 
-    public NestingLevelTestScript(Tree<String> tree, List<String> parents, String parentBaseVariable) {
+    public NestingLevelTestScript(Tree<String> tree, List<String> parents, String parentBaseVariable, String response) {
         // This method also sets the value of this.childrenParentBaseVariable
-        this.initialLines = generateInitialLinesScript(tree, parents, parentBaseVariable);
+        this.initialLines = generateInitialLinesScript(tree, parents, parentBaseVariable, response);
 
         this.closingLines = generateClosingLinesScript(tree, parents, parentBaseVariable);
     }
@@ -48,7 +48,7 @@ public class NestingLevelTestScript {
     // TODO: DOCUMENT
     // TODO: Split into multiple methods
     // Returns initial lines test scripts and sets the value of the next parentBaseVariable
-    private String generateInitialLinesScript(Tree<String> tree, List<String> parents, String parentBaseVariable) {
+    private String generateInitialLinesScript(Tree<String> tree, List<String> parents, String parentBaseVariable, String response) {
 
         // Print current nesting level (e.g., 200&data)
         String res = "// " + String.join(HIERARCHY_SEPARATOR, parents) + HIERARCHY_SEPARATOR + tree.getData() + "\n";
@@ -56,7 +56,7 @@ public class NestingLevelTestScript {
         if(parents.isEmpty()){  // If we are in the first nesting level
 
             // Assign base variable
-            res += "response = pm.response.json();\n";
+            res += "response = " + response + ";\n";
             parentBaseVariable = "response";
 
             if(DEBUG_MODE) {

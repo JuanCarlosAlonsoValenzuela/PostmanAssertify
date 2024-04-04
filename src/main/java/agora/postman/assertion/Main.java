@@ -20,9 +20,12 @@ public class Main {
 
     private static String invariantsPath = "src/test/resources/testScriptGeneration/test_015/invariants.csv";
 
+    // TODO: READ FROM .properties file
     public static boolean DEBUG_MODE = true;
 
+    // TODO: READ FROM .properties file
     public static String HIERARCHY_SEPARATOR = "&";
+    // TODO: READ FROM .properties file
     public static String ARRAY_NESTING_SEPARATOR = "%";
 
     // TODO: READ FROM .properties file
@@ -34,9 +37,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-        // Read invariants from file
+        // Read OAS from file
         OpenAPI specification = getOpenAPISpecification(openApiSpecPath);
-        
+
         // TODO: Implement Strings to consider as null!!!
         // TODO: Test with multiple response codes
         // TODO: Test with multiple Http verbs
@@ -70,7 +73,7 @@ public class Main {
         return new OpenAPIV3Parser().read(oasPath, null, parseOptions);
     }
 
-    private static String getOutputPath(String filename, String folder) {
+    public static String getOutputPath(String filename, String folder) {
         Path path = java.nio.file.Paths.get(folder);      // openApiSpecPath
         Path dir = path.getParent();
         Path fn = path.getFileSystem().getPath(filename);

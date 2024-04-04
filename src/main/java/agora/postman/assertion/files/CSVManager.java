@@ -1,5 +1,6 @@
 package agora.postman.assertion.files;
 import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
 import java.io.FileReader;
@@ -38,6 +39,20 @@ public class CSVManager {
         }
 
         return rows;
+    }
+
+    public static CSVRecord getCSVRecord(String line) {
+        CSVRecord res;
+        try {
+            List<CSVRecord> csvRecords =  CSVParser.parse(line, CSVFormat.EXCEL).getRecords();
+            if(csvRecords.size() != 1) {
+                throw new IndexOutOfBoundsException("Each line should contain only one record");
+            }
+            res = csvRecords.get(0);
+        } catch (IOException e) {
+            throw new RuntimeException("Error reading file");
+        }
+        return res;
     }
 
 }
