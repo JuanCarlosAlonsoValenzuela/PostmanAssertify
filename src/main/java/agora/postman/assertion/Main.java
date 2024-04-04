@@ -16,9 +16,9 @@ import java.nio.file.Path;
  */
 public class Main {
 
-    private static String openApiSpecPath = "src/test/resources/testScriptGeneration/test_014/oas_marvel_simplified.yaml";
+    private static String openApiSpecPath = "src/test/resources/testScriptGeneration/test_015/oas_nyTimes.yaml";
 
-    private static String invariantsPath = "src/test/resources/testScriptGeneration/test_014/invariants_test_014.csv";
+    private static String invariantsPath = "src/test/resources/testScriptGeneration/test_015/invariants.csv";
 
     public static boolean DEBUG_MODE = true;
 
@@ -36,16 +36,13 @@ public class Main {
 
         // Read invariants from file
         OpenAPI specification = getOpenAPISpecification(openApiSpecPath);
-
-
-        // TODO: Reimplement ApiOperation, grouping by response code
+        
         // TODO: Implement Strings to consider as null!!!
         // TODO: Test with multiple response codes
         // TODO: Test with multiple Http verbs
         // TODO: Test with multiple test with multiple operations, endpoints and paths
         // TODO: ENTER program points?
         // TODO: Closing brackets comments are incorrect
-        // TODO: Apply modifications in Beet (or Daikon) to avoid confusing shift with kebab-case
         // Create PostmanCollection
         PostmanCollection postmanCollection = new PostmanCollection(specification, invariantsPath);
 

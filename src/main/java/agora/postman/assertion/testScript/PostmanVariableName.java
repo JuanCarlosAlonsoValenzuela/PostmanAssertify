@@ -8,7 +8,6 @@ public class PostmanVariableName {
     // TODO: THIS METHOD MUST BE IDENTICAL TO THE ONE IN DAIKON, every modification performed here must be performed in Daikon too!!!
     // TODO: Document properly (with multiple input/output example)
     // TODO: Program points that are nested arrays? (e.g., GitHub)
-    // TODO: Replace special characters (e.g., kebab case is not allowed in JS)
     // Returns the variable name in the format used in the Postman assertion
     public static String getPostmanVariableName(String originalVariableName) {
 

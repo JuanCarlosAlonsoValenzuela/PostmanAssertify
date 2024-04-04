@@ -8,7 +8,6 @@ import agora.postman.assertion.model.ProgramPoint;
  */
 public class PptTestCaseGeneration {
 
-    // TODO: Move to a different class
     // TODO: DOCUMENT
     public static String generateProgramPointTestCases(ProgramPoint programPoint, String parentBaseVariable) {
         String res = "";

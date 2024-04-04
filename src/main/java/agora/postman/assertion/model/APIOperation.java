@@ -254,7 +254,6 @@ public class APIOperation {
 
                 // Assign the program point to the last element of the path
                 //  If array nesting
-                // TODO: Add current schema here as property and explain that this schema does not contain the nested array properties
                 // TODO: Convert into function (This code is duplicated)
                 int currentArrayNesting = programPoint.getArrayNesting();
                 if(currentArrayNesting > 0) {
@@ -268,7 +267,6 @@ public class APIOperation {
             } else {
                 // If the path is an empty string, assign the invariants to the root
                 // (the path of the first nesting level is an empty string)
-                // TODO: Add current schema here as property and explain that this schema does not contain the nested array properties
                 // TODO: Convert into function (This code is duplicated)
                 int currentArrayNesting = programPoint.getArrayNesting();
                 if(currentArrayNesting > 0) {
@@ -283,8 +281,8 @@ public class APIOperation {
         return programPointHierarchy;
     }
 
-    // TODO: Change to private?
-    public static Map.Entry<PathItem.HttpMethod, Operation> getOASOperation(OpenAPI specification, String targetEndpoint, String targetOperationId) {
+    // TODO: Document
+    private static Map.Entry<PathItem.HttpMethod, Operation> getOASOperation(OpenAPI specification, String targetEndpoint, String targetOperationId) {
 
         Paths paths = specification.getPaths();
 
