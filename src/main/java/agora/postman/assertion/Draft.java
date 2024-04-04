@@ -2,6 +2,8 @@ package agora.postman.assertion;
 
 import agora.postman.assertion.model.Variable;
 
+import static agora.postman.assertion.model.Variable.getPostmanVariableName;
+
 /**
  * @author Juan C. Alonso
  */
@@ -45,6 +47,8 @@ public class Draft {
 
 //        Variable variable4 = new Variable("return.user.age");
 //        System.out.println(variable4.getPostmanVariableName());
+
+        System.out.println(getPostmanVariableName("return.data.results[0]"));
 
     }
 }

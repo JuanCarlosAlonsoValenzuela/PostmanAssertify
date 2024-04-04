@@ -1,0 +1,2 @@
+pptname;invariant;invariantType;variables;postmanAssertion;tp
+/v1/public/comics/{comicId}&getComicIndividual&200():::EXIT;return.data.results[0] == return.data.results[return.data.total -1];daikon.inv.binary.twoScalar.IntEqual;(return.data.results[0], return.data.results[return.data.total -1]);pm.expect(return_data_results_0).to.eql(return_data_results_return_data_total_minus_1);1

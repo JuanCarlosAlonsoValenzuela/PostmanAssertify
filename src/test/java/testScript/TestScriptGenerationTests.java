@@ -235,7 +235,7 @@ public class TestScriptGenerationTests {
                         "src/test/resources/testScriptGeneration/test_012/invariants_test_012.csv",
                         "src/test/resources/testScriptGeneration/test_012/oracle_test_script_012.js"
                 ),
-                /* tsg_test_script_013: Variables with array element access
+                /* tsg_test_script_013: Variables with array element access (access to variables)
                 Generates test script with a single Postman test chat includes two variables that access array elements
                 (with and without shift), conforming the invariant:
                     return.data.results[return.data.offset] == return.data.results[return.data.total -1]
@@ -244,6 +244,16 @@ public class TestScriptGenerationTests {
                         "src/test/resources/testScriptGeneration/test_013/oas_marvel_simplified.yaml",
                         "src/test/resources/testScriptGeneration/test_013/invariants_test_013.csv",
                         "src/test/resources/testScriptGeneration/test_013/oracle_test_script_013.js"
+                ),
+                /* tsg_test_script_014: Variables with array element access (access to index)
+                Generates test script with a single Postman test that accesses to an array element by indicating an
+                index, the invariant being:
+                    return.data.results[0] == return.data.results[return.data.total -1]
+                 */
+                Arguments.of(
+                        "src/test/resources/testScriptGeneration/test_014/oas_marvel_simplified.yaml",
+                        "src/test/resources/testScriptGeneration/test_014/invariants_test_014.csv",
+                        "src/test/resources/testScriptGeneration/test_014/oracle_test_script_014.js"
                 )
         );
 

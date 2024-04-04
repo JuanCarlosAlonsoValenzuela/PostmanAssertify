@@ -19,7 +19,11 @@ public class Variable {
     private String shift;
     private List<String> variableHierarchyList;
 
-    // If the variable name is accessing an array element
+    // If the variable name is accessing an array element that is an index
+    // (e.g., return.data.results[1]
+    private Integer arrayElementIndex;
+
+    // If the variable name is accessing an array element that is another variable
     // (e.g., return.data.results[return.data.offset] or return.data.results[return.data.count-1])
     private Variable arrayElementVariable;
 
@@ -127,16 +131,15 @@ public class Variable {
 
             String arrayElementVariable = postmanVariableName.substring(firstBracketIndex + 1, lastBracketIndex);
 
-            String suffix = postmanVariableName.substring(lastBracketIndex+1);
-
-            // Update variableHierarchyString by applying this same function to the array element
-            postmanVariableName = postmanVariableName.substring(0, firstBracketIndex) +
-                    "_" + getPostmanVariableName(arrayElementVariable);
-
-            if(!suffix.trim().isEmpty()) {
-                postmanVariableName += "_" + suffix;
-            }
-
+            // Update Postman variable name by adding the formatted the array element variable
+            // e.g., return.data[return.offset] -> return_data_return_offset
+            // e.g., return.data[1] -> return_data_1
+            postmanVariableName = postmanVariableName.substring(0, firstBracketIndex) + "_" +
+                    (arrayElementVariable.matches("^[0-9]+$")
+                            // if the array element is a number (e.g., return.data.results[1])
+                            ? arrayElementVariable
+                            // if the array element is another variable (e.g., return.data.results[return.data.offset])
+                            : getPostmanVariableName(arrayElementVariable));
         }
 
         // Add shift suffix
@@ -239,24 +242,34 @@ public class Variable {
         }
 
         // If the variable name is accessing an array element
-        // (e.g., return.data.results[return.data.offset] or return.data.results[return.data.count-1])
-        if (this.arrayElementVariable != null) {
+        // It can be a number (e.g., return.data.results[1])
+        // Or another variable (e.g., return.data.results[return.data.offset] or return.data.results[return.data.count-1])
+        if (this.arrayElementVariable != null || this.arrayElementIndex != null) {
             // If the retrieved array is not null
             res += "if(" + postmanVariableName + " != null) {\n";
 
-            // Add code used to access the array element variable
-            res += this.arrayElementVariable.getPostmanVariableValueCode(parentBaseVariable, isArrayNestingPpt);
+            if(this.arrayElementIndex != null) {    // If the array element is an index
 
-            String arrayElementVariableName = getPostmanVariableName(this.arrayElementVariable.getVariableName());
+                res+= postmanVariableName + " = " + postmanVariableName + "[" + this.arrayElementIndex + "];\n";
 
-            // If the array element index variable is not null
-            res += "if(" + arrayElementVariableName + " != null) {\n";
+            } else { // If the array element is another variable
+                // Add code used to access the array element variable
+                res += this.arrayElementVariable.getPostmanVariableValueCode(parentBaseVariable, isArrayNestingPpt);
 
-            // Access the array element
-            res += postmanVariableName + " = " + postmanVariableName + "[" + arrayElementVariableName +"];\n";
+                String arrayElementVariableName = getPostmanVariableName(this.arrayElementVariable.getVariableName());
 
-            // Close both if brackets
-            res += "}\n}\n";
+                // If the array element index variable is not null
+                res += "if(" + arrayElementVariableName + " != null) {\n";
+
+                // Access the array element
+                res += postmanVariableName + " = " + postmanVariableName + "[" + arrayElementVariableName +"];\n";
+
+                // Close array element index variable is not null if bracket
+                res += "}\n";
+            }
+
+            // Close retrieved array is not null if bracket
+            res += "}\n";
 
         }
 
@@ -354,8 +367,12 @@ public class Variable {
 
             String arrayElementVariableName = variableHierarchyString.substring(firstBracketIndex + 1, lastBracketIndex);
 
-            // Create a Variable object and assign it to the "arrayElementVariable" attribute
-            this.arrayElementVariable = new Variable(arrayElementVariableName);
+            if(arrayElementVariableName.matches("^[0-9]+$")) {  // if the array element is a number (e.g., return.data.results[1])
+                this.arrayElementIndex = Integer.valueOf(arrayElementVariableName);
+            } else {    // if the array element is another variable (e.g., return.data.results[return.data.offset])
+                // Create a Variable object and assign it to the "arrayElementVariable" attribute
+                this.arrayElementVariable = new Variable(arrayElementVariableName);
+            }
 
             // Remove the array index variable from variableHierarchyString
             // (to avoid it being part of the variableHierarchyList

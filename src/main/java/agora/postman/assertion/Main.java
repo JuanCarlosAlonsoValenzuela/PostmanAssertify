@@ -16,9 +16,9 @@ import java.nio.file.Path;
  */
 public class Main {
 
-    private static String openApiSpecPath = "src/test/resources/testScriptGeneration/test_013/oas_marvel_simplified.yaml";
+    private static String openApiSpecPath = "src/test/resources/testScriptGeneration/test_014/oas_marvel_simplified.yaml";
 
-    private static String invariantsPath = "src/test/resources/testScriptGeneration/test_013/invariants_test_013.csv";
+    private static String invariantsPath = "src/test/resources/testScriptGeneration/test_014/invariants_test_014.csv";
 
     public static boolean DEBUG_MODE = true;
 

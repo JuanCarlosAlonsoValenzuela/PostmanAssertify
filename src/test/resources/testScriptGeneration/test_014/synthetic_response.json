@@ -1,0 +1,28 @@
+{
+  "code": 200,
+  "status": "Ok",
+  "copyright": "© 2024 MARVEL",
+  "attributionText": "Data provided by Marvel. © 2024 MARVEL",
+  "attributionHTML": "<a href=\"http://marvel.com\">Data provided by Marvel. © 2024 MARVEL</a>",
+  "etag": "c8a25429819b25c3205e5448dc45ef901359fe5a",
+  "data": {
+    "offset": 0,
+    "total": 2,
+    "results": [
+      {
+        "id": 6318,
+        "digitalId": 0,
+        "title": "Spiderman",
+        "issueNumber": 1,
+        "isbn": "978-0-7851-2712-3"
+      },
+      {
+        "id": 6318,
+        "digitalId": 0,
+        "title": "Spiderman",
+        "issueNumber": 2,
+        "isbn": "978-0-7851-2712-3"
+      }
+    ]
+  }
+}
