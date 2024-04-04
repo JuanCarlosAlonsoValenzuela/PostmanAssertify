@@ -1,6 +1,5 @@
 package agora.postman.assertion.variableNameUtils;
 
-import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 
 /**

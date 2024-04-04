@@ -2,7 +2,7 @@ package agora.postman.assertion;
 
 import agora.postman.assertion.model.Variable;
 
-import static agora.postman.assertion.model.Variable.getPostmanVariableName;
+import static agora.postman.assertion.testScript.PostmanVariableName.getPostmanVariableName;
 
 /**
  * @author Juan C. Alonso

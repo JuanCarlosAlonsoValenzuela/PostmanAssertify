@@ -1,6 +1,5 @@
 package agora.postman.assertion.testScript;
 
-import agora.postman.assertion.model.Invariant;
 import agora.postman.assertion.model.ProgramPoint;
 import agora.postman.assertion.testScript.nestingLevelTree.NestingType;
 import agora.postman.assertion.testScript.nestingLevelTree.Tree;
@@ -13,6 +12,8 @@ import static agora.postman.assertion.Main.DEBUG_MODE;
 import static agora.postman.assertion.Main.HIERARCHY_SEPARATOR;
 import static agora.postman.assertion.debug.DebugUtils.printVariableValueScript;
 import static agora.postman.assertion.testScript.ArrayNestingSnippets.*;
+import static agora.postman.assertion.testScript.ObjectNestingSnippets.generateAccessNextObjectNestingLevelSnippet;
+import static agora.postman.assertion.testScript.PptTestCaseGeneration.generateProgramPointTestCases;
 
 /**
  * @author Juan C. Alonso

@@ -5,8 +5,6 @@ import agora.postman.assertion.testScript.nestingLevelTree.Tree;
 import java.util.ArrayList;
 import java.util.List;
 
-import static agora.postman.assertion.Main.HIERARCHY_SEPARATOR;
-
 /**
  * @author Juan C. Alonso
  */
