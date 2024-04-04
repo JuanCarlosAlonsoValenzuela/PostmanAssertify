@@ -15,12 +15,13 @@ public class Variable {
     private String variableName;
 
     private boolean isReturn;
-
-    // TODO: Add isArrayElement attribute
     private boolean isSize;
+    private String shift;
     private List<String> variableHierarchyList;
 
-    private String shift;
+    // If the variable name is accessing an array element
+    // (e.g., return.data.results[return.data.offset] or return.data.results[return.data.count-1])
+    private Variable arrayElementVariable;
 
     public Variable(String variableName) {
         this.variableName = variableName;
@@ -71,9 +72,7 @@ public class Variable {
     // TODO: Program points that are nested arrays? (e.g., GitHub)
     // TODO: Replace special characters (e.g., kebab case is not allowed in JS)
     // Returns the variable name in the format used in the Postman assertion
-    public String getPostmanVariableName() {
-
-        String originalVariableName = this.variableName;
+    public static String getPostmanVariableName(String originalVariableName) {
 
         // TODO: Test this if clause
         if(!originalVariableName.startsWith("input.") &&
@@ -120,6 +119,26 @@ public class Variable {
             postmanVariableName += "_array";
         }
 
+        // If the variable name is accessing an array element
+        // (e.g., return.data.results[return.data.offset] or return.data.results[return.data.count-1])
+        if (postmanVariableName.contains("[") && postmanVariableName.contains("]")) {
+            int firstBracketIndex = postmanVariableName.indexOf("[");
+            int lastBracketIndex = postmanVariableName.lastIndexOf("]");
+
+            String arrayElementVariable = postmanVariableName.substring(firstBracketIndex + 1, lastBracketIndex);
+
+            String suffix = postmanVariableName.substring(lastBracketIndex+1);
+
+            // Update variableHierarchyString by applying this same function to the array element
+            postmanVariableName = postmanVariableName.substring(0, firstBracketIndex) +
+                    "_" + getPostmanVariableName(arrayElementVariable);
+
+            if(!suffix.trim().isEmpty()) {
+                postmanVariableName += "_" + suffix;
+            }
+
+        }
+
         // Add shift suffix
         postmanVariableName += shiftSuffix;
 
@@ -135,7 +154,7 @@ public class Variable {
     // TODO: Split into multiple methods
     public String getPostmanVariableValueCode(String parentBaseVariable, boolean isArrayNestingPpt) {
 
-        String postmanVariableName = this.getPostmanVariableName();
+        String postmanVariableName = getPostmanVariableName(this.variableName);
 
         List<String> variableHierarchyList = this.getVariableHierarchyList();
 
@@ -219,11 +238,32 @@ public class Variable {
             ifBracketsToClose--;
         }
 
+        // If the variable name is accessing an array element
+        // (e.g., return.data.results[return.data.offset] or return.data.results[return.data.count-1])
+        if (this.arrayElementVariable != null) {
+            // If the retrieved array is not null
+            res += "if(" + postmanVariableName + " != null) {\n";
+
+            // Add code used to access the array element variable
+            res += this.arrayElementVariable.getPostmanVariableValueCode(parentBaseVariable, isArrayNestingPpt);
+
+            String arrayElementVariableName = getPostmanVariableName(this.arrayElementVariable.getVariableName());
+
+            // If the array element index variable is not null
+            res += "if(" + arrayElementVariableName + " != null) {\n";
+
+            // Access the array element
+            res += postmanVariableName + " = " + postmanVariableName + "[" + arrayElementVariableName +"];\n";
+
+            // Close both if brackets
+            res += "}\n}\n";
+
+        }
 
         // THIS IS COMMON TO BOTH INPUT AND RETURN
         // If the variable is the size of an array
         // Get array size
-        if(this.isSize()) {
+        if(this.isSize) {
             // If the retrieved array is not null
             res += "if(" + postmanVariableName + " != null) {\n";
 
@@ -263,6 +303,7 @@ public class Variable {
      * This method is used ONLY IN THE CONSTRUCTOR to set the value of the variableHierarchyList attribute, using
      * variableName as parameter, it also sets the "isSize" and "isReturn" attributes
      */
+    // TODO: SPLIT THIS METHOD
     private void setVariableHierarchyList() {
 
         // Split AGORA variable name to extract variable hierarchy
@@ -304,8 +345,26 @@ public class Variable {
         variableHierarchyString = variableHierarchyString.replace("[]", "");
         variableHierarchyString = variableHierarchyString.replace("[..]", "");
 
-        List<String> variableHierarchyList;
+        // If the variable name is accessing an array element
+        // (e.g., return.data.results[return.data.offset] or return.data.results[return.data.count-1])
+        if (variableHierarchyString.contains("[") && variableHierarchyString.contains("]")) {
 
+            int firstBracketIndex = variableHierarchyString.indexOf("[");
+            int lastBracketIndex = variableHierarchyString.lastIndexOf("]");
+
+            String arrayElementVariableName = variableHierarchyString.substring(firstBracketIndex + 1, lastBracketIndex);
+
+            // Create a Variable object and assign it to the "arrayElementVariable" attribute
+            this.arrayElementVariable = new Variable(arrayElementVariableName);
+
+            // Remove the array index variable from variableHierarchyString
+            // (to avoid it being part of the variableHierarchyList
+            variableHierarchyString = variableHierarchyString.substring(0, firstBracketIndex) +
+                    variableHierarchyString.substring(lastBracketIndex+1);
+
+        }
+
+        List<String> variableHierarchyList;
         if(variableHierarchyString.startsWith("return.") || variableHierarchyString.startsWith("input.")) {
 //            TODO: IMPLEMENT ENTER
             variableHierarchyList = Arrays.asList(variableHierarchyString.split("\\."));

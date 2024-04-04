@@ -34,17 +34,17 @@ public class Draft {
 //        System.out.println(test.matches(".* [+-]{1}[0-9]{1,}$"));
 
         // Test array shift
-        Variable variable1 = new Variable("return.user.age -1");
-        System.out.println(variable1.getPostmanVariableName());
+//        Variable variable1 = new Variable("return.user.age -1");
+//        System.out.println(variable1.getPostmanVariableName());
 
-        Variable variable2 = new Variable("return.user.age +1");
-        System.out.println(variable2.getPostmanVariableName());
+//        Variable variable2 = new Variable("return.user.age +1");
+//        System.out.println(variable2.getPostmanVariableName());
 
-        Variable variable3 = new Variable("size(return.array[]) +1");
-        System.out.println(variable3.getPostmanVariableName());
+//        Variable variable3 = new Variable("size(return.array[]) +1");
+//        System.out.println(variable3.getPostmanVariableName());
 
-        Variable variable4 = new Variable("return.user.age");
-        System.out.println(variable4.getPostmanVariableName());
+//        Variable variable4 = new Variable("return.user.age");
+//        System.out.println(variable4.getPostmanVariableName());
 
     }
 }

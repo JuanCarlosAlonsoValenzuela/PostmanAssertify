@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static agora.postman.assertion.Main.ARRAY_NESTING_SEPARATOR;
-import static agora.postman.assertion.Main.DEBUG_MODE;
-import static agora.postman.assertion.debug.DebugUtils.printVariableValueScript;
+import static agora.postman.assertion.model.Variable.getPostmanVariableName;
 
 /**
  * @author Juan C. Alonso
@@ -97,7 +96,7 @@ public class Invariant {
         List<String> notNullConditions = new ArrayList<>();
         for(Variable variable: variables) {
             // Get variable name
-            String postmanVariableName = variable.getPostmanVariableName();
+            String postmanVariableName = getPostmanVariableName(variable.getVariableName());
 
             String condition = "(" + postmanVariableName + " != null) && (!valuesToConsiderAsNull.includes(" + postmanVariableName + "))";
 

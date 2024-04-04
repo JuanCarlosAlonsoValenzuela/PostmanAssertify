@@ -1,0 +1,135 @@
+{
+  "info": {
+    "name": "gateway.marvel.com",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "/v1/public/comics/{comicId}",
+      "item": [
+        {
+          "name": "getComicIndividual_200",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Getting value of the comicId path parameter \r",
+                  "input_comicId \u003d pm.request.url.path[3];\r",
+                  "if (input_comicId !\u003d null) { \r",
+                  "input_comicId \u003d decodeURIComponent(input_comicId);\r",
+                  "input_comicId \u003d parseInt(input_comicId);\r",
+                  "}\r",
+                  "// Printing value of input_comicId variable\r",
+                  "console.log(\"Printing value of input_comicId\");\r",
+                  "console.log(input_comicId);\r",
+                  "\r",
+                  "valuesToConsiderAsNull \u003d [];\r",
+                  "// \u0026200\r",
+                  "response \u003d pm.response.json();\r",
+                  "// Printing value of response variable\r",
+                  "console.log(\"Printing value of response\");\r",
+                  "console.log(response);\r",
+                  "\r",
+                  "// Invariants of this nesting level:\r",
+                  "// return.data.results[return.data.offset] \u003d\u003d return.data.results[return.data.total -1]\r",
+                  "pm.test(\"return.data.results[return.data.offset] \u003d\u003d return.data.results[return.data.total -1]\", () \u003d\u003e {\r",
+                  "// Getting value of variable: return_data_results_return_data_offset\r",
+                  "return_data_results_return_data_offset \u003d response.data;\r",
+                  "if(return_data_results_return_data_offset !\u003d null) {\r",
+                  "return_data_results_return_data_offset \u003d return_data_results_return_data_offset.results;\r",
+                  "}\r",
+                  "if(return_data_results_return_data_offset !\u003d null) {\r",
+                  "// Getting value of variable: return_data_offset\r",
+                  "return_data_offset \u003d response.data;\r",
+                  "if(return_data_offset !\u003d null) {\r",
+                  "return_data_offset \u003d return_data_offset.offset;\r",
+                  "}\r",
+                  "// Printing value of return_data_offset variable\r",
+                  "console.log(\"Printing value of return_data_offset\");\r",
+                  "console.log(return_data_offset);\r",
+                  "\r",
+                  "\r",
+                  "if(return_data_offset !\u003d null) {\r",
+                  "return_data_results_return_data_offset \u003d return_data_results_return_data_offset[return_data_offset];\r",
+                  "}\r",
+                  "}\r",
+                  "// Printing value of return_data_results_return_data_offset variable\r",
+                  "console.log(\"Printing value of return_data_results_return_data_offset\");\r",
+                  "console.log(return_data_results_return_data_offset);\r",
+                  "\r",
+                  "\r",
+                  "// Getting value of variable: return_data_results_return_data_total_minus_1\r",
+                  "return_data_results_return_data_total_minus_1 \u003d response.data;\r",
+                  "if(return_data_results_return_data_total_minus_1 !\u003d null) {\r",
+                  "return_data_results_return_data_total_minus_1 \u003d return_data_results_return_data_total_minus_1.results;\r",
+                  "}\r",
+                  "if(return_data_results_return_data_total_minus_1 !\u003d null) {\r",
+                  "// Getting value of variable: return_data_total_minus_1\r",
+                  "return_data_total_minus_1 \u003d response.data;\r",
+                  "if(return_data_total_minus_1 !\u003d null) {\r",
+                  "return_data_total_minus_1 \u003d return_data_total_minus_1.total;\r",
+                  "}\r",
+                  "if(return_data_total_minus_1 !\u003d null) {\r",
+                  "return_data_total_minus_1 \u003d return_data_total_minus_1  -1;\r",
+                  "}\r",
+                  "// Printing value of return_data_total_minus_1 variable\r",
+                  "console.log(\"Printing value of return_data_total_minus_1\");\r",
+                  "console.log(return_data_total_minus_1);\r",
+                  "\r",
+                  "\r",
+                  "if(return_data_total_minus_1 !\u003d null) {\r",
+                  "return_data_results_return_data_total_minus_1 \u003d return_data_results_return_data_total_minus_1[return_data_total_minus_1];\r",
+                  "}\r",
+                  "}\r",
+                  "// Printing value of return_data_results_return_data_total_minus_1 variable\r",
+                  "console.log(\"Printing value of return_data_results_return_data_total_minus_1\");\r",
+                  "console.log(return_data_results_return_data_total_minus_1);\r",
+                  "\r",
+                  "\r",
+                  "if((return_data_results_return_data_offset !\u003d null) \u0026\u0026 (!valuesToConsiderAsNull.includes(return_data_results_return_data_offset)) \u0026\u0026 (return_data_results_return_data_total_minus_1 !\u003d null) \u0026\u0026 (!valuesToConsiderAsNull.includes(return_data_results_return_data_total_minus_1))) {\r",
+                  "//pm.expect(return_data_results_return_data_offset).to.eql(return_data_results_return_data_total_minus_1);\r",
+                  "}\r",
+                  "})\r"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://gateway.marvel.com/v1/public/comics/{comicId}",
+              "protocol": "https",
+              "host": [
+                "gateway",
+                "marvel",
+                "com"
+              ],
+              "path": [
+                "v1",
+                "public",
+                "comics",
+                ":comicId"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "comicId",
+                  "value": ""
+                }
+              ]
+            },
+            "body": {}
+          },
+          "response": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ]
+    }
+  ]
+}
