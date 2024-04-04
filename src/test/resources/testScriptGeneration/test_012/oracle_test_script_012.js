@@ -23,7 +23,7 @@ console.log(input_hotelIds_size_array_minus_1);
 
 
 // Getting value of variable: return_data_size_array_minus_1
-return_data_size_array_minus_1 = response.data;
+return_data_size_array_minus_1 = response["data"];
 if(return_data_size_array_minus_1 != null) {
 return_data_size_array_minus_1 = return_data_size_array_minus_1.length;
 }

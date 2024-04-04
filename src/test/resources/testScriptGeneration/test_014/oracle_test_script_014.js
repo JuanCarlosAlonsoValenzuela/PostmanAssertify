@@ -9,9 +9,9 @@ console.log(response);
 // return.data.results[0] == return.data.results[return.data.total -1]
 pm.test("return.data.results[0] == return.data.results[return.data.total -1]", () => {
 // Getting value of variable: return_data_results_0
-return_data_results_0 = response.data;
+return_data_results_0 = response["data"];
 if(return_data_results_0 != null) {
-return_data_results_0 = return_data_results_0.results;
+return_data_results_0 = return_data_results_0["results"];
 }
 if(return_data_results_0 != null) {
 return_data_results_0 = return_data_results_0[0];
@@ -22,15 +22,15 @@ console.log(return_data_results_0);
 
 
 // Getting value of variable: return_data_results_return_data_total_minus_1
-return_data_results_return_data_total_minus_1 = response.data;
+return_data_results_return_data_total_minus_1 = response["data"];
 if(return_data_results_return_data_total_minus_1 != null) {
-return_data_results_return_data_total_minus_1 = return_data_results_return_data_total_minus_1.results;
+return_data_results_return_data_total_minus_1 = return_data_results_return_data_total_minus_1["results"];
 }
 if(return_data_results_return_data_total_minus_1 != null) {
 // Getting value of variable: return_data_total_minus_1
-return_data_total_minus_1 = response.data;
+return_data_total_minus_1 = response["data"];
 if(return_data_total_minus_1 != null) {
-return_data_total_minus_1 = return_data_total_minus_1.total;
+return_data_total_minus_1 = return_data_total_minus_1["total"];
 }
 if(return_data_total_minus_1 != null) {
 return_data_total_minus_1 = return_data_total_minus_1  -1;
