@@ -12,40 +12,9 @@ import java.nio.file.Paths;
  */
 public class FileManager {
 
-
-    public static void writeFile(String filepath, String content) {
-        try {
-            FileWriter myWriter = new FileWriter(filepath);
-            myWriter.write(content);
-            myWriter.close();
-            System.out.println("Successfully wrote to the file.");
-        } catch (IOException e) {
-            throw new RuntimeException("Error reading file");
-        }
-    }
-
     public static String readFileAsString(String path, Charset encoding) throws IOException {
         byte[] encoded = Files.readAllBytes(Paths.get(path));
         return new String(encoded, encoding);
-    }
-
-    public static boolean deleteFile(String path) {
-        File file = new File(path);
-        return file.delete();
-    }
-
-    public static Boolean checkIfExists(String path) {
-        File file = new File(path);
-        return file.exists();
-    }
-
-    public static Boolean createFileIfNotExists(String path) {
-        File file = new File(path);
-        try {
-            return file.createNewFile();
-        } catch (IOException e) {
-            throw new RuntimeException("Error reading file");
-        }
     }
 
 }

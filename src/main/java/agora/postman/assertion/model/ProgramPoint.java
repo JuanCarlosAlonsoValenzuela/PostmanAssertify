@@ -70,16 +70,8 @@ public class ProgramPoint {
         return operationId;
     }
 
-    public int getResponseCode() {
-        return responseCode;
-    }
-
     public int getArrayNesting() {
         return arrayNesting;
-    }
-
-    public List<String> getVariableHierarchy() {
-        return variableHierarchy;
     }
 
     public List<Invariant> getInvariants() {

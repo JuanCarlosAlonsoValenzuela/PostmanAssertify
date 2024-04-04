@@ -51,14 +51,6 @@ public class Variable {
         return variableHierarchyList;
     }
 
-    public String getShift() {
-        return shift;
-    }
-
-    public void setShift(String shift) {
-        this.shift = shift;
-    }
-
     @Override
     public String toString() {
         return "Variable{" +

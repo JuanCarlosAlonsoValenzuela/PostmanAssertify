@@ -107,22 +107,6 @@ public class APIOperation {
         return parameters;
     }
 
-    public RequestBody getRequestBody() {
-        return requestBody;
-    }
-
-    public Schema getResponseSchema() {
-        return responseSchema;
-    }
-
-    public List<ProgramPoint> getEnterProgramPoints() {
-        return enterProgramPoints;
-    }
-
-    public List<ProgramPoint> getExitProgramPoints() {
-        return exitProgramPoints;
-    }
-
     /**
      *
      * @return Pre-Request script containing variables with the values of all the input parameters

@@ -21,24 +21,6 @@ public class CSVManager {
         return rows;
     }
 
-    public static List<String> readValues(String path) {
-        List<String> values = new ArrayList<String>();
-
-        Reader in;
-        try {
-            in = new FileReader(path);
-
-            Iterable<CSVRecord> records = CSVFormat.EXCEL.parse(in);
-            for (CSVRecord record : records)
-                values.add(record.get(0));
-
-        }catch (IOException ex) {
-            throw new RuntimeException("Error reading file");
-        }
-
-        return values;
-    }
-
     public static List<List<String>> readCSV(String path, char delimiter) {
         List<List<String>> rows = new ArrayList<>();
 
@@ -57,20 +39,6 @@ public class CSVManager {
         }
 
         return rows;
-    }
-
-    public static CSVRecord getCSVRecord(String line) {
-        CSVRecord res = null;
-        try {
-            List<CSVRecord> csvRecords =  CSVParser.parse(line, CSVFormat.EXCEL).getRecords();
-            if(csvRecords.size() != 1) {
-                throw new IndexOutOfBoundsException("Each line should contain only one record");
-            }
-            res = csvRecords.get(0);
-        } catch (IOException e) {
-            throw new RuntimeException("Error reading file");
-        }
-        return res;
     }
 
 }
