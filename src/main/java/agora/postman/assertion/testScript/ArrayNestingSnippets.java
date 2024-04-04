@@ -59,7 +59,7 @@ public class ArrayNestingSnippets {
 
         String data = tree.getData();
 
-        String baseVariableAssignation = parentBaseVariable + "_" + data + " = " + parentBaseVariable + "." + data;
+        String baseVariableAssignation = parentBaseVariable + "_" + data + " = " + parentBaseVariable + "[\"" + data + "\"]";
         parentBaseVariable = parentBaseVariable + "_" + data;
 
         String snippet = baseVariableAssignation + "\n";

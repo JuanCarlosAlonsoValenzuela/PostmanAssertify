@@ -30,7 +30,7 @@ public class Variable {
     public Variable(String variableName) {
         this.variableName = variableName;
 
-        // This method sets the values of the "variableHierarchyList", "isSize", "isReturn" and "shift" attributes
+        // This method sets the values of the remaining attributes
         this.setVariableHierarchyList();
 
     }
@@ -176,7 +176,7 @@ public class Variable {
 
             } else {    // If normal program point
                 // First line/nested variable
-                res += postmanVariableName + " = " + parentBaseVariable + "." + variableHierarchyList.get(0) + ";\n";
+                res += postmanVariableName + " = " + parentBaseVariable + "[\"" + variableHierarchyList.get(0) + "\"];\n";
 
                 // TODO: START CONVERT INTO FUNCTION (DUPLICATED)
                 for(int i = 1; i < variableHierarchyList.size(); i++) {
@@ -185,7 +185,7 @@ public class Variable {
                     res += "if(" + postmanVariableName + " != null) {\n";
 
                     // Access next hierarchy element
-                    res += postmanVariableName + " = " + postmanVariableName + "." + variableHierarchyList.get(i) + ";\n";
+                    res += postmanVariableName + " = " + postmanVariableName + "[\"" + variableHierarchyList.get(i) + "\"];\n";
 
 
                     // Increment the number of if brackets to close
@@ -222,7 +222,7 @@ public class Variable {
                     res += "if(" + postmanVariableName + " != null) {\n";
 
                     // Access next hierarchy element
-                    res += postmanVariableName + " = " + postmanVariableName + "." + variableHierarchyList.get(i) + ";\n";
+                    res += postmanVariableName + " = " + postmanVariableName + "[\"" + variableHierarchyList.get(i) + "\"];\n";
 
                     // Increment the number of if brackets to close
                     ifBracketsToClose++;
@@ -326,7 +326,7 @@ public class Variable {
 
         // Set value of shift
         // If the variable name ends with a white space followed by +/- and a number (integer)
-        if(variableHierarchyString.matches(".* [+-]{1}[0-9]{1,}$")) {
+        if(variableHierarchyString.matches(".* [+-][0-9]+$")) {
 
             // Last occurrence of one of the +/- characters (-1 to include whitespace as part of the shift)
             int shiftIndex = Math.max(

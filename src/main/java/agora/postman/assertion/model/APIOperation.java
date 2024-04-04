@@ -245,7 +245,7 @@ public class APIOperation {
 
 
                     // TODO: START CONVERT INTO FUNCTION
-                    // Iterate through array nesting levels (TODO: Test this exhaustively)
+                    // Iterate through array nesting levels
                     while(currentSchema.getType().equals("array")) {
                         currentSchema = ((ArraySchema) currentSchema).getItems();
                     }
