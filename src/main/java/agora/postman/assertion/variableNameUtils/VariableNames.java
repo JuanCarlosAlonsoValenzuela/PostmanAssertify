@@ -30,6 +30,11 @@ public class VariableNames {
             inputVariableName = inputVariableName + "_array";
         }
 
+        // Kebab case is not supported in JS
+        inputVariableName = inputVariableName.replace("-", "_");
+        // Replace variable hierarchy separator with snake_case
+        inputVariableName = inputVariableName.replace(".", "_");
+
         return inputVariableName;
     }
 
