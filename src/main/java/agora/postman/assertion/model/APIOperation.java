@@ -124,15 +124,15 @@ public class APIOperation {
             for(Parameter parameter: this.parameters) {
 
                 // Generate the script that extracts the variable value (always as string)
-                res = res + generateGetVariableValueScript(parameter, this.server + this.endpoint);
+                res += generateGetVariableValueScript(parameter, this.server + this.endpoint);
 
                 // Decode URI component and generate a script that converts the variable into the
                 // corresponding datatype, after checking that the variable is not null
-                res = res + generateCastingVariableScript(parameter);
+                res += generateCastingVariableScript(parameter);
 
 
                 if(DEBUG_MODE) {
-                    res = res + printVariableValueScript(getInputVariableName(parameter));
+                    res += printVariableValueScript(getInputVariableName(parameter));
                 }
 
             }
@@ -143,15 +143,15 @@ public class APIOperation {
         if(requestBody != null) {
 
             // Get the request body itself
-            res = res + "let request_body = JSON.parse(pm.request.body.raw);\n";
+            res += "let request_body = JSON.parse(pm.request.body.raw);\n";
 
             if(DEBUG_MODE) {
-                res = res + printVariableValueScript("request_body");
+                res += printVariableValueScript("request_body");
             }
 
             // Generates the code that obtains the value of all the body parameters (first nesting level) specified in
             // the OAS
-            res = res + generateBodyParametersScript(requestBody);
+            res += generateBodyParametersScript(requestBody);
 
         }
 

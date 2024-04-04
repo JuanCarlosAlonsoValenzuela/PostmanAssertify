@@ -57,7 +57,6 @@ public class Invariant {
     public String getPostmanAssertion() { return postmanAssertion; }
 
     // TODO: Use StringBuilder
-    // TODO: Array item
     public String getPostmanTestCase(String parentBaseVariable) {
 
         String res =  "// " + this.invariant + "\n";
@@ -88,7 +87,6 @@ public class Invariant {
     }
 
     // TODO: DOCUMENT
-    // TODO: Move to a different class
     private static String generateNotNullConditionsSnippet(List<Variable> variables) {
 
         // If variable is not null and not part of values to consider null
@@ -107,14 +105,15 @@ public class Invariant {
 
     }
 
+    @Override
     public String toString() {
-        return "InvariantData{" +
+        return "Invariant{" +
                 "pptname='" + pptname + '\'' +
                 ", invariant='" + invariant + '\'' +
                 ", invariantType='" + invariantType + '\'' +
                 ", variables=" + variables +
                 ", postmanAssertion='" + postmanAssertion + '\'' +
+                ", isArrayNestingPpt=" + isArrayNestingPpt +
                 '}';
     }
-
 }

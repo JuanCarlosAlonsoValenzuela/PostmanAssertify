@@ -57,8 +57,10 @@ public class Variable {
                 "variableName='" + variableName + '\'' +
                 ", isReturn=" + isReturn +
                 ", isSize=" + isSize +
-                ", variableHierarchyList=" + variableHierarchyList +
                 ", shift='" + shift + '\'' +
+                ", variableHierarchyList=" + variableHierarchyList +
+                ", arrayElementIndex=" + arrayElementIndex +
+                ", arrayElementVariable=" + arrayElementVariable +
                 '}';
     }
 
@@ -70,7 +72,6 @@ public class Variable {
     // Returns the variable name in the format used in the Postman assertion
     public static String getPostmanVariableName(String originalVariableName) {
 
-        // TODO: Test this if clause
         if(!originalVariableName.startsWith("input.") &&
                 !originalVariableName.startsWith("return.") &&
                 !originalVariableName.startsWith("size(input.") &&
@@ -163,7 +164,6 @@ public class Variable {
 
             if(isArrayNestingPpt) { // Array nesting program points (i.e., %array) only have one return variable (return_array)
 
-                // TODO: Create test cases for array element
                 res += postmanVariableName + " = " + parentBaseVariable + ";\n";
 
             } else {    // If normal program point
@@ -346,8 +346,6 @@ public class Variable {
                     );
         }
 
-        // TODO: Can a variable be size of array element??
-
         // Remove array characters
         variableHierarchyString = variableHierarchyString.replace("[]", "");
         variableHierarchyString = variableHierarchyString.replace("[..]", "");
@@ -377,7 +375,6 @@ public class Variable {
 
         List<String> variableHierarchyList;
         if(variableHierarchyString.startsWith("return.") || variableHierarchyString.startsWith("input.")) {
-//            TODO: IMPLEMENT ENTER
             variableHierarchyList = Arrays.asList(variableHierarchyString.split("\\."));
 
             this.isReturn = variableHierarchyList.get(0).equals("return");

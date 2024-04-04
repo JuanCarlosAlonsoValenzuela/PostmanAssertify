@@ -32,11 +32,10 @@ public class ProgramPoint {
 
 
     public ProgramPoint(String pptname, List<Invariant> invariants){
-        // TODO: Modify after ApiOperation refactorization
         List<String> pptnameComponents = Arrays.stream(pptname.split(HIERARCHY_SEPARATOR)).toList();
 
         this.pptname = pptname;
-        this.pptType = getPptType(pptname);
+        this.pptType = initializePptType(pptname);
         this.endpoint = pptnameComponents.get(0);
         this.operationId = pptnameComponents.get(1);
         this.arrayNesting = countArrayNesting(pptnameComponents.get(pptnameComponents.size()-1));
@@ -48,7 +47,6 @@ public class ProgramPoint {
 
     }
 
-    // TODO: Rename after renaming the APIOperation class
     // This method is used to group the list of all program points by their corresponding operation
     public String getApiOperationIdentifier() {
         return this.endpoint + HIERARCHY_SEPARATOR + this.operationId + HIERARCHY_SEPARATOR + this.responseCode;
@@ -82,9 +80,8 @@ public class ProgramPoint {
     /**
      * @return variable hierarchy list as a single string, joined by HIERARCHY_SEPARATOR, this string is a path
      * in the nesting level tree. For instance if variableHierarchy=["items", "images"] and HIERARCHY_SEPARATOR="&",
-     * this function returns "items&images".
+     * this function returns "items&images". The root of the tree is the response code.
      */
-    // TODO: Explain that I use responseCode as root (if I end up using it).
     public String getVariableHierarchyAsString() {
         return String.join(HIERARCHY_SEPARATOR, this.variableHierarchy);
     }
@@ -107,8 +104,7 @@ public class ProgramPoint {
      * @param pptname: program point name
      * @return  whether its type is ENTER or EXIT
       */
-    // TODO: Rename, now it has the same name as getter
-    private static PptType getPptType(String pptname) {
+    private static PptType initializePptType(String pptname) {
         String[] splitPptName = pptname.split(":::");
 
         if(splitPptName.length != 2) {

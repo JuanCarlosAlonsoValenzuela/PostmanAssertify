@@ -37,9 +37,7 @@ public class RequestBodyScript {
 
         Set<String> requestSchemaKeyset = requestSchema.getProperties().keySet();
         for(String requestVariableName: requestSchemaKeyset) {
-
-            res = res + generateSingleBodyPropertyScript(requestVariableName);
-
+            res += generateSingleBodyPropertyScript(requestVariableName);
         }
 
         return res;
@@ -56,10 +54,10 @@ public class RequestBodyScript {
         // Add variable assignation
         String res = "// Getting value of the " + requestVariableName + " property of the request body\n";
 
-        res = res + inputVariableName + " = request_body[\"" + requestVariableName + "\"];\n";
+        res += inputVariableName + " = request_body[\"" + requestVariableName + "\"];\n";
 
         if(DEBUG_MODE) {
-            res = res + printVariableValueScript(inputVariableName);
+            res += printVariableValueScript(inputVariableName);
         }
 
         return res;
