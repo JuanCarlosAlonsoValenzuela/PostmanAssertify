@@ -26,6 +26,16 @@ public class Body implements Serializable
     private Options options;
     private final static long serialVersionUID = 1394237792582911341L;
 
+    // Standard Postman collection
+    public Body() {}
+
+    // Postman collection creation for experiment 2 (JSONMutator)
+    public Body(String bodyParameter) {
+        this.mode = "raw";
+        this.raw = bodyParameter;
+        this.options = new Options("json");
+    }
+
     public String getMode() {
         return mode;
     }

@@ -305,6 +305,7 @@
           ],
           "request": {
             "method": "GET",
+            "header": [],
             "url": {
               "raw": "https://omdbapi.com/",
               "protocol": "https",
@@ -323,7 +324,7 @@
                 },
                 {
                   "key": "t",
-                  "value": "Better+Call+Saul",
+                  "value": "Better Call Saul",
                   "disabled": false
                 },
                 {
@@ -341,7 +342,8 @@
                   "value": "movie",
                   "disabled": false
                 }
-              ]
+              ],
+              "variable": []
             }
           },
           "response": [],
@@ -646,6 +648,7 @@
           ],
           "request": {
             "method": "GET",
+            "header": [],
             "url": {
               "raw": "https://omdbapi.com/",
               "protocol": "https",
@@ -672,7 +675,8 @@
                   "value": "1980",
                   "disabled": false
                 }
-              ]
+              ],
+              "variable": []
             }
           },
           "response": [],

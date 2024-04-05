@@ -16,6 +16,12 @@ public class Options implements Serializable
     private Raw raw;
     private final static long serialVersionUID = -5859399138921385836L;
 
+    // Postman collection creation for experiment 2 (JSONMutator)
+    // Creates options raw with language = json
+    public Options(String languageValue) {
+        this.raw = new Raw(languageValue);
+    }
+
     public Raw getRaw() {
         return raw;
     }

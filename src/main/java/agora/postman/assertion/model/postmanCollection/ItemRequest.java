@@ -46,17 +46,14 @@ public class ItemRequest implements Serializable
     // Postman collection creation for experiment 2 (JSONMutator)
     public ItemRequest(APIOperation apiOperation, String testName, MutatedTestCase mutatedTestCase) {
         this.name = testName;
-        // TODO: Test case here (i.e., mock response)
         this.event = Collections.singletonList(new Event(apiOperation, mutatedTestCase.getResponseBody()));
 
-        // TODO: Mock Query and path parameters here (Body parameters?)
-        // TODO: Decode URL values (e.g., replace "+" with " ")
-//        this.request = new Request(apiOperation);   // TODO: IMPLEMENT THE CORRECT VERSION AND DELETE THIS LINE
         this.request = new Request(
                 apiOperation,
                 mutatedTestCase.getHeaderParameters(),
                 mutatedTestCase.getQueryParameters(),
-                mutatedTestCase.getPathParameters()
+                mutatedTestCase.getPathParameters(),
+                mutatedTestCase.getBodyParameter()
         );
 
         this.response = new ArrayList<>();
