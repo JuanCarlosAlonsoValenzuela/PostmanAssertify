@@ -44,18 +44,17 @@ public class Request implements Serializable
     }
 
     // Postman collection creation for experiment 2 (JSONMutator)
-    // TODO: Header parameters and body parameter
+    // TODO: body parameter
     public Request(
             APIOperation apiOperation,
+            Map<String, String> headerParameters,
             Map<String, String> queryParameters,
             Map<String, String> pathParameters
     ) {
         this.method = apiOperation.getMethod();
 
-        // TODO: IMPLEMENT
-//        this.header = ;
+        this.header = getAllHeaders(headerParameters);
 
-        // TODO: IMPLEMENT
         this.url = new Url(apiOperation, queryParameters, pathParameters);
 
         // TODO: IMPLEMENT

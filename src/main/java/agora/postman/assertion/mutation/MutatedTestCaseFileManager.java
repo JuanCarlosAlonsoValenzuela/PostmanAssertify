@@ -6,6 +6,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -77,10 +79,10 @@ public class MutatedTestCaseFileManager {
 
     public MutatedTestCase getMutatedTestCase(CSVRecord row) {
 
-        Map<String, String> headerParameters = stringToMap(row.get(this.headerParametersIndex));
-        Map<String, String> pathParameters = stringToMap(row.get(this.pathParametersIndex));
-        Map<String, String> queryParameters = stringToMap(row.get(this.queryParametersIndex));
-        Map<String, String> formParameters = stringToMap(row.get(this.formParametersIndex));
+        Map<String, String> headerParameters = stringToMap(row.get(this.headerParametersIndex), true);
+        Map<String, String> pathParameters = stringToMap(row.get(this.pathParametersIndex), true);
+        Map<String, String> queryParameters = stringToMap(row.get(this.queryParametersIndex), true);
+        Map<String, String> formParameters = stringToMap(row.get(this.formParametersIndex), true);
 
         return new MutatedTestCase(row.get(this.testCaseIdIndex), row.get(this.operationIdIndex), row.get(this.pathIndex),
                 row.get(this.httpMethodIndex), headerParameters, pathParameters, queryParameters,
@@ -98,7 +100,7 @@ public class MutatedTestCaseFileManager {
         throw new NullPointerException("Element " + header + " not found in the csv headers");
     }
 
-    private static Map<String, String> stringToMap(String str) {
+    private static Map<String, String> stringToMap(String str, boolean decodeURI) {
         if(str.trim().isEmpty()){
             return new HashMap<>();
         }else {
@@ -106,6 +108,12 @@ public class MutatedTestCaseFileManager {
                     .collect(Collectors.toMap(a -> a[0], a -> a[1]));
             // Remove all new line chars (\n and \r). The parameter value line of the dTrace must be specified in a single line
             res.replaceAll((k,v) -> removeNewLineChars(v));
+
+            if(decodeURI) {
+                res.replaceAll(
+                        (n, v) -> URLDecoder.decode(res.get(n), StandardCharsets.UTF_8));
+            }
+
             return res;
         }
     }

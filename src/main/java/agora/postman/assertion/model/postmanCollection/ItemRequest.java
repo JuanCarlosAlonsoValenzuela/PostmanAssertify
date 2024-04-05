@@ -52,7 +52,12 @@ public class ItemRequest implements Serializable
         // TODO: Mock Query and path parameters here (Body parameters?)
         // TODO: Decode URL values (e.g., replace "+" with " ")
 //        this.request = new Request(apiOperation);   // TODO: IMPLEMENT THE CORRECT VERSION AND DELETE THIS LINE
-        this.request = new Request(apiOperation, mutatedTestCase.getQueryParameters(), mutatedTestCase.getPathParameters());
+        this.request = new Request(
+                apiOperation,
+                mutatedTestCase.getHeaderParameters(),
+                mutatedTestCase.getQueryParameters(),
+                mutatedTestCase.getPathParameters()
+        );
 
         this.response = new ArrayList<>();
         this.protocolProfileBehavior = new ProtocolProfileBehavior();

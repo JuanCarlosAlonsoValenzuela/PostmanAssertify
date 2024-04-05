@@ -47,7 +47,6 @@ public class Variable implements Serializable
         this.value = "";
     }
 
-    // TODO: Decode URI components
     /**
      * This method is used in Postman collection creation for experiment 2 (JSONMutator)
      * @param pathParameters Map where keys: path parameter names and the values: variable values

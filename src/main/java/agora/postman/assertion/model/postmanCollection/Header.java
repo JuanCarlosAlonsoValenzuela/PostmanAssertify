@@ -4,6 +4,7 @@ package agora.postman.assertion.model.postmanCollection;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import io.swagger.v3.oas.models.parameters.Parameter;
 
@@ -52,6 +53,31 @@ public class Header implements Serializable
         this.value = "";
         this.type = "";
         this.disabled = true;
+    }
+
+    /**
+     *
+     * @param headerParameters: Map where keys: enabled header parameter names and the values: variable values
+     * @return List of header objects, containing these key-value pairs, all of them enabled
+     */
+    public static List<Header> getAllHeaders(Map<String, String> headerParameters) {
+        List<Header> res = new ArrayList<>();
+
+        for(String headerParameterName: headerParameters.keySet()) {
+            res.add(new Header(
+                    headerParameterName,
+                    headerParameters.get(headerParameterName)
+            ));
+        }
+
+        return res;
+    }
+
+    public Header(String headerParameterName, String headerParameterValue) {
+        this.key = headerParameterName;
+        this.value = headerParameterValue;
+        this.type = "";
+        this.disabled = false;
     }
 
     public String getKey() {
