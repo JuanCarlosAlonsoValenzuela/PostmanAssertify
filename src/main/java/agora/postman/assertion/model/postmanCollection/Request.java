@@ -59,7 +59,7 @@ public class Request implements Serializable
         this.url = new Url(apiOperation, queryParameters, pathParameters);
 
         // TODO: IMPLEMENT
-//        this.header = ;
+//        this.body = ;
 
     }
 

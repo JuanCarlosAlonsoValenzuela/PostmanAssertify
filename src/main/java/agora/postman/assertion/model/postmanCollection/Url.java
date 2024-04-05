@@ -97,8 +97,9 @@ public class Url implements Serializable
         // TODO: Decode URI components
         this.query = getAllQueryParameters(queryParameters);
 
-        // TODO: Set the path parameters as Postman variables
-//        this.variable = ;
+        // Set the path parameters as Postman variables
+        // TODO: Decode URI components
+        this.variable = getAllPathVariables(pathParameters);
 
     }
 

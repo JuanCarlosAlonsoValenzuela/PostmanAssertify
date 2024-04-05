@@ -4,6 +4,7 @@ package agora.postman.assertion.model.postmanCollection;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import io.swagger.v3.oas.models.parameters.Parameter;
 
@@ -44,6 +45,30 @@ public class Variable implements Serializable
     public Variable(Parameter parameter) {
         this.key = parameter.getName();
         this.value = "";
+    }
+
+    // TODO: Decode URI components
+    /**
+     * This method is used in Postman collection creation for experiment 2 (JSONMutator)
+     * @param pathParameters Map where keys: path parameter names and the values: variable values
+     * @return List of variable objects,  containing these key-value pairs
+     */
+    public static List<Variable> getAllPathVariables(Map<String, String> pathParameters) {
+        List<Variable> res = new ArrayList<>();
+
+        for(String pathParameterName: pathParameters.keySet()) {
+            res.add(new Variable(
+                    pathParameterName,
+                    pathParameters.get(pathParameterName)
+            ));
+        }
+
+        return res;
+    }
+
+    public Variable(String variableName, String variableValue) {
+        this.key = variableName;
+        this.value = variableValue;
     }
 
     public String getKey() {
