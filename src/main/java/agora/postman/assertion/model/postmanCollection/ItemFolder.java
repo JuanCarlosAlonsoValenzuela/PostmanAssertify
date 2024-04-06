@@ -32,12 +32,12 @@ public class ItemFolder implements Serializable
     private final static long serialVersionUID = -2746514765098961986L;
 
     // Standard PostmanCollection creation
-    public ItemFolder(String endpointName, List<APIOperation> endpointOperations) {
+    public ItemFolder(String endpointName, List<APIOperation> endpointOperations, String[] valuesToConsiderAsNull) {
         this.name = endpointName;
 
         List<ItemRequest> itemRequests = new ArrayList<>();
         for(APIOperation apiOperation: endpointOperations) {
-            itemRequests.add(new ItemRequest(apiOperation));
+            itemRequests.add(new ItemRequest(apiOperation, valuesToConsiderAsNull));
         }
 
         this.items = itemRequests;
@@ -45,7 +45,7 @@ public class ItemFolder implements Serializable
     }
 
     // Postman collection creation for experiment 2 (JSONMutator), it can only contain a single APIOperation
-    public ItemFolder(String endpointName, APIOperation apiOperation, String mutantsPath) {
+    public ItemFolder(String endpointName, APIOperation apiOperation, String[] valuesToConsiderAsNull, String mutantsPath) {
         this.name = endpointName;
 
         // Read mutants CSV file
@@ -55,7 +55,7 @@ public class ItemFolder implements Serializable
         List<ItemRequest> itemRequests = new ArrayList<>();
         int nTest = 1;
         for(MutatedTestCase mutatedTestCase: mutatedTestCases) {
-            itemRequests.add(new ItemRequest(apiOperation, String.format("Test_%03d", nTest), mutatedTestCase));
+            itemRequests.add(new ItemRequest(apiOperation, valuesToConsiderAsNull, String.format("Test_%03d", nTest), mutatedTestCase));
             nTest++;
         }
         this.items = itemRequests;

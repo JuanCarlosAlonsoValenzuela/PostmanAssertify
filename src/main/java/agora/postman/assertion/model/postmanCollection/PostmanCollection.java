@@ -30,7 +30,7 @@ public class PostmanCollection implements Serializable
     private final static long serialVersionUID = 8612284934075767955L;
 
     // Standard PostmanCollection creation
-    public PostmanCollection(OpenAPI specification, String invariantsPath) {
+    public PostmanCollection(OpenAPI specification, String invariantsPath, String[] valuesToConsiderAsNull) {
         this.info = new Info(specification);
 
         List<ItemFolder> itemFolders = new ArrayList<>();
@@ -42,14 +42,14 @@ public class PostmanCollection implements Serializable
 
         for(String endpointApiOperations: apiOperationsByEndpoint.keySet()) {
             // Create a folder, each folder contains all the operations with a specific endpoint
-            itemFolders.add(new ItemFolder(endpointApiOperations, apiOperationsByEndpoint.get(endpointApiOperations)));
+            itemFolders.add(new ItemFolder(endpointApiOperations, apiOperationsByEndpoint.get(endpointApiOperations), valuesToConsiderAsNull));
         }
 
         this.itemFolders = itemFolders;
     }
 
     // Postman collection creation for experiment 2 (JSONMutator), it can only contain a single APIOperation
-    public PostmanCollection(OpenAPI specification, String invariantsPath, String mutantsPath) {
+    public PostmanCollection(OpenAPI specification, String invariantsPath, String[] valuesToConsiderAsNull, String mutantsPath) {
         this.info = new Info(specification);
 
         // Get all the API operations grouped by endpoints
@@ -61,7 +61,7 @@ public class PostmanCollection implements Serializable
         }
 
         // A single ItemFolder
-        this.itemFolders = Collections.singletonList(new ItemFolder("MutatedTestCases", apiOperations.get(0), mutantsPath));
+        this.itemFolders = Collections.singletonList(new ItemFolder("MutatedTestCases", apiOperations.get(0), valuesToConsiderAsNull, mutantsPath));
 
     }
 

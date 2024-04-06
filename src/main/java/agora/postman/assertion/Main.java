@@ -16,9 +16,11 @@ import java.nio.file.Path;
  */
 public class Main {
 
-    private static String openApiSpecPath = "src/test/resources/testScriptGeneration/test_015/oas_nyTimes.yaml";
+    private static String openApiSpecPath = "src/main/resources/JSONMutator/oas_omdb.yaml";
 
-    private static String invariantsPath = "src/test/resources/testScriptGeneration/test_015/invariants.csv";
+    private static String invariantsPath = "src/main/resources/JSONMutator/omdb_invariants.csv";
+
+    private static final String[] valuesToConsiderAsNull = {};
 
     // TODO: READ FROM .properties file
     public static boolean DEBUG_MODE = true;
@@ -40,14 +42,13 @@ public class Main {
         // Read OAS from file
         OpenAPI specification = getOpenAPISpecification(openApiSpecPath);
 
-        // TODO: Implement Strings to consider as null!!!
         // TODO: Test with multiple response codes
         // TODO: Test with multiple Http verbs
         // TODO: Test with multiple test with multiple operations, endpoints and paths
         // TODO: ENTER program points?
         // TODO: Closing brackets comments are incorrect
         // Create PostmanCollection
-        PostmanCollection postmanCollection = new PostmanCollection(specification, invariantsPath);
+        PostmanCollection postmanCollection = new PostmanCollection(specification, invariantsPath, valuesToConsiderAsNull);
 
         // Output path
         String outputPath = getOutputPath(specification.getInfo().getTitle() + ".json", openApiSpecPath);

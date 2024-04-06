@@ -23,6 +23,8 @@ public class MainMock {
 
     private static String invariantsPath = "src/main/resources/JSONMutator/omdb_invariants.csv";
 
+    private static final String[] valuesToConsiderAsNull = {};
+
     private static String mutantsPath = "src/main/resources/JSONMutator/omdb_mutants.csv";
 
     public static void main(String[] args) {
@@ -32,7 +34,7 @@ public class MainMock {
 
         // TODO: Same TODOs as Main.java
         // Create PostmanCollection
-        PostmanCollection postmanCollection = new PostmanCollection(specification, invariantsPath, mutantsPath);
+        PostmanCollection postmanCollection = new PostmanCollection(specification, invariantsPath, valuesToConsiderAsNull, mutantsPath);
 
         // Output path
         String outputPath = getOutputPath(specification.getInfo().getTitle() + ".json", openApiSpecPath);

@@ -35,18 +35,18 @@ public class ItemRequest implements Serializable
     private final static long serialVersionUID = 849339939549916296L;
 
     // Standard PostmanCollection creation
-    public ItemRequest(APIOperation apiOperation) {
+    public ItemRequest(APIOperation apiOperation, String[] valuesToConsiderAsNull) {
         this.name = apiOperation.getOperationId() + "_" + apiOperation.getResponseCode();
-        this.event = Collections.singletonList(new Event(apiOperation));
+        this.event = Collections.singletonList(new Event(apiOperation, valuesToConsiderAsNull));
         this.request = new Request(apiOperation);
         this.response = new ArrayList<>();
         this.protocolProfileBehavior = new ProtocolProfileBehavior();
     }
 
     // Postman collection creation for experiment 2 (JSONMutator)
-    public ItemRequest(APIOperation apiOperation, String testName, MutatedTestCase mutatedTestCase) {
+    public ItemRequest(APIOperation apiOperation, String[] valuesToConsiderAsNull, String testName, MutatedTestCase mutatedTestCase) {
         this.name = testName;
-        this.event = Collections.singletonList(new Event(apiOperation, mutatedTestCase.getResponseBody()));
+        this.event = Collections.singletonList(new Event(apiOperation, valuesToConsiderAsNull, mutatedTestCase.getResponseBody()));
 
         this.request = new Request(
                 apiOperation,

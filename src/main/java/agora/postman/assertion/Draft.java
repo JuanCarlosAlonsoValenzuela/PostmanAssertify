@@ -2,6 +2,10 @@ package agora.postman.assertion;
 
 import agora.postman.assertion.model.Variable;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+
 import static agora.postman.assertion.testScript.PostmanVariableName.getPostmanVariableName;
 
 /**
@@ -9,8 +13,27 @@ import static agora.postman.assertion.testScript.PostmanVariableName.getPostmanV
  */
 public class Draft {
 
-    // TODO: Convert all this into test cases
     public static void main(String[] args) {
+        try {
+            // String a codificar
+//            String originalString = "Better Call Saul";
+//            String originalString = "Don't Look Up";
+            String originalString = "Tech-Phantoms";
+
+            // Codificar
+            String encodedString = URLEncoder.encode(originalString, "UTF-8");
+            System.out.println("String codificado: " + encodedString);
+
+            // Decodificar
+            String decodedString = URLDecoder.decode(encodedString, "UTF-8");
+            System.out.println("String decodificado: " + decodedString);
+        } catch (UnsupportedEncodingException e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+    }
+
+    // TODO: Convert all this into test cases
+//    public static void main(String[] args) {
 //        Variable variable1 = new Variable("size(return.names[])");
 //        System.out.println(variable1);
 
@@ -48,7 +71,7 @@ public class Draft {
 //        Variable variable4 = new Variable("return.user.age");
 //        System.out.println(variable4.getPostmanVariableName());
 
-        System.out.println(getPostmanVariableName("return.data.results[0]"));
+//        System.out.println(getPostmanVariableName("return.data.results[0]"));
 
-    }
+//    }
 }

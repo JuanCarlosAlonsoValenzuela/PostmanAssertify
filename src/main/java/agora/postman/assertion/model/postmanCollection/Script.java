@@ -28,22 +28,22 @@ public class Script implements Serializable
     private Packages packages;
     private final static long serialVersionUID = 5950281285453780232L;
 
-    public Script(APIOperation apiOperation) {
-        this.exec = generateExec(apiOperation, "pm.response.json()");
+    public Script(APIOperation apiOperation, String[] valuesToConsiderAsNull) {
+        this.exec = generateExec(apiOperation, valuesToConsiderAsNull, "pm.response.json()");
         this.type = "text/javascript";
         this.packages = new Packages();
     }
 
     // Postman collection creation for experiment 2 (JSONMutator)
-    public Script(APIOperation apiOperation, String mockResponseBody) {
-        this.exec = generateExec(apiOperation, mockResponseBody);
+    public Script(APIOperation apiOperation, String[] valuesToConsiderAsNull, String mockResponseBody) {
+        this.exec = generateExec(apiOperation, valuesToConsiderAsNull, mockResponseBody);
         this.type = "text/javascript";
         this.packages = new Packages();
     }
 
-    private static List<String> generateExec(APIOperation apiOperation, String response) {
+    private static List<String> generateExec(APIOperation apiOperation, String[] valuesToConsiderAsNull, String response) {
         return Arrays.stream(
-                (apiOperation.generateInputParametersScript() + apiOperation.generateTestScript(new ArrayList<>(), response))
+                (apiOperation.generateInputParametersScript() + apiOperation.generateTestScript(valuesToConsiderAsNull, response))
                         .split("\n")
                 )
                 .map(x-> x + "\r")

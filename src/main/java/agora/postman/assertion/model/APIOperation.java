@@ -160,15 +160,15 @@ public class APIOperation {
     }
 
     // TODO: DOCUMENT
-    public String generateTestScript(List<String> valuesToConsiderAsNull, String response) {
+    public String generateTestScript(String[] valuesToConsiderAsNull, String response) {
 
         // Create array of strings to consider as null
         String arrayString = "[";
-        if(!valuesToConsiderAsNull.isEmpty()) {
-            arrayString += "\"" + valuesToConsiderAsNull.get(0) + "\"";
+        if(valuesToConsiderAsNull.length != 0) {
+            arrayString += "\"" + valuesToConsiderAsNull[0] + "\"";
 
-            for(int i = 1; i < valuesToConsiderAsNull.size(); i++) {
-                arrayString += ", \"" + valuesToConsiderAsNull.get(i) + "\"";
+            for(int i = 1; i < valuesToConsiderAsNull.length; i++) {
+                arrayString += ", \"" + valuesToConsiderAsNull[i] + "\"";
             }
         }
         arrayString += "]";

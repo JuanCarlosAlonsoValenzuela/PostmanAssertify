@@ -1,4 +1,4 @@
-valuesToConsiderAsNull = [];
+valuesToConsiderAsNull = ["N/A"];
 // &200
 response = pm.response.json();
 // Printing value of response variable

@@ -23,16 +23,16 @@ public class Event implements Serializable
     private final static long serialVersionUID = 8095976627350601624L;
 
     // For now, we only generate test scripts, no pre-request scripts
-    public Event(APIOperation apiOperation) {
+    public Event(APIOperation apiOperation, String[] valuesToConsiderAsNull) {
         this.listen = "test";
-        this.script = new Script(apiOperation);
+        this.script = new Script(apiOperation, valuesToConsiderAsNull);
 
     }
 
     // Postman collection creation for experiment 2 (JSONMutator)
-    public Event(APIOperation apiOperation, String responseBody) {
+    public Event(APIOperation apiOperation, String[] valuesToConsiderAsNull, String responseBody) {
         this.listen = "test";
-        this.script = new Script(apiOperation, responseBody);
+        this.script = new Script(apiOperation, valuesToConsiderAsNull, responseBody);
     }
 
     public String getListen() {

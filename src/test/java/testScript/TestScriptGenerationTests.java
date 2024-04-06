@@ -27,13 +27,16 @@ public class TestScriptGenerationTests {
                 /* tsg_test_script_001: Simple test script
                 Generates test script for an API response with two nesting levels: the first level of type object and
                 the second of type array of objects, each one of them with a single test case (i.e., invariant). The
-                response schema is the one used in the byIdOrTitle operation of the OMDb API. Nesting levels:
+                response schema is the one used in the byIdOrTitle operation of the OMDb API.
+                Values to consider as null: "N/A"
+                Nesting levels:
                     /&searchByIdOrTitle&200():::EXIT
                         /&searchByIdOrTitle&200&Ratings():::EXIT
                  */
                 Arguments.of(
                         "src/test/resources/testScriptGeneration/test_001/oas_omdb_byIdOrTitle.yaml",
                         "src/test/resources/testScriptGeneration/test_001/invariants_test_001.csv",
+                        new String[]{"N/A"},
                         "src/test/resources/testScriptGeneration/test_001/oracle_test_script_001.js"
                 ),
                 /* tsg_test_script_002: Test script with 3 nesting levels and multiple datatypes
@@ -47,6 +50,7 @@ public class TestScriptGenerationTests {
                 Arguments.of(
                         "src/test/resources/testScriptGeneration/test_002/oas_yelp_getBusinesses.yaml",
                         "src/test/resources/testScriptGeneration/test_002/invariants_test_002.csv",
+                        new String[]{},
                         "src/test/resources/testScriptGeneration/test_002/oracle_test_script_002.js"
                 ),
                 /* tsg_test_script_003: Complex response
@@ -108,6 +112,7 @@ public class TestScriptGenerationTests {
                 Arguments.of(
                         "src/test/resources/testScriptGeneration/test_003/oas_vimeo.yaml",
                         "src/test/resources/testScriptGeneration/test_003/invariants_test_003.csv",
+                        new String[]{},
                         "src/test/resources/testScriptGeneration/test_003/oracle_test_script_003.js"
                 ),
                 /* tsg_test_script_004: Response of type array
@@ -120,6 +125,7 @@ public class TestScriptGenerationTests {
                 Arguments.of(
                         "src/test/resources/testScriptGeneration/test_004/oas_v31ListOfCodes_restCountries.yaml",
                         "src/test/resources/testScriptGeneration/test_004/invariants_test_004.csv",
+                        new String[]{},
                         "src/test/resources/testScriptGeneration/test_004/oracle_test_script_004.js"
                 ),
                 /* tsg_test_script_005: Response of type array 2
@@ -134,6 +140,7 @@ public class TestScriptGenerationTests {
                 Arguments.of(
                         "src/test/resources/testScriptGeneration/test_005/oas_v31ListOfCodes_restCountries_modified.yaml",
                         "src/test/resources/testScriptGeneration/test_005/invariants_test_005.csv",
+                        new String[]{},
                         "src/test/resources/testScriptGeneration/test_005/oracle_test_script_005.js"
                 ),
                 /* tsg_test_script_006: Response of type array 3
@@ -149,6 +156,7 @@ public class TestScriptGenerationTests {
                 Arguments.of(
                         "src/test/resources/testScriptGeneration/test_006/oas_v31ListOfCodes_restCountries_modified.yaml",
                         "src/test/resources/testScriptGeneration/test_006/invariants_test_006.csv",
+                        new String[]{},
                         "src/test/resources/testScriptGeneration/test_006/oracle_test_script_006.js"
                 ),
                 /* tsg_test_script_007: Response of type array 4
@@ -165,6 +173,7 @@ public class TestScriptGenerationTests {
                 Arguments.of(
                         "src/test/resources/testScriptGeneration/test_007/oas_v31ListOfCodes_restCountries_modified.yaml",
                         "src/test/resources/testScriptGeneration/test_007/invariants_test_007.csv",
+                        new String[]{},
                         "src/test/resources/testScriptGeneration/test_007/oracle_test_script_007.js"
                 ),
                 /* tsg_test_script_008: Response property of type nested array of object
@@ -181,6 +190,7 @@ public class TestScriptGenerationTests {
                 Arguments.of(
                         "src/test/resources/testScriptGeneration/test_008/oas_spotify_artistAlbums_modified.yaml",
                         "src/test/resources/testScriptGeneration/test_008/invariants_test_008.csv",
+                        new String[]{},
                         "src/test/resources/testScriptGeneration/test_008/oracle_test_script_008.js"
                 ),
                 /* tsg_test_script_009: Response property of type nested array of object 2
@@ -198,6 +208,7 @@ public class TestScriptGenerationTests {
                 Arguments.of(
                         "src/test/resources/testScriptGeneration/test_009/oas_spotify_artistAlbums_modified.yaml",
                         "src/test/resources/testScriptGeneration/test_009/invariants_test_009.csv",
+                        new String[]{},
                         "src/test/resources/testScriptGeneration/test_009/oracle_test_script_009.js"
                 ),
                 /* tsg_test_script_010: Nested arrays in both root and response property
@@ -213,6 +224,7 @@ public class TestScriptGenerationTests {
                 Arguments.of(
                         "src/test/resources/testScriptGeneration/test_010/oas_v31ListOfCodes_restCountries_modified.yaml",
                         "src/test/resources/testScriptGeneration/test_010/invariants_test_010.csv",
+                        new String[]{},
                         "src/test/resources/testScriptGeneration/test_010/oracle_test_script_010.js"
                 ),
                 /* tsg_test_script_011: Complex request body property
@@ -224,6 +236,7 @@ public class TestScriptGenerationTests {
                 Arguments.of(
                         "src/test/resources/testScriptGeneration/test_011/oas_complex_request_body.yaml",
                         "src/test/resources/testScriptGeneration/test_011/invariants_test_011.csv",
+                        new String[]{},
                         "src/test/resources/testScriptGeneration/test_011/oracle_test_script_011.js"
                 ),
                 /* tsg_test_script_012: Variables with shift
@@ -233,6 +246,7 @@ public class TestScriptGenerationTests {
                 Arguments.of(
                         "src/test/resources/testScriptGeneration/test_012/oas_amadeusHotel_simplified.yaml",
                         "src/test/resources/testScriptGeneration/test_012/invariants_test_012.csv",
+                        new String[]{},
                         "src/test/resources/testScriptGeneration/test_012/oracle_test_script_012.js"
                 ),
                 /* tsg_test_script_013: Variables with array element access (access to variables)
@@ -243,6 +257,7 @@ public class TestScriptGenerationTests {
                 Arguments.of(
                         "src/test/resources/testScriptGeneration/test_013/oas_marvel_simplified.yaml",
                         "src/test/resources/testScriptGeneration/test_013/invariants_test_013.csv",
+                        new String[]{},
                         "src/test/resources/testScriptGeneration/test_013/oracle_test_script_013.js"
                 ),
                 /* tsg_test_script_014: Variables with array element access (access to index)
@@ -253,6 +268,7 @@ public class TestScriptGenerationTests {
                 Arguments.of(
                         "src/test/resources/testScriptGeneration/test_014/oas_marvel_simplified.yaml",
                         "src/test/resources/testScriptGeneration/test_014/invariants_test_014.csv",
+                        new String[]{},
                         "src/test/resources/testScriptGeneration/test_014/oracle_test_script_014.js"
                 )
         );
@@ -267,7 +283,7 @@ public class TestScriptGenerationTests {
 
     @ParameterizedTest
     @MethodSource("testScriptGeneration")
-    public void testScriptGeneration(String oasSpecPath, String invariantsCsvPath, String oracleScriptPath) throws IOException {
+    public void testScriptGeneration(String oasSpecPath, String invariantsCsvPath, String[] valuesToConsiderAsNull, String oracleScriptPath) throws IOException {
 
         // Read invariants from file
         OpenAPI specification = getOpenAPISpecification(oasSpecPath);
@@ -275,9 +291,6 @@ public class TestScriptGenerationTests {
 
         // Get the first API operation
         APIOperation apiOperation = allApiOperations.get(0);
-
-        // TODO: IMPLEMENT
-        List<String> valuesToConsiderAsNull = new ArrayList<>();
 
         // Generate the test script
         String testScript = apiOperation.generateTestScript(valuesToConsiderAsNull, "pm.response.json()");
