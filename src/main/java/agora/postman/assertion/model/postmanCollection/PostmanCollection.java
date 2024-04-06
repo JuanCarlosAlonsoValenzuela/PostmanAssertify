@@ -2,10 +2,7 @@
 package agora.postman.assertion.model.postmanCollection;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import agora.postman.assertion.model.APIOperation;
 import com.google.gson.annotations.Expose;
@@ -49,7 +46,7 @@ public class PostmanCollection implements Serializable
     }
 
     // Postman collection creation for experiment 2 (JSONMutator), it can only contain a single APIOperation
-    public PostmanCollection(OpenAPI specification, String invariantsPath, String[] valuesToConsiderAsNull, String mutantsPath) {
+    public PostmanCollection(OpenAPI specification, String invariantsPath, String[] valuesToConsiderAsNull, String configurationName, String mutantsPath) {
         this.info = new Info(specification);
 
         // Get all the API operations grouped by endpoints
@@ -61,7 +58,7 @@ public class PostmanCollection implements Serializable
         }
 
         // A single ItemFolder
-        this.itemFolders = Collections.singletonList(new ItemFolder("MutatedTestCases", apiOperations.get(0), valuesToConsiderAsNull, mutantsPath));
+        this.itemFolders = Collections.singletonList(new ItemFolder(configurationName, apiOperations.get(0), valuesToConsiderAsNull, mutantsPath));
 
     }
 

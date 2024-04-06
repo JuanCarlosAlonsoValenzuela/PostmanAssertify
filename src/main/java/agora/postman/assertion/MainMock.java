@@ -23,18 +23,34 @@ public class MainMock {
 
     private static String invariantsPath = "src/main/resources/JSONMutator/omdb_invariants.csv";
 
-    private static final String[] valuesToConsiderAsNull = {};
-
+    private static String configurationName = "Original";
     private static String mutantsPath = "src/main/resources/JSONMutator/omdb_mutants.csv";
 
+    private static String[] valuesToConsiderAsNull = {};
+
     public static void main(String[] args) {
+
+
+        if (args.length == 4) {         // without strings to consider as null
+            openApiSpecPath = args[0];
+            invariantsPath = args[1];
+            configurationName = args[2];
+            mutantsPath = args[3];
+            valuesToConsiderAsNull = new String[]{};
+        } else if(args.length == 5) {   // with strings to consider as null
+            openApiSpecPath = args[0];
+            invariantsPath = args[1];
+            configurationName = args[2];
+            mutantsPath = args[3];
+            valuesToConsiderAsNull = args[4].split(";");
+        }
 
         // Read OAS from file
         OpenAPI specification = getOpenAPISpecification(openApiSpecPath);
 
         // TODO: Same TODOs as Main.java
         // Create PostmanCollection
-        PostmanCollection postmanCollection = new PostmanCollection(specification, invariantsPath, valuesToConsiderAsNull, mutantsPath);
+        PostmanCollection postmanCollection = new PostmanCollection(specification, invariantsPath, valuesToConsiderAsNull, configurationName, mutantsPath);
 
         // Output path
         String outputPath = getOutputPath(specification.getInfo().getTitle() + ".json", openApiSpecPath);
