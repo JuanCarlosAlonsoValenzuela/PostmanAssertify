@@ -59,7 +59,7 @@ public class ItemFolder implements Serializable
                     new ItemRequest(
                             apiOperation,
                             valuesToConsiderAsNull,
-                            directoryName + "_" + String.format("Test%04d", nTest),
+                            mutatedTestCase.getTestCaseId(),
                             mutatedTestCase
                     )
             );

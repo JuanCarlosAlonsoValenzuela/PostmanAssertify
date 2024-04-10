@@ -53,7 +53,7 @@ public class MainMock {
         PostmanCollection postmanCollection = new PostmanCollection(specification, invariantsPath, valuesToConsiderAsNull, configurationName, mutantsPath);
 
         // Output path
-        String outputPath = getOutputPath(specification.getInfo().getTitle() + ".json", openApiSpecPath);
+        String outputPath = getOutputPath(configurationName + ".json", mutantsPath);
 
         // Create Gson instance
         Gson gson = new GsonBuilder().setPrettyPrinting().create();

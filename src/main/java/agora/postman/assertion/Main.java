@@ -22,19 +22,14 @@ public class Main {
 
     private static final String[] valuesToConsiderAsNull = {};
 
-    // TODO: READ FROM .properties file
     public static boolean DEBUG_MODE = true;
 
-    // TODO: READ FROM .properties file
+
     public static String HIERARCHY_SEPARATOR = "&";
-    // TODO: READ FROM .properties file
     public static String ARRAY_NESTING_SEPARATOR = "%";
 
-    // TODO: READ FROM .properties file
     // Server to use for generating the API requests, if null, the first server available in the OAS will be used
     public static String server = null;
-
-    // TODO: READ FROM .properties file
     public static String POSTMAN_COLLECTION_SCHEMA = "https://schema.getpostman.com/json/collection/v2.1.0/collection.json";
 
     public static void main(String[] args) {
