@@ -45,7 +45,7 @@ public class NestingLevelTestScript {
         return closingLines;
     }
 
-    // TODO: DOCUMENT
+
     // TODO: Split into multiple methods
     // Returns initial lines test scripts and sets the value of the next parentBaseVariable
     private String generateInitialLinesScript(Tree<String> tree, List<String> parents, String parentBaseVariable, String response) {
@@ -119,7 +119,7 @@ public class NestingLevelTestScript {
     }
 
 
-    // TODO: DOCUMENT
+
     private String generateClosingLinesScript(Tree<String> tree, List<String> parents, String parentBaseVariable) {
 
         String res = "";

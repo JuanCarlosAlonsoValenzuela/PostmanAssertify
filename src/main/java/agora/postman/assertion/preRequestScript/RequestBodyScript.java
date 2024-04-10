@@ -16,7 +16,7 @@ import static agora.postman.assertion.variableNameUtils.VariableNames.getInputVa
  */
 public class RequestBodyScript {
 
-    // TODO: DOCUMENT
+
     // We assume that there is already a parent variable called request_body that represents the whole response body
     // JSON
     public static String generateBodyParametersScript(RequestBody requestBody) {
@@ -45,7 +45,6 @@ public class RequestBodyScript {
     }
 
 
-    // TODO: DOCUMENT
     private static String generateSingleBodyPropertyScript(String requestVariableName) {
 
         // Get variable name in the postman format

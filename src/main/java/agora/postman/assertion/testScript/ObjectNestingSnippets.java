@@ -7,7 +7,7 @@ import agora.postman.assertion.testScript.nestingLevelTree.Tree;
  */
 public class ObjectNestingSnippets {
 
-    // TODO: DOCUMENT
+
     public static ScriptSnippet generateAccessNextObjectNestingLevelSnippet(Tree<String> tree, String parentBaseVariable) {
 
         String data = tree.getData();

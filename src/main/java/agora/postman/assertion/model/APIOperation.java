@@ -28,7 +28,6 @@ import static agora.postman.assertion.variableNameUtils.VariableNames.getInputVa
 /**
  * @author Juan C. Alonso
  */
-// TODO: Consider renaming this class because it also includes the response code
 public class APIOperation {
 
     private final String server;
@@ -111,9 +110,8 @@ public class APIOperation {
      *
      * @return Pre-Request script containing variables with the values of all the input parameters
      */
-    // TODO: Create test cases checking that the variable names are consistent
-    // TODO: Explain that we only get the top point of the hierarchy
-    // TODO: We do not get the array sizes or elements
+    // We only get the top point of the hierarchy
+    // We do not get the array sizes or elements
     public String generateInputParametersScript() {
 
         String res = "";
@@ -159,7 +157,6 @@ public class APIOperation {
         return res;
     }
 
-    // TODO: DOCUMENT
     public String generateTestScript(String[] valuesToConsiderAsNull, String response) {
 
         // Create array of strings to consider as null
@@ -190,8 +187,6 @@ public class APIOperation {
     /**
      * @return Program point hierarchy tree, derived from the list of paths.
      */
-    // TODO: Update parameters in Javadoc
-    // TODO: Improve comments
     private Tree<String> getProgramPointHierarchy() {
 
         // Create a tree with a root node
@@ -281,7 +276,7 @@ public class APIOperation {
         return programPointHierarchy;
     }
 
-    // TODO: Document
+
     private static Map.Entry<PathItem.HttpMethod, Operation> getOASOperation(OpenAPI specification, String targetEndpoint, String targetOperationId) {
 
         Paths paths = specification.getPaths();
@@ -311,7 +306,8 @@ public class APIOperation {
 
     }
 
-    // TODO: DOCUMENT
+
+
     private static Schema getResponseSchema(Operation oasOperation, int responseCode) {
 
         Collection<MediaType> mediaTypes = oasOperation

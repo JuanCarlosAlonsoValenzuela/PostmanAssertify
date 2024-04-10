@@ -14,7 +14,7 @@ import static agora.postman.assertion.testScript.PptTestCaseGeneration.generateP
  */
 public class ArrayNestingSnippets {
 
-    // TODO: Document and add more comments
+
     public static ScriptSnippet generateRootArrayNestingSnippet(
             Map<Integer, ProgramPoint> arrayNestingProgramPoints, String parentBaseVariable
     ) {
@@ -53,7 +53,6 @@ public class ArrayNestingSnippets {
     }
 
 
-    // TODO: DOCUMENT
     // Used when the next nesting level is of type array
     public static ScriptSnippet generateAccessNextArrayNestingLevelSnippet(String parentBaseVariable) {
 

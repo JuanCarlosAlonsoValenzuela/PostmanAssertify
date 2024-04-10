@@ -65,7 +65,8 @@ public class Variable {
                 '}';
     }
 
-    // TODO: DOCUMENT
+
+
     // TODO: Split into multiple methods
     public String getPostmanVariableValueCode(String parentBaseVariable, boolean isArrayNestingPpt) {
 
@@ -110,7 +111,6 @@ public class Variable {
 
                 // Get name of the variable obtained in the pre-request script (i.e., only first hierarchy level)
                 // TODO: START CONVERT INTO FUNCTION 1
-                // TODO: Conflict with shift?
                 String firstHierarchyLevelVariableName = "input_" + variableHierarchyList.get(0);
                 // If the variable in the pre-request script is an array
                 // Only the last hierarchy element can be an array

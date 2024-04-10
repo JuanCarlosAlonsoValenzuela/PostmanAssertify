@@ -19,7 +19,6 @@ import static agora.postman.assertion.files.CSVManager.readCSV;
 public class ReadInvariants {
 
 
-    // TODO: Document
     public static List<APIOperation> getAllApiOperations(OpenAPI specification, String invariantsPath) {
 
         // Read all the API invariants from a CSV file (invariantsPath)
@@ -54,7 +53,7 @@ public class ReadInvariants {
 
     }
 
-    // TODO: DOCUMENT
+
     private static List<Invariant> getInvariantsDataFromPath(String invariantsPath) {
 
         // Read the csv file as a list of rows

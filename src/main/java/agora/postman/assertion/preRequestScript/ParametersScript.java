@@ -14,7 +14,6 @@ import static agora.postman.assertion.variableNameUtils.VariableNames.getInputVa
 public class ParametersScript {
 
 
-    // TODO: DOCUMENT
     // Given a parameter (its source can be one of: query, path, form or header), this function generates the Postman code
     // to obtain its value. The resulting variable will be of type string, use the generateCastingVariableScript function
     // to change its type.
@@ -45,7 +44,6 @@ public class ParametersScript {
     }
 
 
-    // TODO: DOCUMENT
     // completeURI = server + endpoint
     private static String getVariableValueOfPathParameter(String parameterName, String completeURI) {
 
@@ -69,7 +67,6 @@ public class ParametersScript {
 
 
     // Generates the Postman code necessary to cast an input parameter to its corresponding datatype
-    // TODO: DOCUMENT
     public static String generateCastingVariableScript(Parameter parameter) {
 
         String parameterType = parameter.getSchema().getType();

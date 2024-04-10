@@ -163,7 +163,6 @@ public class ProgramPoint {
     }
 
 
-    // TODO: DOCUMENT
     private static int countArrayNesting(String pptHierarchyElement) {
 
         if(pptHierarchyElement.contains("():::")) {

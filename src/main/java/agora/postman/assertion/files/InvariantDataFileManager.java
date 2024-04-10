@@ -14,7 +14,7 @@ public class InvariantDataFileManager {
     private final Integer invariantIndex;
     private final Integer invariantTypeIndex;
     private final Integer variablesIndex;
-    private final Integer tpIndex;      // TODO: DELETE
+    private final Integer tpIndex;
     private final Integer postmanAssertionIndex;
 
     public InvariantDataFileManager(List<String> headers) throws IOException {

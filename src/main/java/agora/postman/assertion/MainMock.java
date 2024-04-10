@@ -48,7 +48,6 @@ public class MainMock {
         // Read OAS from file
         OpenAPI specification = getOpenAPISpecification(openApiSpecPath);
 
-        // TODO: Same TODOs as Main.java
         // Create PostmanCollection
         PostmanCollection postmanCollection = new PostmanCollection(specification, invariantsPath, valuesToConsiderAsNull, configurationName, mutantsPath);
 

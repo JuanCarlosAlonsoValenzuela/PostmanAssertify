@@ -73,7 +73,6 @@ public class Invariant {
         res += generateNotNullConditionsSnippet(this.variables);
 
         // Postman assertion, returned by AGORA
-        // TODO: REMOVE comment characters (//)
         res += this.postmanAssertion + ";\n";
 
         // Close if variable not null and not part of values to consider as null bracket
@@ -86,7 +85,7 @@ public class Invariant {
 
     }
 
-    // TODO: DOCUMENT
+
     private static String generateNotNullConditionsSnippet(List<Variable> variables) {
 
         // If variable is not null and not part of values to consider null
