@@ -53,7 +53,6 @@ public class ItemFolder implements Serializable
 
         // Create one ItemRequest per mutant
         List<ItemRequest> itemRequests = new ArrayList<>();
-        int nTest = 1;
         for(MutatedTestCase mutatedTestCase: mutatedTestCases) {
             itemRequests.add(
                     new ItemRequest(
@@ -63,7 +62,6 @@ public class ItemFolder implements Serializable
                             mutatedTestCase
                     )
             );
-            nTest++;
         }
         this.items = itemRequests;
 
