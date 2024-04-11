@@ -1,0 +1,272 @@
+{
+  "info": {
+    "name": "City Search",
+    "description": "Before using the API you will need to get an access token. Please read our **[Authorization Guide](https://developers.amadeus.com/self-service/apis-docs/guides/authorization-262)** for more information on how to get your token.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "test",
+      "item": [
+        {
+          "name": "test_r1a495181e0g_GETCities",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Getting value of the countryCode query parameter \r",
+                  "input_countryCode \u003d pm.request.url.query.get(\"countryCode\");\r",
+                  "if (input_countryCode !\u003d null) { \r",
+                  "input_countryCode \u003d decodeURIComponent(input_countryCode);\r",
+                  "}\r",
+                  "// Printing value of input_countryCode variable\r",
+                  "console.log(\"Printing value of input_countryCode\");\r",
+                  "console.log(input_countryCode);\r",
+                  "\r",
+                  "// Getting value of the keyword path parameter \r",
+                  "input_keyword \u003d pm.request.url.path[3];\r",
+                  "if (input_keyword !\u003d null) { \r",
+                  "input_keyword \u003d decodeURIComponent(input_keyword);\r",
+                  "}\r",
+                  "// Printing value of input_keyword variable\r",
+                  "console.log(\"Printing value of input_keyword\");\r",
+                  "console.log(input_keyword);\r",
+                  "\r",
+                  "// Getting value of the max header parameter \r",
+                  "input_max \u003d pm.request.headers.find(header \u003d\u003e !header.disabled \u0026\u0026 header.key\u003d\u003d\"max\");\r",
+                  "if(input_max !\u003d null){\r",
+                  "input_max \u003d input_max.value;\r",
+                  "}\r",
+                  "if (input_max !\u003d null) { \r",
+                  "input_max \u003d decodeURIComponent(input_max);\r",
+                  "}\r",
+                  "// Printing value of input_max variable\r",
+                  "console.log(\"Printing value of input_max\");\r",
+                  "console.log(input_max);\r",
+                  "\r",
+                  "valuesToConsiderAsNull \u003d [];\r",
+                  "// \u0026200\r",
+                  "response \u003d {};\r",
+                  "// Printing value of response variable\r",
+                  "console.log(\"Printing value of response\");\r",
+                  "console.log(response);\r",
+                  "\r",
+                  "// Invariants of this nesting level:\r",
+                  "// size(return.data[]) \u003e\u003d 1\r",
+                  "pm.test(\"size(return.data[]) \u003e\u003d 1\", () \u003d\u003e {\r",
+                  "// Getting value of variable: return_data_size_array\r",
+                  "return_data_size_array \u003d response[\"data\"];\r",
+                  "if(return_data_size_array !\u003d null) {\r",
+                  "return_data_size_array \u003d return_data_size_array.length;\r",
+                  "}\r",
+                  "\r",
+                  "// Printing value of return_data_size_array variable\r",
+                  "console.log(\"Printing value of return_data_size_array\");\r",
+                  "console.log(return_data_size_array);\r",
+                  "\r",
+                  "\r",
+                  "if((return_data_size_array !\u003d null) \u0026\u0026 (!valuesToConsiderAsNull.includes(return_data_size_array))) {\r",
+                  "console.log(\"This is simply a test\");\r",
+                  "}\r",
+                  "})\r"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer dhdOR3yXqOujtqvGf0Fz87TNdRSU",
+                "type": "",
+                "disabled": false
+              },
+              {
+                "key": "max",
+                "value": "Value with spaces and , @ special characters",
+                "type": "",
+                "disabled": false
+              }
+            ],
+            "url": {
+              "raw": "https://test.api.amadeus.com/v1/reference-data/locations/{keyword}/cities",
+              "protocol": "https",
+              "host": [
+                "test",
+                "api",
+                "amadeus",
+                "com"
+              ],
+              "path": [
+                "v1",
+                "reference-data",
+                "locations",
+                ":keyword",
+                "cities"
+              ],
+              "query": [
+                {
+                  "key": "countryCode",
+                  "value": "Value with spaces and , @ special characters",
+                  "disabled": false
+                }
+              ],
+              "variable": [
+                {
+                  "key": "keyword",
+                  "value": "Value with spaces and , @ special characters"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "name": "test_1hr879w6kknz8_GETCities",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Getting value of the countryCode query parameter \r",
+                  "input_countryCode \u003d pm.request.url.query.get(\"countryCode\");\r",
+                  "if (input_countryCode !\u003d null) { \r",
+                  "input_countryCode \u003d decodeURIComponent(input_countryCode);\r",
+                  "}\r",
+                  "// Printing value of input_countryCode variable\r",
+                  "console.log(\"Printing value of input_countryCode\");\r",
+                  "console.log(input_countryCode);\r",
+                  "\r",
+                  "// Getting value of the keyword path parameter \r",
+                  "input_keyword \u003d pm.request.url.path[3];\r",
+                  "if (input_keyword !\u003d null) { \r",
+                  "input_keyword \u003d decodeURIComponent(input_keyword);\r",
+                  "}\r",
+                  "// Printing value of input_keyword variable\r",
+                  "console.log(\"Printing value of input_keyword\");\r",
+                  "console.log(input_keyword);\r",
+                  "\r",
+                  "// Getting value of the max header parameter \r",
+                  "input_max \u003d pm.request.headers.find(header \u003d\u003e !header.disabled \u0026\u0026 header.key\u003d\u003d\"max\");\r",
+                  "if(input_max !\u003d null){\r",
+                  "input_max \u003d input_max.value;\r",
+                  "}\r",
+                  "if (input_max !\u003d null) { \r",
+                  "input_max \u003d decodeURIComponent(input_max);\r",
+                  "}\r",
+                  "// Printing value of input_max variable\r",
+                  "console.log(\"Printing value of input_max\");\r",
+                  "console.log(input_max);\r",
+                  "\r",
+                  "valuesToConsiderAsNull \u003d [];\r",
+                  "// \u0026200\r",
+                  "response \u003d {};\r",
+                  "// Printing value of response variable\r",
+                  "console.log(\"Printing value of response\");\r",
+                  "console.log(response);\r",
+                  "\r",
+                  "// Invariants of this nesting level:\r",
+                  "// size(return.data[]) \u003e\u003d 1\r",
+                  "pm.test(\"size(return.data[]) \u003e\u003d 1\", () \u003d\u003e {\r",
+                  "// Getting value of variable: return_data_size_array\r",
+                  "return_data_size_array \u003d response[\"data\"];\r",
+                  "if(return_data_size_array !\u003d null) {\r",
+                  "return_data_size_array \u003d return_data_size_array.length;\r",
+                  "}\r",
+                  "\r",
+                  "// Printing value of return_data_size_array variable\r",
+                  "console.log(\"Printing value of return_data_size_array\");\r",
+                  "console.log(return_data_size_array);\r",
+                  "\r",
+                  "\r",
+                  "if((return_data_size_array !\u003d null) \u0026\u0026 (!valuesToConsiderAsNull.includes(return_data_size_array))) {\r",
+                  "console.log(\"This is simply a test\");\r",
+                  "}\r",
+                  "})\r"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer dhdOR3yXqOujtqvGf0Fz87TNdRSU",
+                "type": "",
+                "disabled": false
+              },
+              {
+                "key": "max",
+                "value": "Value with spaces and , @ special characters",
+                "type": "",
+                "disabled": false
+              }
+            ],
+            "url": {
+              "raw": "https://test.api.amadeus.com/v1/reference-data/locations/{keyword}/cities",
+              "protocol": "https",
+              "host": [
+                "test",
+                "api",
+                "amadeus",
+                "com"
+              ],
+              "path": [
+                "v1",
+                "reference-data",
+                "locations",
+                ":keyword",
+                "cities"
+              ],
+              "query": [
+                {
+                  "key": "countryCode",
+                  "value": "Value with spaces and , @ special characters",
+                  "disabled": false
+                }
+              ],
+              "variable": [
+                {
+                  "key": "keyword",
+                  "value": "Value with spaces and , @ special characters"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ]
+    }
+  ]
+}

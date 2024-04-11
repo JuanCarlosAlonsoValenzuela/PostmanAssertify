@@ -1,0 +1,2 @@
+pptname;invariant;invariantType;variables;postmanAssertion;tp
+/reference-data/locations/{keyword}/cities&GETCities&200():::EXIT;size(return.data[]) >= 1;daikon.inv.unary.scalar.LowerBound;(size(return.data[..]));console.log("This is simply a test");1

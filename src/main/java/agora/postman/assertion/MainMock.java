@@ -19,12 +19,12 @@ import static agora.postman.assertion.Main.getOutputPath;
  */
 public class MainMock {
 
-    private static String openApiSpecPath = "src/main/resources/JSONMutator/oas_omdb.yaml";
+    private static String openApiSpecPath = "src/main/resources/test_mock_with_all_parameteres_types/swagger.yaml";
 
-    private static String invariantsPath = "src/main/resources/JSONMutator/omdb_invariants.csv";
+    private static String invariantsPath = "src/main/resources/test_mock_with_all_parameteres_types/invariants.csv";
 
-    private static String configurationName = "Original";
-    private static String mutantsPath = "src/main/resources/JSONMutator/omdb_mutants.csv";
+    private static String configurationName = "test";
+    private static String mutantsPath = "src/main/resources/test_mock_with_all_parameteres_types/test-cases_1712821217637.csv";
 
     private static String[] valuesToConsiderAsNull = {};
 
