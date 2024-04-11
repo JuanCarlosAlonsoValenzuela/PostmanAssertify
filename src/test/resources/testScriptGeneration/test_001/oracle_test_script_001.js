@@ -22,7 +22,7 @@ console.log(return_imdbID);
 
 
 if((input_i != null) && (!valuesToConsiderAsNull.includes(input_i)) && (return_imdbID != null) && (!valuesToConsiderAsNull.includes(return_imdbID))) {
-//pm.expect(input_i).to.eql(return_imdbID);
+pm.expect(input_i).to.eql(return_imdbID);
 }
 })
 // return.Response == "True"
@@ -35,7 +35,7 @@ console.log(return_Response);
 
 
 if((return_Response != null) && (!valuesToConsiderAsNull.includes(return_Response))) {
-//pm.expect(["True"].includes(return_Response)).to.be.true;
+pm.expect(["True"].includes(return_Response)).to.be.true;
 }
 })
 
@@ -63,7 +63,7 @@ console.log(return_Source);
 
 
 if((return_Source != null) && (!valuesToConsiderAsNull.includes(return_Source))) {
-//pm.expect(["Internet Movie Database", "Metacritic", "Rotten Tomatoes"].includes(return_Source)).to.be.true;
+pm.expect(["Internet Movie Database", "Metacritic", "Rotten Tomatoes"].includes(return_Source)).to.be.true;
 }
 })
 

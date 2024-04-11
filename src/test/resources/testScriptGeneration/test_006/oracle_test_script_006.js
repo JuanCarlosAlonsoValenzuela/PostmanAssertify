@@ -31,7 +31,7 @@ console.log(return_array_size_array);
 
 
 if((input_codes_size_array != null) && (!valuesToConsiderAsNull.includes(input_codes_size_array)) && (return_array_size_array != null) && (!valuesToConsiderAsNull.includes(return_array_size_array))) {
-//TODO: Postman Assertion;
+TODO: Postman Assertion;
 }
 })
 
@@ -69,7 +69,7 @@ console.log(return_array_size_array);
 
 
 if((input_codes_size_array != null) && (!valuesToConsiderAsNull.includes(input_codes_size_array)) && (return_array_size_array != null) && (!valuesToConsiderAsNull.includes(return_array_size_array))) {
-//TODO: Postman Assertion;
+TODO: Postman Assertion;
 }
 })
 
@@ -91,7 +91,7 @@ console.log(return_cca3);
 
 
 if((return_cca3 != null) && (!valuesToConsiderAsNull.includes(return_cca3))) {
-//TODO: Postman Assertion;
+TODO: Postman Assertion;
 }
 })
 // return.maps.googleMaps is Url
@@ -107,7 +107,7 @@ console.log(return_maps_googleMaps);
 
 
 if((return_maps_googleMaps != null) && (!valuesToConsiderAsNull.includes(return_maps_googleMaps))) {
-//TODO: Postman Assertion;
+TODO: Postman Assertion;
 }
 })
 
@@ -135,7 +135,7 @@ console.log(return_age);
 
 
 if((return_age != null) && (!valuesToConsiderAsNull.includes(return_age))) {
-//TODO: Postman Assertion;
+TODO: Postman Assertion;
 }
 })
 

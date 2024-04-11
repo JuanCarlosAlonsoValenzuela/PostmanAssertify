@@ -62,6 +62,6 @@ console.log(return_data_results_return_data_total_minus_1);
 
 
 if((return_data_results_return_data_offset != null) && (!valuesToConsiderAsNull.includes(return_data_results_return_data_offset)) && (return_data_results_return_data_total_minus_1 != null) && (!valuesToConsiderAsNull.includes(return_data_results_return_data_total_minus_1))) {
-//pm.expect(return_data_results_return_data_offset).to.eql(return_data_results_return_data_total_minus_1);
+pm.expect(return_data_results_return_data_offset).to.eql(return_data_results_return_data_total_minus_1);
 }
 })

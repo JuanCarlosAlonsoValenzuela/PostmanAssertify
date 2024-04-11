@@ -27,7 +27,7 @@ console.log(return_items_size_array);
 
 
 if((return_limit != null) && (!valuesToConsiderAsNull.includes(return_limit)) && (return_items_size_array != null) && (!valuesToConsiderAsNull.includes(return_items_size_array))) {
-//TODO: Implement;
+TODO: Implement;
 }
 })
 // return.total >= size(return.items[])
@@ -51,7 +51,7 @@ console.log(return_items_size_array);
 
 
 if((return_total != null) && (!valuesToConsiderAsNull.includes(return_total)) && (return_items_size_array != null) && (!valuesToConsiderAsNull.includes(return_items_size_array))) {
-//TODO: Implement;
+TODO: Implement;
 }
 })
 
@@ -79,7 +79,7 @@ console.log(return_id);
 
 
 if((return_id != null) && (!valuesToConsiderAsNull.includes(return_id))) {
-//TODO: Implement;
+TODO: Implement;
 }
 })
 // size(return.artists[]) >= 1
@@ -96,7 +96,7 @@ console.log(return_artists_size_array);
 
 
 if((return_artists_size_array != null) && (!valuesToConsiderAsNull.includes(return_artists_size_array))) {
-//TODO: Implement;
+TODO: Implement;
 }
 })
 
@@ -122,7 +122,7 @@ console.log(return_array_size_array);
 
 
 if((return_array_size_array != null) && (!valuesToConsiderAsNull.includes(return_array_size_array))) {
-//TODO: Implement;
+TODO: Implement;
 }
 })
 
@@ -149,7 +149,7 @@ console.log(return_array_size_array);
 
 
 if((return_array_size_array != null) && (!valuesToConsiderAsNull.includes(return_array_size_array))) {
-//TODO: Implement;
+TODO: Implement;
 }
 })
 
@@ -177,7 +177,7 @@ console.log(return_type);
 
 
 if((return_type != null) && (!valuesToConsiderAsNull.includes(return_type))) {
-//TODO: Implement;
+TODO: Implement;
 }
 })
 // size(return.links[]) >= 1
@@ -194,7 +194,7 @@ console.log(return_links_size_array);
 
 
 if((return_links_size_array != null) && (!valuesToConsiderAsNull.includes(return_links_size_array))) {
-//TODO: Implement;
+TODO: Implement;
 }
 })
 
@@ -222,7 +222,7 @@ console.log(return_available);
 
 
 if((return_available != null) && (!valuesToConsiderAsNull.includes(return_available))) {
-//TODO: Implement;
+TODO: Implement;
 }
 })
 

@@ -50,6 +50,6 @@ console.log(return_data_results_return_data_total_minus_1);
 
 
 if((return_data_results_0 != null) && (!valuesToConsiderAsNull.includes(return_data_results_0)) && (return_data_results_return_data_total_minus_1 != null) && (!valuesToConsiderAsNull.includes(return_data_results_return_data_total_minus_1))) {
-//pm.expect(return_data_results_0).to.eql(return_data_results_return_data_total_minus_1);
+pm.expect(return_data_results_0).to.eql(return_data_results_return_data_total_minus_1);
 }
 })

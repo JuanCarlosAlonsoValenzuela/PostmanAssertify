@@ -26,7 +26,7 @@ console.log(return_businesses_size_array);
 
 
 if((input_limit != null) && (!valuesToConsiderAsNull.includes(input_limit)) && (return_businesses_size_array != null) && (!valuesToConsiderAsNull.includes(return_businesses_size_array))) {
-//warning: method daikon.inv.binary.twoScalar.IntGreaterEqual.format(OutputFormat:Postman) needs to be implemented: input.limit >= size(return.businesses[..]);
+warning: method daikon.inv.binary.twoScalar.IntGreaterEqual.format(OutputFormat:Postman) needs to be implemented: input.limit >= size(return.businesses[..]);
 }
 })
 // return.total >= size(return.businesses[])
@@ -50,7 +50,7 @@ console.log(return_businesses_size_array);
 
 
 if((return_total != null) && (!valuesToConsiderAsNull.includes(return_total)) && (return_businesses_size_array != null) && (!valuesToConsiderAsNull.includes(return_businesses_size_array))) {
-//warning: method daikon.inv.binary.twoScalar.IntGreaterEqual.format(OutputFormat:Postman) needs to be implemented: return.total >= size(return.businesses[..]);
+warning: method daikon.inv.binary.twoScalar.IntGreaterEqual.format(OutputFormat:Postman) needs to be implemented: return.total >= size(return.businesses[..]);
 }
 })
 
@@ -78,7 +78,7 @@ console.log(return_rating);
 
 
 if((return_rating != null) && (!valuesToConsiderAsNull.includes(return_rating))) {
-//warning: method daikon.inv.unary.scalar.LowerBoundFloat.format(OutputFormat:Postman) needs to be implemented: return.rating >= 1.0;
+warning: method daikon.inv.unary.scalar.LowerBoundFloat.format(OutputFormat:Postman) needs to be implemented: return.rating >= 1.0;
 }
 })
 // return.review_count >= 1
@@ -91,7 +91,7 @@ console.log(return_review_count);
 
 
 if((return_review_count != null) && (!valuesToConsiderAsNull.includes(return_review_count))) {
-//warning: method daikon.inv.unary.scalar.LowerBound.format(OutputFormat:Postman) needs to be implemented: return.review_count >= 1;
+warning: method daikon.inv.unary.scalar.LowerBound.format(OutputFormat:Postman) needs to be implemented: return.review_count >= 1;
 }
 })
 // return.transactions[] elements one of { "delivery", "pickup", "restaurant_reservation" }
@@ -104,7 +104,7 @@ console.log(return_transactions_array);
 
 
 if((return_transactions_array != null) && (!valuesToConsiderAsNull.includes(return_transactions_array))) {
-//warning: method daikon.inv.unary.stringsequence.EltOneOfString.format(OutputFormat:Postman) needs to be implemented: return.transactions[..] elements one of { "delivery", "pickup", "restaurant_reservation" };
+warning: method daikon.inv.unary.stringsequence.EltOneOfString.format(OutputFormat:Postman) needs to be implemented: return.transactions[..] elements one of { "delivery", "pickup", "restaurant_reservation" };
 }
 })
 // LENGTH(return.location.country)==2
@@ -120,7 +120,7 @@ console.log(return_location_country);
 
 
 if((return_location_country != null) && (!valuesToConsiderAsNull.includes(return_location_country))) {
-//pm.expect(return_location_country).to.have.length(2);
+pm.expect(return_location_country).to.have.length(2);
 }
 })
 // size(input.price[]) >= 1
@@ -137,7 +137,7 @@ console.log(input_price_size_array);
 
 
 if((input_price_size_array != null) && (!valuesToConsiderAsNull.includes(input_price_size_array))) {
-//warning: method daikon.inv.unary.scalar.LowerBound.format(OutputFormat:Postman) needs to be implemented: size(input.price[..]) >= 1;
+warning: method daikon.inv.unary.scalar.LowerBound.format(OutputFormat:Postman) needs to be implemented: size(input.price[..]) >= 1;
 }
 })
 // size(return.location.display_address[]) >= 1
@@ -157,7 +157,7 @@ console.log(return_location_display_address_size_array);
 
 
 if((return_location_display_address_size_array != null) && (!valuesToConsiderAsNull.includes(return_location_display_address_size_array))) {
-//warning: method daikon.inv.unary.scalar.LowerBound.format(OutputFormat:Postman) needs to be implemented: size(return.location.display_address[..]) >= 1;
+warning: method daikon.inv.unary.scalar.LowerBound.format(OutputFormat:Postman) needs to be implemented: size(return.location.display_address[..]) >= 1;
 }
 })
 
@@ -189,7 +189,7 @@ console.log(input_categories_size_array);
 
 
 if((input_categories_size_array != null) && (!valuesToConsiderAsNull.includes(input_categories_size_array))) {
-//warning: method daikon.inv.unary.scalar.LowerBound.format(OutputFormat:Postman) needs to be implemented: size(input.categories[..]) >= 1;
+warning: method daikon.inv.unary.scalar.LowerBound.format(OutputFormat:Postman) needs to be implemented: size(input.categories[..]) >= 1;
 }
 })
 

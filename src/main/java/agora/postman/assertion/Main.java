@@ -22,7 +22,7 @@ public class Main {
 
     private static final String[] valuesToConsiderAsNull = {};
 
-    public static boolean DEBUG_MODE = false;
+    public static boolean DEBUG_MODE = true;
 
 
     public static String HIERARCHY_SEPARATOR = "&";

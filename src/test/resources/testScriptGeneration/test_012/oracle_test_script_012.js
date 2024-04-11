@@ -37,6 +37,6 @@ console.log(return_data_size_array_minus_1);
 
 
 if((input_hotelIds_size_array_minus_1 != null) && (!valuesToConsiderAsNull.includes(input_hotelIds_size_array_minus_1)) && (return_data_size_array_minus_1 != null) && (!valuesToConsiderAsNull.includes(return_data_size_array_minus_1))) {
-//pm.expect(input_hotelIds_size_array_minus_1).to.be.at.least(return_data_size_array_minus_1);
+pm.expect(input_hotelIds_size_array_minus_1).to.be.at.least(return_data_size_array_minus_1);
 }
 })

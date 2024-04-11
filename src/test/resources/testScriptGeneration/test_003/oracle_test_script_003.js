@@ -16,7 +16,7 @@ console.log(return_total);
 
 
 if((return_total != null) && (!valuesToConsiderAsNull.includes(return_total))) {
-//TODO: Implement Postman assertion;
+TODO: Implement Postman assertion;
 }
 })
 // return.page >= 1
@@ -29,7 +29,7 @@ console.log(return_page);
 
 
 if((return_page != null) && (!valuesToConsiderAsNull.includes(return_page))) {
-//TODO: Implement Postman assertion;
+TODO: Implement Postman assertion;
 }
 })
 
@@ -60,7 +60,7 @@ console.log(return_edit_session_is_music_licensed);
 
 
 if((return_edit_session_is_music_licensed != null) && (!valuesToConsiderAsNull.includes(return_edit_session_is_music_licensed))) {
-//TODO: Implement Postman assertion;
+TODO: Implement Postman assertion;
 }
 })
 
@@ -101,7 +101,7 @@ console.log(input_uris_size_array);
 
 
 if((input_uris_size_array != null) && (!valuesToConsiderAsNull.includes(input_uris_size_array))) {
-//TODO: Implement Postman assertion;
+TODO: Implement Postman assertion;
 }
 })
 
@@ -136,7 +136,7 @@ console.log(input_uris_size_array);
 
 
 if((input_uris_size_array != null) && (!valuesToConsiderAsNull.includes(input_uris_size_array))) {
-//TODO: Implement Postman assertion;
+TODO: Implement Postman assertion;
 }
 })
 
@@ -176,7 +176,7 @@ console.log(return_link);
 
 
 if((return_link != null) && (!valuesToConsiderAsNull.includes(return_link))) {
-//TODO: Implement Postman assertion;
+TODO: Implement Postman assertion;
 }
 })
 
@@ -229,7 +229,7 @@ console.log(return_subcategories_size_array);
 
 
 if((return_pictures_sizes_size_array != null) && (!valuesToConsiderAsNull.includes(return_pictures_sizes_size_array)) && (return_subcategories_size_array != null) && (!valuesToConsiderAsNull.includes(return_subcategories_size_array))) {
-//TODO: Implement Postman assertion;
+TODO: Implement Postman assertion;
 }
 })
 
@@ -266,7 +266,7 @@ console.log(return_link);
 
 
 if((return_link != null) && (!valuesToConsiderAsNull.includes(return_link))) {
-//TODO: Implement Postman assertion;
+TODO: Implement Postman assertion;
 }
 })
 // return.height < return.width
@@ -286,7 +286,7 @@ console.log(return_width);
 
 
 if((return_height != null) && (!valuesToConsiderAsNull.includes(return_height)) && (return_width != null) && (!valuesToConsiderAsNull.includes(return_width))) {
-//TODO: Implement Postman assertion;
+TODO: Implement Postman assertion;
 }
 })
 
@@ -319,7 +319,7 @@ console.log(return_link);
 
 
 if((return_link != null) && (!valuesToConsiderAsNull.includes(return_link))) {
-//TODO: Implement Postman assertion;
+TODO: Implement Postman assertion;
 }
 })
 
@@ -359,7 +359,7 @@ console.log(return_link);
 
 
 if((return_link != null) && (!valuesToConsiderAsNull.includes(return_link))) {
-//TODO: Implement Postman assertion;
+TODO: Implement Postman assertion;
 }
 })
 // size(input.uris[]) >= 1
@@ -376,7 +376,7 @@ console.log(input_uris_size_array);
 
 
 if((input_uris_size_array != null) && (!valuesToConsiderAsNull.includes(input_uris_size_array))) {
-//TODO: Implement Postman assertion;
+TODO: Implement Postman assertion;
 }
 })
 
@@ -421,7 +421,7 @@ console.log(return_link);
 
 
 if((return_link != null) && (!valuesToConsiderAsNull.includes(return_link))) {
-//TODO: Implement Postman assertion;
+TODO: Implement Postman assertion;
 }
 })
 // return.link_with_play_button is Url
@@ -434,7 +434,7 @@ console.log(return_link_with_play_button);
 
 
 if((return_link_with_play_button != null) && (!valuesToConsiderAsNull.includes(return_link_with_play_button))) {
-//TODO: Implement Postman assertion;
+TODO: Implement Postman assertion;
 }
 })
 
@@ -467,7 +467,7 @@ console.log(return_resource_key);
 
 
 if((return_resource_key != null) && (!valuesToConsiderAsNull.includes(return_resource_key))) {
-//TODO: Implement Postman assertion;
+TODO: Implement Postman assertion;
 }
 })
 
@@ -516,7 +516,7 @@ console.log(return_link);
 
 
 if((return_link != null) && (!valuesToConsiderAsNull.includes(return_link))) {
-//TODO: Implement Postman assertion;
+TODO: Implement Postman assertion;
 }
 })
 
@@ -560,7 +560,7 @@ console.log(return_roll);
 
 
 if((return_roll != null) && (!valuesToConsiderAsNull.includes(return_roll))) {
-//TODO: Implement Postman assertion;
+TODO: Implement Postman assertion;
 }
 })
 
