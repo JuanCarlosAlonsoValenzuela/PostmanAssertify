@@ -1,0 +1,6 @@
+pptname;invariant;invariantType;variables;tp;fp;enter;bug;postmanAssertion
+/artists/{id}/albums&getArtistAlbums&200&items&artists&links():::EXIT;return.available == true;daikon.inv.unary.scalar.OneOfScalar;(return.available);1;0;0;0;TODO: Implement
+/artists/{id}/albums&getArtistAlbums&200&items():::EXIT;LENGTH(return.id)==22;daikon.inv.unary.string.FixedLengthString;(return.id);1;0;0;0;TODO: Implement
+/artists/{id}/albums&getArtistAlbums&200&items():::EXIT;size(return.artists[]) >= 1;daikon.inv.unary.scalar.LowerBound;(size(return.artists[..]));1;0;0;0;TODO: Implement
+/artists/{id}/albums&getArtistAlbums&200():::EXIT;return.limit >= size(return.items[]);daikon.inv.binary.twoScalar.IntGreaterEqual;(return.limit, size(return.items[..]));1;0;0;0;TODO: Implement
+/artists/{id}/albums&getArtistAlbums&200():::EXIT;return.total >= size(return.items[]);daikon.inv.binary.twoScalar.IntGreaterEqual;(return.total, size(return.items[..]));1;0;0;0;TODO: Implement

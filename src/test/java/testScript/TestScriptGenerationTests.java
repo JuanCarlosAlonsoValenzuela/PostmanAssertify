@@ -270,6 +270,57 @@ public class TestScriptGenerationTests {
                         "src/test/resources/testScriptGeneration/test_014/invariants_test_014.csv",
                         new String[]{},
                         "src/test/resources/testScriptGeneration/test_014/oracle_test_script_014.js"
+                ),
+                /* tsg_test_script_015: Array nesting with no reported invariants
+                This test is based on the original RESTCountries formats. It features a single array nesting level
+                in the root, but with no reported invariants. The generated test script must contemplate the presence
+                of this program point despite it not having any reported invariants. Nesting levels:
+
+                    /v3.1/alpha&v31ListOfCodes&200%array():::EXIT       (CONTAINS NO INVARIANTS)
+                        /v3.1/alpha&v31ListOfCodes&200():::EXIT
+
+                 */
+                Arguments.of(
+                        "src/test/resources/testScriptGeneration/test_015/oas_rest_countries_simplified.yaml",
+                        "src/test/resources/testScriptGeneration/test_015/invariants_test_015.csv",
+                        new String[]{},
+                        "src/test/resources/testScriptGeneration/test_015/oracle_test_script_015.js"
+                ),
+                /* tsg_test_script_016: Multiple Array nesting with no reported invariants
+                Generates test script for a modified version of the response schema of the v31ListOfCodes operation of
+                the RESTCountries with THREE nested arrays in the first nesting level (there are no invariants for
+                any of these nesting levels). Nesting levels:
+
+                    /v3.1/alpha&v31ListOfCodes&200%array():::EXIT                       (CONTAINS NO INVARIANTS)
+                        /v3.1/alpha&v31ListOfCodes&200%array%array():::EXIT             (CONTAINS NO INVARIANTS)
+                            /v3.1/alpha&v31ListOfCodes&200%array%array%array():::EXIT   (CONTAINS NO INVARIANTS)
+                                /v3.1/alpha&v31ListOfCodes&200():::EXIT
+                                    /v3.1/alpha&v31ListOfCodes&200&users():::EXIT
+                 */
+                Arguments.of(
+                        "src/test/resources/testScriptGeneration/test_016/oas_v31ListOfCodes_restCountries_modified.yaml",
+                        "src/test/resources/testScriptGeneration/test_016/invariants_test_016.csv",
+                        new String[]{},
+                        "src/test/resources/testScriptGeneration/test_016/oracle_test_script_016.js"
+                ),
+                /* tsg_test_script_017: Response property of type nested array of object 2 with no reported invariants
+                Generates test script for a modified version of the getArtistAlbums operation of the Spotify API with
+                THREE nested arrays as value of the "artists" property (there are no invariants for
+                any of these nesting levels). Nesting levels:
+
+                    /artists/{id}/albums&getArtistAlbums&200():::EXIT
+                        /artists/{id}/albums&getArtistAlbums&200&items():::EXIT
+                            /artists/{id}/albums&getArtistAlbums&200&items&artists%array():::EXIT               (CONTAINS NO INVARIANTS)
+                                /artists/{id}/albums&getArtistAlbums&200&items&artists%array%array():::EXIT     (CONTAINS NO INVARIANTS)
+                                    /artists/{id}/albums&getArtistAlbums&200&items&artists():::EXIT
+                                        /artists/{id}/albums&getArtistAlbums&200&items&artists&links():::EXIT
+
+                 */
+                Arguments.of(
+                        "src/test/resources/testScriptGeneration/test_017/oas_spotify_artistAlbums_modified.yaml",
+                        "src/test/resources/testScriptGeneration/test_017/invariants_test_017.csv",
+                        new String[]{},
+                        "src/test/resources/testScriptGeneration/test_017/oracle_test_script_017.js"
                 )
         );
 

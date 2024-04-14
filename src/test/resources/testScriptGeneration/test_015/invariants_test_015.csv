@@ -1,0 +1,2 @@
+pptname;invariant;invariantType;variables;postmanAssertion;tp
+/v3.1/alpha&v31ListOfCodes&200():::EXIT;LENGTH(return.cca2)==2;daikon.inv.unary.string.FixedLengthString;(return.cca2);pm.expect(return_cca2).to.have.length(2);1
