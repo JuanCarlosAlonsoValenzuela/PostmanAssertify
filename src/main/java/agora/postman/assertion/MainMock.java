@@ -10,6 +10,7 @@ import java.io.IOException;
 
 import static agora.postman.assertion.Main.getOpenAPISpecification;
 import static agora.postman.assertion.Main.getOutputPath;
+import static agora.postman.assertion.Main.DEBUG_MODE;
 
 /**
  * @author Juan C. Alonso
@@ -19,16 +20,19 @@ import static agora.postman.assertion.Main.getOutputPath;
  */
 public class MainMock {
 
-    private static String openApiSpecPath = "src/main/resources/test_mock_with_all_parameteres_types/swagger.yaml";
+    private static String openApiSpecPath;
 
-    private static String invariantsPath = "src/main/resources/test_mock_with_all_parameteres_types/invariants.csv";
+    private static String invariantsPath;
 
-    private static String configurationName = "test";
-    private static String mutantsPath = "src/main/resources/test_mock_with_all_parameteres_types/test-cases_1712821217637.csv";
+    private static String configurationName;
+
+    private static String mutantsPath;
 
     private static String[] valuesToConsiderAsNull = {};
 
     public static void main(String[] args) {
+        // Always disable debug mode
+        DEBUG_MODE = false;
 
 
         if (args.length == 4) {         // without strings to consider as null
