@@ -2,10 +2,7 @@ package agora.postman.assertion.testScript.nestingLevelTree;
 
 import agora.postman.assertion.model.ProgramPoint;
 
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Juan C. Alonso
@@ -40,10 +37,18 @@ public class Tree<T> implements Visitable<T>{
     }
 
     // Create a new tree with a single node
-    public Tree(T data, NestingType nestingType) {
+    public Tree(T data, NestingType nestingType, int nArrayNestingLevels) {
         this.data = data;
         this.nestingType = nestingType;
-        this.arrayNestingProgramPoints = new HashMap<>();
+
+        Map<Integer, ProgramPoint> arrayNestingProgramPoints = new HashMap<>();
+
+        for(int i = 1; i<= nArrayNestingLevels; i++) {
+            // Initialize the array nesting levels
+            arrayNestingProgramPoints.put(i, null);
+        }
+
+        this.arrayNestingProgramPoints = arrayNestingProgramPoints;
     }
 
     // Used to print the tree
@@ -57,7 +62,7 @@ public class Tree<T> implements Visitable<T>{
     }
 
     // Tries to add a new child (node) to the tree
-    public Tree<T> child(T data, NestingType currentNestingType) {
+    public Tree<T> child(T data, NestingType currentNestingType, int nArrayNestingLevels) {
         // Iterate over the children of the node
         for (Tree<T> child: children ) {
             // If the node exists
@@ -68,7 +73,7 @@ public class Tree<T> implements Visitable<T>{
         }
 
         // If the child does not exist, create a new node with that value (see method below)
-        return child(new Tree<T>(data, currentNestingType));
+        return child(new Tree<T>(data, currentNestingType, nArrayNestingLevels));
     }
 
     // Adds a new child to a tree (after checking that the child does not exist)

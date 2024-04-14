@@ -184,7 +184,7 @@ public class TestScriptGenerationTests {
                         /artists/{id}/albums&getArtistAlbums&200&items():::EXIT
                             /artists/{id}/albums&getArtistAlbums&200&items&artists%array():::EXIT
                                 /artists/{id}/albums&getArtistAlbums&200&items&artists():::EXIT
-                                    /artists/{id}/albums&getArtistAlbums&200&items&artists&arrayProperty():::EXIT
+                                    /artists/{id}/albums&getArtistAlbums&200&items&artists&links():::EXIT
 
                  */
                 Arguments.of(

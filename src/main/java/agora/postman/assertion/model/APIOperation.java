@@ -189,9 +189,21 @@ public class APIOperation {
      */
     private Tree<String> getProgramPointHierarchy() {
 
+        // Get responseSchema
+        Schema rootSchema = this.responseSchema;
+        // TODO: DUPLICATED START CONVERT INTO FUNCTION
+        int nRootNestingLevels = 0;
+        while(rootSchema.getType().equals("array")) {
+            // Update value of current schema
+            rootSchema = ((ArraySchema) rootSchema).getItems();
+            // Increase the number of nesting levels of the node
+            nRootNestingLevels++;
+        }
+        // TODO: DUPLICATED END CONVERT INTO FUNCTION
+
         // Create a tree with a root node
         Tree<String> programPointHierarchy = new Tree<>(Integer.toString(this.responseCode),
-                getNestingTypeFromString(this.responseSchema.getType())
+                getNestingTypeFromString(this.responseSchema.getType()), nRootNestingLevels
         );
 
         // Create the variable of type tree that we will iterate on
@@ -205,8 +217,8 @@ public class APIOperation {
             // Get the path of this program point
             String path = programPoint.getVariableHierarchyAsString();
 
-            // Get response format
-            Schema currentSchema = this.responseSchema;
+            // Get response format of the root without the initial nesting levels
+            Schema currentSchema = rootSchema;
 
             // If the path is not empty, create the path and assign the program point to the last path element
             if(!path.isEmpty()) {
@@ -221,19 +233,19 @@ public class APIOperation {
                         data = data.split(ARRAY_NESTING_SEPARATOR)[0];
                     }
 
-
-
-                    // TODO: START CONVERT INTO FUNCTION
-                    // Iterate through array nesting levels
-                    while(currentSchema.getType().equals("array")) {
-                        currentSchema = ((ArraySchema) currentSchema).getItems();
-                    }
-
                     NestingType currentNestingType = getNestingTypeFromString(((Schema) currentSchema.getProperties().get(data)).getType());
 
+                    int nArrayNestingLevels = 0;
                     if(currentNestingType.equals(NestingType.ARRAY)) {
-
                         currentSchema = ((ArraySchema)currentSchema.getProperties().get(data)).getItems();
+
+                        // Iterate through array nesting levels and compute the number of array nesting levels
+                        while(currentSchema.getType().equals("array")) {
+                            // Update value of current schema
+                            currentSchema = ((ArraySchema) currentSchema).getItems();
+                            // Increase the number of nesting levels of the node
+                            nArrayNestingLevels++;
+                        }
 
                     } else { // If object
                         currentSchema = (Schema) currentSchema.getProperties().get(data);
@@ -244,7 +256,8 @@ public class APIOperation {
 
                     // Dive into the tree following the hierarchy by updating the value of current
                     // If the node does not exist, it is added
-                    current = current.child(data, currentNestingType);
+                    // Create a new child containing the data, the currentNestingType and a null ProgramPoint for each array nesting level (if any)
+                    current = current.child(data, currentNestingType, nArrayNestingLevels);
                 }
 
                 // Assign the program point to the last element of the path
@@ -252,6 +265,7 @@ public class APIOperation {
                 // TODO: Convert into function (This code is duplicated)
                 int currentArrayNesting = programPoint.getArrayNesting();
                 if(currentArrayNesting > 0) {
+                    // Update the value of the array nesting program point (initially it is a null ProgramPoint)
                     current.addArrayNestingProgramPoint(programPoint);
                 } else {
                     current.setProgramPoint(programPoint);
