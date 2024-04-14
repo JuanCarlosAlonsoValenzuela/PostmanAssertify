@@ -11,10 +11,10 @@ public class PostmanVariableName {
     // Returns the variable name in the format used in the Postman assertion
     public static String getPostmanVariableName(String originalVariableName) {
 
-        if(!originalVariableName.startsWith("input.") &&
-                !originalVariableName.startsWith("return.") &&
-                !originalVariableName.startsWith("size(input.") &&
-                !originalVariableName.startsWith("size(return.")
+        if(!originalVariableName.startsWith("input") &&
+                !originalVariableName.startsWith("return") &&
+                !originalVariableName.startsWith("size(input") &&
+                !originalVariableName.startsWith("size(return")
         ) {
             throw new RuntimeException("Unexpected variable name: " + originalVariableName);
         }
