@@ -62,7 +62,7 @@ public class Invariant {
         String res =  "// " + this.invariant + "\n";
 
         // Test case first line
-        res +=  "pm.test(\"" + this.invariant.replace("\"", "\\\"") + "\", () => {\n";
+        res +=  "pm.test(\"" + this.invariant.replace("\"", "") + "\", () => {\n";
 
         // Generate code to access to variable value
         for(Variable variable: this.variables) {
