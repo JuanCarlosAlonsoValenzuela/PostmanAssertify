@@ -1,0 +1,131 @@
+{
+	"info": {
+		"_postman_id": "116d332f-c7da-46c0-b3bc-24c240358a37",
+		"name": "Spotify",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1907304"
+	},
+	"item": [
+		{
+			"name": "/albums/{id}/tracks",
+			"item": [
+				{
+					"name": "getAlbumTracks_200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Getting value of the id path parameter \r",
+									"input_id = pm.request.url.path[2];\r",
+									"if (input_id != null) {\r",
+									"    input_id = decodeURIComponent(input_id);\r",
+									"}\r",
+									"\r",
+									"// Getting value of the market query parameter \r",
+									"input_market = pm.request.url.query.get(\"market\");\r",
+									"if (input_market != null) {\r",
+									"    input_market = decodeURIComponent(input_market);\r",
+									"}\r",
+									"\r",
+									"// Getting value of the limit query parameter \r",
+									"input_limit = pm.request.url.query.get(\"limit\");\r",
+									"if (input_limit != null) {\r",
+									"    input_limit = decodeURIComponent(input_limit);\r",
+									"    input_limit = parseInt(input_limit);\r",
+									"}\r",
+									"\r",
+									"valuesToConsiderAsNull = [];\r",
+									"\r",
+									"// getAlbumTracks&200\r",
+									"response = pm.response.json();\r",
+									"\r",
+									"// Invariants of this nesting level:\r",
+									"pm.test(\"return.total >= size(return.items[])\", () => {\r",
+									"    // Getting value of variable: return_total\r",
+									"    return_total = response[\"total\"];\r",
+									"\r",
+									"    // Getting value of variable: return_items_size_array\r",
+									"    return_items_size_array = response[\"items\"];\r",
+									"    if (return_items_size_array != null) {\r",
+									"        return_items_size_array = return_items_size_array.length;\r",
+									"    }\r",
+									"\r",
+									"    if ((return_total != null) && (!valuesToConsiderAsNull.includes(return_total)) && \r",
+									"    (return_items_size_array != null) && (!valuesToConsiderAsNull.includes(return_items_size_array))) {\r",
+									"        pm.expect(return_total).to.be.at.least(return_items_size_array);\r",
+									"    }\r",
+									"})\r",
+									"\r",
+									"// getAlbumTracks&200&items\r",
+									"response_items = response[\"items\"]\r",
+									"if (response_items != null) {\r",
+									"    for (response_items_index in response_items) {\r",
+									"        response_items_element = response_items[response_items_index]\r",
+									"\r",
+									"        // Invariants of this nesting level:\r",
+									"        pm.test(\"LENGTH(return.id)==22\", () => {\r",
+									"            // Getting value of variable: return_id\r",
+									"            return_id = response_items_element[\"id\"];\r",
+									"\r",
+									"            if ((return_id != null) && (!valuesToConsiderAsNull.includes(return_id))) {\r",
+									"                pm.expect(return_id).to.have.length(22);\r",
+									"            }\r",
+									"        })\r",
+									"\r",
+									"    } // Closing for response_items\r",
+									"} // Closing if response_items"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.spotify.com/v1/albums/:id/tracks",
+							"protocol": "https",
+							"host": [
+								"api",
+								"spotify",
+								"com"
+							],
+							"path": [
+								"v1",
+								"albums",
+								":id",
+								"tracks"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "offset",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "market",
+									"value": "",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
