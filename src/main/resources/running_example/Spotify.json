@@ -1,0 +1,154 @@
+{
+  "info": {
+    "name": "Spotify",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "/albums/{id}/tracks",
+      "item": [
+        {
+          "name": "getAlbumTracks_200",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Getting value of the id path parameter \r",
+                  "input_id \u003d pm.request.url.path[2];\r",
+                  "if (input_id !\u003d null) { \r",
+                  "input_id \u003d decodeURIComponent(input_id);\r",
+                  "}\r",
+                  "// Getting value of the limit query parameter \r",
+                  "input_limit \u003d pm.request.url.query.get(\"limit\");\r",
+                  "if (input_limit !\u003d null) { \r",
+                  "input_limit \u003d decodeURIComponent(input_limit);\r",
+                  "input_limit \u003d parseInt(input_limit);\r",
+                  "}\r",
+                  "// Getting value of the offset query parameter \r",
+                  "input_offset \u003d pm.request.url.query.get(\"offset\");\r",
+                  "if (input_offset !\u003d null) { \r",
+                  "input_offset \u003d decodeURIComponent(input_offset);\r",
+                  "input_offset \u003d parseInt(input_offset);\r",
+                  "}\r",
+                  "// Getting value of the market query parameter \r",
+                  "input_market \u003d pm.request.url.query.get(\"market\");\r",
+                  "if (input_market !\u003d null) { \r",
+                  "input_market \u003d decodeURIComponent(input_market);\r",
+                  "}\r",
+                  "valuesToConsiderAsNull \u003d [];\r",
+                  "// \u0026200\r",
+                  "response \u003d pm.response.json();\r",
+                  "// Invariants of this nesting level:\r",
+                  "// return.total \u003e\u003d size(return.items[])\r",
+                  "pm.test(\"return.total \u003e\u003d size(return.items[])\", () \u003d\u003e {\r",
+                  "// Getting value of variable: return_total\r",
+                  "return_total \u003d response[\"total\"];\r",
+                  "\r",
+                  "// Getting value of variable: return_items_size_array\r",
+                  "return_items_size_array \u003d response[\"items\"];\r",
+                  "if(return_items_size_array !\u003d null) {\r",
+                  "return_items_size_array \u003d return_items_size_array.length;\r",
+                  "}\r",
+                  "\r",
+                  "\r",
+                  "if((return_total !\u003d null) \u0026\u0026 (!valuesToConsiderAsNull.includes(return_total)) \u0026\u0026 (return_items_size_array !\u003d null) \u0026\u0026 (!valuesToConsiderAsNull.includes(return_items_size_array))) {\r",
+                  "pm.expect(return_total).to.be.at.least(return_items_size_array);\r",
+                  "}\r",
+                  "})\r",
+                  "\r",
+                  "// 200\u0026items\r",
+                  "response_items \u003d response[\"items\"]\r",
+                  "if(response_items !\u003d null) {\r",
+                  "for(response_items_index in response_items) {\r",
+                  "response_items_element \u003d response_items[response_items_index]\r",
+                  "// Invariants of this nesting level:\r",
+                  "// LENGTH(return.id)\u003d\u003d22\r",
+                  "pm.test(\"LENGTH(return.id)\u003d\u003d22\", () \u003d\u003e {\r",
+                  "// Getting value of variable: return_id\r",
+                  "return_id \u003d response_items_element[\"id\"];\r",
+                  "\r",
+                  "if((return_id !\u003d null) \u0026\u0026 (!valuesToConsiderAsNull.includes(return_id))) {\r",
+                  "pm.expect(return_id).to.have.length(22);\r",
+                  "}\r",
+                  "})\r",
+                  "\r",
+                  "// 200\u0026items\u0026artists\r",
+                  "response_items_element_artists \u003d response_items_element[\"artists\"]\r",
+                  "if(response_items_element_artists !\u003d null) {\r",
+                  "for(response_items_element_artists_index in response_items_element_artists) {\r",
+                  "response_items_element_artists_element \u003d response_items_element_artists[response_items_element_artists_index]\r",
+                  "// Invariants of this nesting level:\r",
+                  "// LENGTH(return.id)\u003d\u003d22\r",
+                  "pm.test(\"LENGTH(return.id)\u003d\u003d22\", () \u003d\u003e {\r",
+                  "// Getting value of variable: return_id\r",
+                  "return_id \u003d response_items_element_artists_element[\"id\"];\r",
+                  "\r",
+                  "if((return_id !\u003d null) \u0026\u0026 (!valuesToConsiderAsNull.includes(return_id))) {\r",
+                  "pm.expect(return_id).to.have.length(22);\r",
+                  "}\r",
+                  "})\r",
+                  "\r",
+                  "} // Closing for response_items_element\r",
+                  "} // Closing if response_items_element\r",
+                  "\r",
+                  "} // Closing for response\r",
+                  "} // Closing if response\r"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.spotify.com/v1/albums/{id}/tracks",
+              "protocol": "https",
+              "host": [
+                "api",
+                "spotify",
+                "com"
+              ],
+              "path": [
+                "v1",
+                "albums",
+                ":id",
+                "tracks"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "offset",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "market",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            },
+            "body": {}
+          },
+          "response": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ]
+    }
+  ]
+}

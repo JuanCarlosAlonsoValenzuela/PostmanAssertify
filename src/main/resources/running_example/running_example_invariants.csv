@@ -1,0 +1,4 @@
+pptname;invariant;invariantType;variables;postmanAssertion;tp;fp;enter;bug
+/albums/{id}/tracks&getAlbumTracks&200&items&artists():::EXIT;LENGTH(return.id)==22;daikon.inv.unary.string.FixedLengthString;(return.id);pm.expect(return_id).to.have.length(22);1;0;0;0
+/albums/{id}/tracks&getAlbumTracks&200&items():::EXIT;LENGTH(return.id)==22;daikon.inv.unary.string.FixedLengthString;(return.id);pm.expect(return_id).to.have.length(22);1;0;0;0
+/albums/{id}/tracks&getAlbumTracks&200():::EXIT;return.total >= size(return.items[]);daikon.inv.binary.twoScalar.IntGreaterEqual;(return.total, size(return.items[..]));pm.expect(return_total).to.be.at.least(return_items_size_array);1;0;0;0
