@@ -19,7 +19,7 @@ If you want to use AGORA or know more details about the approach, please refer t
 # Executing PostmanAssertify
 
 This section describes how to use PostmanAssertify to generate a Postman collection with the generated assertions from an OAS specification and a CSV file containing the set of confirmed invariants. To execute PostmanAssertify, run the `GeneratePostmanCollection` class. This class receives the following parameters:
-- `openApiSpecPath`: Relative path to the OpenAPI Specification of the API under test. This OAS specification must be the same as the one used by AGORA to detect the invariants.
+- `openApiSpecPath`: Relative path of the OpenAPI Specification of the API under test. This OAS specification must be the same as the one used by AGORA to detect the invariants.
 - `invariantsPath`: Relative path of the CSV file containing the invariants detected by AGORA. The user must confirm the invariants as valid by adding the `tp` column (see the [Input CSV format](#input-csv-format) section for more details).
 - `valuesToConsiderAsNull`: Some APIs use empty strings (“”) or specific keywords instead of null values. For instance, the OMDb API uses the string “N/A” instead of setting a response field as null. You can use this parameter to specify a set of keywords that can be considered as null values, and thus ignored.
 - `DEBUG_MODE`: Set this Boolean parameter to true if you want PostmanAssertify to print the values of every variable involved in the test cases. This can make the execution considerably slower.
