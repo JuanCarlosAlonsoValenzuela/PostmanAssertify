@@ -96,6 +96,12 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/track-simple-page'
+        '400':
+          schema:
+            $ref: "#/definitions/error_response"
+        '404':
+          schema:
+            $ref: "#/definitions/error_response"
   "/users/{user_id}/playlists":
     post:
       operationId: createPlaylist
@@ -131,8 +137,9 @@ paths:
           description: Created
           schema:
             "$ref": "#/definitions/playlist"
-        '429':
-          description: 'API rate limit exceeded. See http://developer.spotify.com/web-api/user-guide/#rate-limiting for details.'
+        '400':
+          schema:
+            $ref: "#/definitions/error_response"
   '/artists/{id}/albums':
     get:
       operationId: getArtistAlbums
@@ -177,6 +184,12 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/album-simple-page'
+        '400':
+          schema:
+            $ref: "#/definitions/error_response"
+        '404':
+          schema:
+            $ref: "#/definitions/error_response"
 definitions:
   album:
     properties:
@@ -1048,3 +1061,13 @@ definitions:
         description: The Spotify URI for the user.
         type: string
     type: object
+  error_response:
+    type: object
+    properties:
+      error:
+        type: object
+        properties:
+          status:
+            type: integer
+          message:
+            type: string

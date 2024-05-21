@@ -16,9 +16,9 @@ import java.nio.file.Path;
  */
 public class GeneratePostmanCollection {
 
-    private static String openApiSpecPath = "src/main/resources/oas_spotify_artistAlbums.yaml";
+    private static String openApiSpecPath = "src/main/resources/example/oas_example.yaml";
 
-    private static String invariantsPath = "src/main/resources/invariants_artistAlbums.csv";
+    private static String invariantsPath = "src/main/resources/example/invariants_example.csv";
 
     private static final String[] valuesToConsiderAsNull = {};
 

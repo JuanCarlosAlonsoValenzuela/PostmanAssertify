@@ -5,6 +5,204 @@
   },
   "item": [
     {
+      "name": "/artists/{id}/albums",
+      "item": [
+        {
+          "name": "getArtistAlbums_200",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "\u0027use strict\u0027;\r",
+                  "input_id \u003d pm.request.url.path[2];\r",
+                  "if (input_id !\u003d null) {\r",
+                  "  input_id \u003d decodeURIComponent(input_id);\r",
+                  "}\r",
+                  "input_limit \u003d pm.request.url.query.get(\"limit\");\r",
+                  "if (input_limit !\u003d null) {\r",
+                  "  input_limit \u003d decodeURIComponent(input_limit);\r",
+                  "  input_limit \u003d parseInt(input_limit);\r",
+                  "}\r",
+                  "input_offset \u003d pm.request.url.query.get(\"offset\");\r",
+                  "if (input_offset !\u003d null) {\r",
+                  "  input_offset \u003d decodeURIComponent(input_offset);\r",
+                  "  input_offset \u003d parseInt(input_offset);\r",
+                  "}\r",
+                  "input_include_groups_array \u003d pm.request.url.query.get(\"include_groups\");\r",
+                  "if (input_include_groups_array !\u003d null) {\r",
+                  "  input_include_groups_array \u003d decodeURIComponent(input_include_groups_array);\r",
+                  "  input_include_groups_array \u003d input_include_groups_array.split(\",\").map(item \u003d\u003e item.trim());\r",
+                  "}\r",
+                  "input_market \u003d pm.request.url.query.get(\"market\");\r",
+                  "if (input_market !\u003d null) {\r",
+                  "  input_market \u003d decodeURIComponent(input_market);\r",
+                  "}\r",
+                  "valuesToConsiderAsNull \u003d [];\r",
+                  "response \u003d pm.response.json();\r",
+                  "pm.test(\"input.id is a substring of return.previous\", () \u003d\u003e {\r",
+                  "  return_previous \u003d response[\"previous\"];\r",
+                  "  if (input_id !\u003d null \u0026\u0026 !valuesToConsiderAsNull.includes(input_id) \u0026\u0026 return_previous !\u003d null \u0026\u0026 !valuesToConsiderAsNull.includes(return_previous)) {\r",
+                  "    pm.expect(return_previous.includes(input_id)).to.be.true;\r",
+                  "  }\r",
+                  "});\r",
+                  "response_items \u003d response[\"items\"];\r",
+                  "if (response_items !\u003d null) {\r",
+                  "  for (response_items_index in response_items) {\r",
+                  "    response_items_element \u003d response_items[response_items_index];\r",
+                  "    pm.test(\"return.href is Url\", () \u003d\u003e {\r",
+                  "      return_href \u003d response_items_element[\"href\"];\r",
+                  "      if (return_href !\u003d null \u0026\u0026 !valuesToConsiderAsNull.includes(return_href)) {\r",
+                  "        pm.expect(return_href).to.match(/^(?:(?:https?|ftp):\\/\\/)(?:\\S+(?::\\S*)?@)?(?:(?!10(?:\\.\\d{1,3}){3})(?!127(?:\\.\\d{1,3}){3})(?!169\\.254(?:\\.\\d{1,3}){2})(?!192\\.168(?:\\.\\d{1,3}){2})(?!172\\.(?:1[6-9]|2\\d|3[0-1])(?:\\.\\d{1,3}){2})(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[1-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[\\w\\u00a1-\\uffff0-9]+-?)*[\\w\\u00a1-\\uffff0-9]+)(?:\\.(?:[\\w\\u00a1-\\uffff0-9]+-)*[\\w\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-zA-Z\\u00a1-\\uffff]{2,})))(?::\\d{2,5})?(?:\\/[^\\s]*)?$/);\r",
+                  "      }\r",
+                  "    });\r",
+                  "  }\r",
+                  "}\r",
+                  ";\r"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.spotify.com/v1/artists/{id}/albums",
+              "protocol": "https",
+              "host": [
+                "api",
+                "spotify",
+                "com"
+              ],
+              "path": [
+                "v1",
+                "artists",
+                ":id",
+                "albums"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "offset",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "include_groups",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "market",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            },
+            "body": {}
+          },
+          "response": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "/users/{user_id}/playlists",
+      "item": [
+        {
+          "name": "createPlaylist_201",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "\u0027use strict\u0027;\r",
+                  "input_user_id \u003d pm.request.url.path[2];\r",
+                  "if (input_user_id !\u003d null) {\r",
+                  "  input_user_id \u003d decodeURIComponent(input_user_id);\r",
+                  "}\r",
+                  "input_Accept \u003d pm.request.headers.find(header \u003d\u003e !header.disabled \u0026\u0026 header.key \u003d\u003d \"Accept\");\r",
+                  "if (input_Accept !\u003d null) {\r",
+                  "  input_Accept \u003d input_Accept.value;\r",
+                  "}\r",
+                  "if (input_Accept !\u003d null) {\r",
+                  "  input_Accept \u003d decodeURIComponent(input_Accept);\r",
+                  "}\r",
+                  "let request_body \u003d JSON.parse(pm.request.body.raw);\r",
+                  "input_name \u003d request_body[\"name\"];\r",
+                  "input_description \u003d request_body[\"description\"];\r",
+                  "input_public \u003d request_body[\"public\"];\r",
+                  "input_collaborative \u003d request_body[\"collaborative\"];\r",
+                  "valuesToConsiderAsNull \u003d [];\r",
+                  "response \u003d pm.response.json();\r",
+                  "pm.test(\"input.name \\x3d\\x3d return.name\", () \u003d\u003e {\r",
+                  "  return_name \u003d response[\"name\"];\r",
+                  "  if (input_name !\u003d null \u0026\u0026 !valuesToConsiderAsNull.includes(input_name) \u0026\u0026 return_name !\u003d null \u0026\u0026 !valuesToConsiderAsNull.includes(return_name)) {\r",
+                  "    pm.expect(input_name).to.eql(return_name);\r",
+                  "  }\r",
+                  "});\r"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "",
+                "type": "",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "https://api.spotify.com/v1/users/{user_id}/playlists",
+              "protocol": "https",
+              "host": [
+                "api",
+                "spotify",
+                "com"
+              ],
+              "path": [
+                "v1",
+                "users",
+                ":user_id",
+                "playlists"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "user_id",
+                  "value": ""
+                }
+              ]
+            },
+            "body": {}
+          },
+          "response": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ]
+    },
+    {
       "name": "/albums/{id}/tracks",
       "item": [
         {
@@ -14,85 +212,49 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "// Getting value of the id path parameter \r",
+                  "\u0027use strict\u0027;\r",
                   "input_id \u003d pm.request.url.path[2];\r",
-                  "if (input_id !\u003d null) { \r",
-                  "input_id \u003d decodeURIComponent(input_id);\r",
+                  "if (input_id !\u003d null) {\r",
+                  "  input_id \u003d decodeURIComponent(input_id);\r",
                   "}\r",
-                  "// Getting value of the limit query parameter \r",
                   "input_limit \u003d pm.request.url.query.get(\"limit\");\r",
-                  "if (input_limit !\u003d null) { \r",
-                  "input_limit \u003d decodeURIComponent(input_limit);\r",
-                  "input_limit \u003d parseInt(input_limit);\r",
+                  "if (input_limit !\u003d null) {\r",
+                  "  input_limit \u003d decodeURIComponent(input_limit);\r",
+                  "  input_limit \u003d parseInt(input_limit);\r",
                   "}\r",
-                  "// Getting value of the offset query parameter \r",
                   "input_offset \u003d pm.request.url.query.get(\"offset\");\r",
-                  "if (input_offset !\u003d null) { \r",
-                  "input_offset \u003d decodeURIComponent(input_offset);\r",
-                  "input_offset \u003d parseInt(input_offset);\r",
+                  "if (input_offset !\u003d null) {\r",
+                  "  input_offset \u003d decodeURIComponent(input_offset);\r",
+                  "  input_offset \u003d parseInt(input_offset);\r",
                   "}\r",
-                  "// Getting value of the market query parameter \r",
                   "input_market \u003d pm.request.url.query.get(\"market\");\r",
-                  "if (input_market !\u003d null) { \r",
-                  "input_market \u003d decodeURIComponent(input_market);\r",
+                  "if (input_market !\u003d null) {\r",
+                  "  input_market \u003d decodeURIComponent(input_market);\r",
                   "}\r",
                   "valuesToConsiderAsNull \u003d [];\r",
-                  "// \u0026200\r",
                   "response \u003d pm.response.json();\r",
-                  "// Invariants of this nesting level:\r",
-                  "// input.limit \u003e\u003d size(return.items[])\r",
-                  "pm.test(\"input.limit \u003e\u003d size(return.items[])\", () \u003d\u003e {\r",
-                  "// Getting value of variable: input_limit\r",
-                  "\r",
-                  "// Getting value of variable: return_items_size_array\r",
-                  "return_items_size_array \u003d response[\"items\"];\r",
-                  "if(return_items_size_array !\u003d null) {\r",
-                  "return_items_size_array \u003d return_items_size_array.length;\r",
+                  "pm.test(\"input.limit \\x3e\\x3d size(return.items[])\", () \u003d\u003e {\r",
+                  "  return_items_size_array \u003d response[\"items\"];\r",
+                  "  if (return_items_size_array !\u003d null) {\r",
+                  "    return_items_size_array \u003d return_items_size_array.length;\r",
+                  "  }\r",
+                  "  if (input_limit !\u003d null \u0026\u0026 !valuesToConsiderAsNull.includes(input_limit) \u0026\u0026 return_items_size_array !\u003d null \u0026\u0026 !valuesToConsiderAsNull.includes(return_items_size_array)) {\r",
+                  "    pm.expect(input_limit).to.be.at.least(return_items_size_array);\r",
+                  "  }\r",
+                  "});\r",
+                  "response_items \u003d response[\"items\"];\r",
+                  "if (response_items !\u003d null) {\r",
+                  "  for (response_items_index in response_items) {\r",
+                  "    response_items_element \u003d response_items[response_items_index];\r",
+                  "    pm.test(\"LENGTH(return.id)\\x3d\\x3d22\", () \u003d\u003e {\r",
+                  "      return_id \u003d response_items_element[\"id\"];\r",
+                  "      if (return_id !\u003d null \u0026\u0026 !valuesToConsiderAsNull.includes(return_id)) {\r",
+                  "        pm.expect(return_id).to.have.length(22);\r",
+                  "      }\r",
+                  "    });\r",
+                  "  }\r",
                   "}\r",
-                  "\r",
-                  "\r",
-                  "if((input_limit !\u003d null) \u0026\u0026 (!valuesToConsiderAsNull.includes(input_limit)) \u0026\u0026 (return_items_size_array !\u003d null) \u0026\u0026 (!valuesToConsiderAsNull.includes(return_items_size_array))) {\r",
-                  "pm.expect(input_limit).to.be.at.least(return_items_size_array);\r",
-                  "}\r",
-                  "})\r",
-                  "\r",
-                  "// 200\u0026items\r",
-                  "response_items \u003d response[\"items\"]\r",
-                  "if(response_items !\u003d null) {\r",
-                  "for(response_items_index in response_items) {\r",
-                  "response_items_element \u003d response_items[response_items_index]\r",
-                  "// Invariants of this nesting level:\r",
-                  "// LENGTH(return.id)\u003d\u003d22\r",
-                  "pm.test(\"LENGTH(return.id)\u003d\u003d22\", () \u003d\u003e {\r",
-                  "// Getting value of variable: return_id\r",
-                  "return_id \u003d response_items_element[\"id\"];\r",
-                  "\r",
-                  "if((return_id !\u003d null) \u0026\u0026 (!valuesToConsiderAsNull.includes(return_id))) {\r",
-                  "pm.expect(return_id).to.have.length(22);\r",
-                  "}\r",
-                  "})\r",
-                  "\r",
-                  "// 200\u0026items\u0026artists\r",
-                  "response_items_element_artists \u003d response_items_element[\"artists\"]\r",
-                  "if(response_items_element_artists !\u003d null) {\r",
-                  "for(response_items_element_artists_index in response_items_element_artists) {\r",
-                  "response_items_element_artists_element \u003d response_items_element_artists[response_items_element_artists_index]\r",
-                  "// Invariants of this nesting level:\r",
-                  "// LENGTH(return.id)\u003d\u003d22\r",
-                  "pm.test(\"LENGTH(return.id)\u003d\u003d22\", () \u003d\u003e {\r",
-                  "// Getting value of variable: return_id\r",
-                  "return_id \u003d response_items_element_artists_element[\"id\"];\r",
-                  "\r",
-                  "if((return_id !\u003d null) \u0026\u0026 (!valuesToConsiderAsNull.includes(return_id))) {\r",
-                  "pm.expect(return_id).to.have.length(22);\r",
-                  "}\r",
-                  "})\r",
-                  "\r",
-                  "} // Closing for response_items_element\r",
-                  "} // Closing if response_items_element\r",
-                  "\r",
-                  "} // Closing for response\r",
-                  "} // Closing if response\r"
+                  ";\r"
                 ],
                 "type": "text/javascript",
                 "packages": {}
