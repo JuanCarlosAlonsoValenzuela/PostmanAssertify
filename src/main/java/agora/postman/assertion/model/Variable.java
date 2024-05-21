@@ -3,7 +3,7 @@ package agora.postman.assertion.model;
 import java.util.Arrays;
 import java.util.List;
 
-import static agora.postman.assertion.Main.DEBUG_MODE;
+import static agora.postman.assertion.GeneratePostmanCollection.DEBUG_MODE;
 import static agora.postman.assertion.debug.DebugUtils.printVariableValueScript;
 import static agora.postman.assertion.testScript.PostmanVariableName.getPostmanVariableName;
 

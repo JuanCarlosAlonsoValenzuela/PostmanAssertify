@@ -13,7 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static agora.postman.assertion.Main.*;
+import static agora.postman.assertion.GeneratePostmanCollection.*;
 import static agora.postman.assertion.files.ReadInvariants.getAllApiOperations;
 
 /**

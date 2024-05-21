@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import java.util.List;
 
-import static agora.postman.assertion.Main.ARRAY_NESTING_SEPARATOR;
+import static agora.postman.assertion.GeneratePostmanCollection.ARRAY_NESTING_SEPARATOR;
 import static agora.postman.assertion.testScript.PostmanVariableName.getPostmanVariableName;
 
 /**

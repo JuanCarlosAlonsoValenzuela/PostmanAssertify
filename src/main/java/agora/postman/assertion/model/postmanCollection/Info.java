@@ -6,7 +6,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import io.swagger.v3.oas.models.OpenAPI;
 
-import static agora.postman.assertion.Main.POSTMAN_COLLECTION_SCHEMA;
+import static agora.postman.assertion.GeneratePostmanCollection.POSTMAN_COLLECTION_SCHEMA;
 
 /**
  * @author Juan C. Alonso

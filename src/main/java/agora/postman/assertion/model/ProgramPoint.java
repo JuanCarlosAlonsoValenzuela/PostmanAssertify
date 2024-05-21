@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static agora.postman.assertion.Main.ARRAY_NESTING_SEPARATOR;
-import static agora.postman.assertion.Main.HIERARCHY_SEPARATOR;
+import static agora.postman.assertion.GeneratePostmanCollection.ARRAY_NESTING_SEPARATOR;
+import static agora.postman.assertion.GeneratePostmanCollection.HIERARCHY_SEPARATOR;
 import static agora.postman.assertion.model.APIOperation.getResponseCodeValue;
 
 /**

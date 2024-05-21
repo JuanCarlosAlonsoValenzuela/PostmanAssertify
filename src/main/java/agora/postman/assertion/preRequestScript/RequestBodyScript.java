@@ -7,7 +7,7 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import java.util.Collection;
 import java.util.Set;
 
-import static agora.postman.assertion.Main.DEBUG_MODE;
+import static agora.postman.assertion.GeneratePostmanCollection.DEBUG_MODE;
 import static agora.postman.assertion.debug.DebugUtils.printVariableValueScript;
 import static agora.postman.assertion.variableNameUtils.VariableNames.getInputVariableName;
 

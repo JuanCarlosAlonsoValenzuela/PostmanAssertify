@@ -5,7 +5,7 @@ import agora.postman.assertion.model.ProgramPoint;
 import java.util.Collections;
 import java.util.Map;
 
-import static agora.postman.assertion.Main.DEBUG_MODE;
+import static agora.postman.assertion.GeneratePostmanCollection.DEBUG_MODE;
 import static agora.postman.assertion.debug.DebugUtils.printVariableValueScript;
 import static agora.postman.assertion.testScript.PptTestCaseGeneration.generateProgramPointTestCases;
 

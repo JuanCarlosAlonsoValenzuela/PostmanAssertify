@@ -1,6 +1,6 @@
 package agora.postman.assertion.model;
 
-import agora.postman.assertion.Main;
+import agora.postman.assertion.GeneratePostmanCollection;
 import agora.postman.assertion.testScript.nestingLevelTree.NestingType;
 import agora.postman.assertion.testScript.nestingLevelTree.Tree;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -16,7 +16,7 @@ import io.swagger.v3.oas.models.media.Schema;
 
 import java.util.*;
 
-import static agora.postman.assertion.Main.*;
+import static agora.postman.assertion.GeneratePostmanCollection.*;
 import static agora.postman.assertion.debug.DebugUtils.printVariableValueScript;
 import static agora.postman.assertion.testScript.DepthSearch.programPointDepthSearch;
 import static agora.postman.assertion.testScript.nestingLevelTree.Tree.getNestingTypeFromString;
@@ -51,7 +51,7 @@ public class APIOperation {
         List<String> pptnameComponents = Arrays.stream(pptname.split(HIERARCHY_SEPARATOR)).toList();
 
         // If no default server is provided, we use the first one of the OAS
-        String serverName = (Main.server==null) ? specification.getServers().get(0).getUrl(): Main.server;
+        String serverName = (GeneratePostmanCollection.server==null) ? specification.getServers().get(0).getUrl(): GeneratePostmanCollection.server;
         if(serverName.endsWith("/")) {
             serverName = serverName.substring(0, serverName.length() - 1);
         }

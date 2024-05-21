@@ -14,7 +14,7 @@ import java.nio.file.Path;
 /**
  * @author Juan C. Alonso
  */
-public class Main {
+public class GeneratePostmanCollection {
 
     private static String openApiSpecPath = "src/main/resources/oas_spotify_artistAlbums.yaml";
 

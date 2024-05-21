@@ -8,8 +8,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static agora.postman.assertion.Main.DEBUG_MODE;
-import static agora.postman.assertion.Main.HIERARCHY_SEPARATOR;
+import static agora.postman.assertion.GeneratePostmanCollection.DEBUG_MODE;
+import static agora.postman.assertion.GeneratePostmanCollection.HIERARCHY_SEPARATOR;
 import static agora.postman.assertion.debug.DebugUtils.printVariableValueScript;
 import static agora.postman.assertion.testScript.ArrayNestingSnippets.*;
 import static agora.postman.assertion.testScript.ObjectNestingSnippets.generateAccessNextObjectNestingLevelSnippet;

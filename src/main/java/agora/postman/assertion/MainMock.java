@@ -8,9 +8,9 @@ import io.swagger.v3.oas.models.OpenAPI;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import static agora.postman.assertion.Main.getOpenAPISpecification;
-import static agora.postman.assertion.Main.getOutputPath;
-import static agora.postman.assertion.Main.DEBUG_MODE;
+import static agora.postman.assertion.GeneratePostmanCollection.getOpenAPISpecification;
+import static agora.postman.assertion.GeneratePostmanCollection.getOutputPath;
+import static agora.postman.assertion.GeneratePostmanCollection.DEBUG_MODE;
 
 /**
  * @author Juan C. Alonso

@@ -2,16 +2,14 @@
 package agora.postman.assertion.model.postmanCollection;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import agora.postman.assertion.model.APIOperation;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import org.checkerframework.checker.units.qual.A;
 
-import static agora.postman.assertion.Main.FORMAT_JS_CODE;
+import static agora.postman.assertion.GeneratePostmanCollection.FORMAT_JS_CODE;
 import static agora.postman.assertion.codeFormatting.JSFormatter.formatJSCode;
 
 /**
