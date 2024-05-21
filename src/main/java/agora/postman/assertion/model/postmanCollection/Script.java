@@ -11,6 +11,9 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import org.checkerframework.checker.units.qual.A;
 
+import static agora.postman.assertion.Main.FORMAT_JS_CODE;
+import static agora.postman.assertion.codeFormatting.JSFormatter.formatJSCode;
+
 /**
  * @author Juan C. Alonso
  */
@@ -42,9 +45,15 @@ public class Script implements Serializable
     }
 
     private static List<String> generateExec(APIOperation apiOperation, String[] valuesToConsiderAsNull, String response) {
+
+        String completeScript = apiOperation.generateInputParametersScript() + apiOperation.generateTestScript(valuesToConsiderAsNull, response);
+
+        if (FORMAT_JS_CODE) {
+            completeScript = formatJSCode(completeScript);
+        }
+
         return Arrays.stream(
-                (apiOperation.generateInputParametersScript() + apiOperation.generateTestScript(valuesToConsiderAsNull, response))
-                        .split("\n")
+                completeScript.split("\n")
                 )
                 .map(x-> x + "\r")
                 .toList();

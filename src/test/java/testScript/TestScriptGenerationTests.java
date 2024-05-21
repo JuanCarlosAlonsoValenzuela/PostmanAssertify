@@ -14,8 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static agora.postman.assertion.Main.DEBUG_MODE;
-import static agora.postman.assertion.Main.getOpenAPISpecification;
+import static agora.postman.assertion.Main.*;
 import static agora.postman.assertion.files.ReadInvariants.getAllApiOperations;
 
 /**
@@ -328,9 +327,6 @@ public class TestScriptGenerationTests {
         // TODO: Test with multiple API operations
         // TODO: Test with multiple response codes
         // TODO: Values to consider as null
-        // TODO: Fix indentation
-        // TODO: Test with nested request body properties
-        // TODO: Test with kebab-case (both in input and output)
     }
 
     @ParameterizedTest
@@ -338,6 +334,7 @@ public class TestScriptGenerationTests {
     public void testScriptGeneration(String oasSpecPath, String invariantsCsvPath, String[] valuesToConsiderAsNull, String oracleScriptPath) throws IOException {
 
         DEBUG_MODE = true;
+        FORMAT_JS_CODE = false;
 
         // Read invariants from file
         OpenAPI specification = getOpenAPISpecification(oasSpecPath);

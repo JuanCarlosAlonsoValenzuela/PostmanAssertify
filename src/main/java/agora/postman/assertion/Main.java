@@ -16,13 +16,17 @@ import java.nio.file.Path;
  */
 public class Main {
 
-    private static String openApiSpecPath = "src/main/resources/JSONMutator/oas_omdb.yaml";
+    private static String openApiSpecPath = "src/main/resources/oas_spotify_artistAlbums.yaml";
 
-    private static String invariantsPath = "src/main/resources/JSONMutator/omdb_invariants.csv";
+    private static String invariantsPath = "src/main/resources/invariants_artistAlbums.csv";
 
     private static final String[] valuesToConsiderAsNull = {};
 
-    public static boolean DEBUG_MODE = true;
+    // Set to true to print the value of every variable
+    public static boolean DEBUG_MODE = false;
+
+    // Whether the generated JS should be formatted (i.e., add tabulations). This parameter was set to false for our experimental evaluation
+    public static boolean FORMAT_JS_CODE = true;
 
 
     public static String HIERARCHY_SEPARATOR = "&";
