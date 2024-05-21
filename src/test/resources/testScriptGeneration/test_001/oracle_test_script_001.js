@@ -26,7 +26,7 @@ pm.expect(input_i).to.eql(return_imdbID);
 }
 })
 // return.Response == "True"
-pm.test("return.Response == \"True\"", () => {
+pm.test("return.Response == True", () => {
 // Getting value of variable: return_Response
 return_Response = response["Response"];
 // Printing value of return_Response variable
@@ -54,7 +54,7 @@ console.log(response_Ratings_element);
 
 // Invariants of this nesting level:
 // return.Source one of { "Internet Movie Database", "Metacritic", "Rotten Tomatoes" }
-pm.test("return.Source one of { \"Internet Movie Database\", \"Metacritic\", \"Rotten Tomatoes\" }", () => {
+pm.test("return.Source one of { Internet Movie Database, Metacritic, Rotten Tomatoes }", () => {
 // Getting value of variable: return_Source
 return_Source = response_Ratings_element["Source"];
 // Printing value of return_Source variable

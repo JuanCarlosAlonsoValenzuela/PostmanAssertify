@@ -95,7 +95,7 @@ warning: method daikon.inv.unary.scalar.LowerBound.format(OutputFormat:Postman) 
 }
 })
 // return.transactions[] elements one of { "delivery", "pickup", "restaurant_reservation" }
-pm.test("return.transactions[] elements one of { \"delivery\", \"pickup\", \"restaurant_reservation\" }", () => {
+pm.test("return.transactions[] elements one of { delivery, pickup, restaurant_reservation }", () => {
 // Getting value of variable: return_transactions_array
 return_transactions_array = response_businesses_element["transactions"];
 // Printing value of return_transactions_array variable

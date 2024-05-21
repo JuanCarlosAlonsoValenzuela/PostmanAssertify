@@ -141,7 +141,7 @@ console.log(response_items_element_artists_element_element);
 
 // Invariants of this nesting level:
 // return.type == "artist"
-pm.test("return.type == \"artist\"", () => {
+pm.test("return.type == artist", () => {
 // Getting value of variable: return_type
 return_type = response_items_element_artists_element_element["type"];
 // Printing value of return_type variable

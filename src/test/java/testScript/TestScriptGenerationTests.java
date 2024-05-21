@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static agora.postman.assertion.Main.DEBUG_MODE;
 import static agora.postman.assertion.Main.getOpenAPISpecification;
 import static agora.postman.assertion.files.ReadInvariants.getAllApiOperations;
 
@@ -335,6 +336,8 @@ public class TestScriptGenerationTests {
     @ParameterizedTest
     @MethodSource("testScriptGeneration")
     public void testScriptGeneration(String oasSpecPath, String invariantsCsvPath, String[] valuesToConsiderAsNull, String oracleScriptPath) throws IOException {
+
+        DEBUG_MODE = true;
 
         // Read invariants from file
         OpenAPI specification = getOpenAPISpecification(oasSpecPath);

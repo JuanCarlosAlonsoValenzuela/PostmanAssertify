@@ -13,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static agora.postman.assertion.Main.DEBUG_MODE;
 import static agora.postman.assertion.Main.getOpenAPISpecification;
 import static agora.postman.assertion.files.ReadInvariants.getAllApiOperations;
 
@@ -81,6 +82,8 @@ public class InputParametersScriptGenerationTests {
     @ParameterizedTest
     @MethodSource("inputParametersScriptGeneration")
     public void inputParametersScriptGeneration(String oasSpecPath, String invariantsCsvPath, String oracleScriptPath) throws IOException {
+
+        DEBUG_MODE = true;
 
         // Read invariants from file
         OpenAPI specification = getOpenAPISpecification(oasSpecPath);
