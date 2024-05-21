@@ -56,32 +56,31 @@ public class Invariant {
 
     public String getPostmanAssertion() { return postmanAssertion; }
 
-    // TODO: Use StringBuilder
     public String getPostmanTestCase(String parentBaseVariable) {
 
-        String res =  "// " + this.invariant + "\n";
+        StringBuilder res = new StringBuilder("// " + this.invariant + "\n");
 
         // Test case first line
-        res +=  "pm.test(\"" + this.invariant.replace("\"", "") + "\", () => {\n";
+        res.append("pm.test(\"").append(this.invariant.replace("\"", "")).append("\", () => {\n");
 
         // Generate code to access to variable value
         for(Variable variable: this.variables) {
-            res += variable.getPostmanVariableValueCode(parentBaseVariable, this.isArrayNestingPpt);
+            res.append(variable.getPostmanVariableValueCode(parentBaseVariable, this.isArrayNestingPpt));
         }
 
         // Check that none of the invariants variables is null or one of the values to consider as null
-        res += generateNotNullConditionsSnippet(this.variables);
+        res.append(generateNotNullConditionsSnippet(this.variables));
 
         // Postman assertion, returned by AGORA
-        res += this.postmanAssertion + ";\n";
+        res.append(this.postmanAssertion).append(";\n");
 
         // Close if variable not null and not part of values to consider as null bracket
-        res += "}\n";
+        res.append("}\n");
 
         // Close test case bracket
-        res += "})\n";
+        res.append("})\n");
 
-        return res;
+        return res.toString();
 
     }
 

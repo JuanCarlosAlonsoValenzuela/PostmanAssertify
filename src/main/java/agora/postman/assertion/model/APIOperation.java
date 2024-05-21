@@ -170,7 +170,6 @@ public class APIOperation {
         }
         arrayString += "]";
 
-        // TODO: This variable name should NOT be hardcoded
         String res = "valuesToConsiderAsNull = " + arrayString + ";\n";
 
         Tree<String> programPointHierarchy = this.getProgramPointHierarchy();
