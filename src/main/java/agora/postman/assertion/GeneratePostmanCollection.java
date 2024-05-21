@@ -25,7 +25,7 @@ public class GeneratePostmanCollection {
     // Set to true to print the value of every variable
     public static boolean DEBUG_MODE = false;
 
-    // Whether the generated JS should be formatted (i.e., add tabulations). This parameter was set to false for our experimental evaluation
+    // Whether the generated JS should be formatted (i.e., add indentation). This parameter was set to false for our experimental evaluation
     public static boolean FORMAT_JS_CODE = true;
 
 
