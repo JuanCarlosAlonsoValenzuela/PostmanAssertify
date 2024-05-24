@@ -97,9 +97,11 @@ paths:
           schema:
             $ref: '#/definitions/track-simple-page'
         '400':
+          description: "400"
           schema:
             $ref: "#/definitions/error_response"
         '404':
+          description: "404"
           schema:
             $ref: "#/definitions/error_response"
   "/users/{user_id}/playlists":
@@ -138,6 +140,7 @@ paths:
           schema:
             "$ref": "#/definitions/playlist"
         '400':
+          description: "400"
           schema:
             $ref: "#/definitions/error_response"
   '/artists/{id}/albums':
@@ -185,9 +188,11 @@ paths:
           schema:
             $ref: '#/definitions/album-simple-page'
         '400':
+          description: "400"
           schema:
             $ref: "#/definitions/error_response"
         '404':
+          description: "404"
           schema:
             $ref: "#/definitions/error_response"
 definitions:

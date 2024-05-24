@@ -8,6 +8,125 @@
       "name": "/artists/{id}/albums",
       "item": [
         {
+          "name": "getArtistAlbums_400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "\u0027use strict\u0027;\r",
+                  "input_id \u003d pm.request.url.path[2];\r",
+                  "if (input_id !\u003d null) {\r",
+                  "  input_id \u003d decodeURIComponent(input_id);\r",
+                  "}\r",
+                  "input_limit \u003d pm.request.url.query.get(\"limit\");\r",
+                  "if (input_limit !\u003d null) {\r",
+                  "  input_limit \u003d decodeURIComponent(input_limit);\r",
+                  "  input_limit \u003d parseInt(input_limit);\r",
+                  "}\r",
+                  "input_offset \u003d pm.request.url.query.get(\"offset\");\r",
+                  "if (input_offset !\u003d null) {\r",
+                  "  input_offset \u003d decodeURIComponent(input_offset);\r",
+                  "  input_offset \u003d parseInt(input_offset);\r",
+                  "}\r",
+                  "input_include_groups_array \u003d pm.request.url.query.get(\"include_groups\");\r",
+                  "if (input_include_groups_array !\u003d null) {\r",
+                  "  input_include_groups_array \u003d decodeURIComponent(input_include_groups_array);\r",
+                  "  input_include_groups_array \u003d input_include_groups_array.split(\",\").map(item \u003d\u003e item.trim());\r",
+                  "}\r",
+                  "input_market \u003d pm.request.url.query.get(\"market\");\r",
+                  "if (input_market !\u003d null) {\r",
+                  "  input_market \u003d decodeURIComponent(input_market);\r",
+                  "}\r",
+                  "valuesToConsiderAsNull \u003d [];\r",
+                  "response \u003d pm.response.json();\r",
+                  "pm.test(\"return.error.status \\x3d\\x3d 400\", () \u003d\u003e {\r",
+                  "  return_error_status \u003d response[\"error\"];\r",
+                  "  if (return_error_status !\u003d null) {\r",
+                  "    return_error_status \u003d return_error_status[\"status\"];\r",
+                  "  }\r",
+                  "  if (return_error_status !\u003d null \u0026\u0026 !valuesToConsiderAsNull.includes(return_error_status)) {\r",
+                  "    pm.expect([400].includes(return_error_status)).to.be.true;\r",
+                  "  }\r",
+                  "});\r",
+                  "pm.test(\"return.error.message \\x3d\\x3d Invalid base62 id\", () \u003d\u003e {\r",
+                  "  return_error_message \u003d response[\"error\"];\r",
+                  "  if (return_error_message !\u003d null) {\r",
+                  "    return_error_message \u003d return_error_message[\"message\"];\r",
+                  "  }\r",
+                  "  if (return_error_message !\u003d null \u0026\u0026 !valuesToConsiderAsNull.includes(return_error_message)) {\r",
+                  "    pm.expect([\"Invalid base62 id\"].includes(return_error_message)).to.be.true;\r",
+                  "  }\r",
+                  "});\r",
+                  "pm.test(\"LENGTH(return.error.message)\\x3d\\x3d17\", () \u003d\u003e {\r",
+                  "  return_error_message \u003d response[\"error\"];\r",
+                  "  if (return_error_message !\u003d null) {\r",
+                  "    return_error_message \u003d return_error_message[\"message\"];\r",
+                  "  }\r",
+                  "  if (return_error_message !\u003d null \u0026\u0026 !valuesToConsiderAsNull.includes(return_error_message)) {\r",
+                  "    pm.expect(return_error_message).to.have.length(17);\r",
+                  "  }\r",
+                  "});\r"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.spotify.com/v1/artists/{id}/albums",
+              "protocol": "https",
+              "host": [
+                "api",
+                "spotify",
+                "com"
+              ],
+              "path": [
+                "v1",
+                "artists",
+                ":id",
+                "albums"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "offset",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "include_groups",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "market",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            },
+            "body": {}
+          },
+          "response": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
           "name": "getArtistAlbums_200",
           "event": [
             {
@@ -59,6 +178,125 @@
                   "  }\r",
                   "}\r",
                   ";\r"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.spotify.com/v1/artists/{id}/albums",
+              "protocol": "https",
+              "host": [
+                "api",
+                "spotify",
+                "com"
+              ],
+              "path": [
+                "v1",
+                "artists",
+                ":id",
+                "albums"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "offset",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "include_groups",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "market",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            },
+            "body": {}
+          },
+          "response": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "name": "getArtistAlbums_404",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "\u0027use strict\u0027;\r",
+                  "input_id \u003d pm.request.url.path[2];\r",
+                  "if (input_id !\u003d null) {\r",
+                  "  input_id \u003d decodeURIComponent(input_id);\r",
+                  "}\r",
+                  "input_limit \u003d pm.request.url.query.get(\"limit\");\r",
+                  "if (input_limit !\u003d null) {\r",
+                  "  input_limit \u003d decodeURIComponent(input_limit);\r",
+                  "  input_limit \u003d parseInt(input_limit);\r",
+                  "}\r",
+                  "input_offset \u003d pm.request.url.query.get(\"offset\");\r",
+                  "if (input_offset !\u003d null) {\r",
+                  "  input_offset \u003d decodeURIComponent(input_offset);\r",
+                  "  input_offset \u003d parseInt(input_offset);\r",
+                  "}\r",
+                  "input_include_groups_array \u003d pm.request.url.query.get(\"include_groups\");\r",
+                  "if (input_include_groups_array !\u003d null) {\r",
+                  "  input_include_groups_array \u003d decodeURIComponent(input_include_groups_array);\r",
+                  "  input_include_groups_array \u003d input_include_groups_array.split(\",\").map(item \u003d\u003e item.trim());\r",
+                  "}\r",
+                  "input_market \u003d pm.request.url.query.get(\"market\");\r",
+                  "if (input_market !\u003d null) {\r",
+                  "  input_market \u003d decodeURIComponent(input_market);\r",
+                  "}\r",
+                  "valuesToConsiderAsNull \u003d [];\r",
+                  "response \u003d pm.response.json();\r",
+                  "pm.test(\"return.error.status \\x3d\\x3d 404\", () \u003d\u003e {\r",
+                  "  return_error_status \u003d response[\"error\"];\r",
+                  "  if (return_error_status !\u003d null) {\r",
+                  "    return_error_status \u003d return_error_status[\"status\"];\r",
+                  "  }\r",
+                  "  if (return_error_status !\u003d null \u0026\u0026 !valuesToConsiderAsNull.includes(return_error_status)) {\r",
+                  "    pm.expect([404].includes(return_error_status)).to.be.true;\r",
+                  "  }\r",
+                  "});\r",
+                  "pm.test(\"return.error.message \\x3d\\x3d Resource not found\", () \u003d\u003e {\r",
+                  "  return_error_message \u003d response[\"error\"];\r",
+                  "  if (return_error_message !\u003d null) {\r",
+                  "    return_error_message \u003d return_error_message[\"message\"];\r",
+                  "  }\r",
+                  "  if (return_error_message !\u003d null \u0026\u0026 !valuesToConsiderAsNull.includes(return_error_message)) {\r",
+                  "    pm.expect([\"Resource not found\"].includes(return_error_message)).to.be.true;\r",
+                  "  }\r",
+                  "});\r",
+                  "pm.test(\"LENGTH(return.error.message)\\x3d\\x3d18\", () \u003d\u003e {\r",
+                  "  return_error_message \u003d response[\"error\"];\r",
+                  "  if (return_error_message !\u003d null) {\r",
+                  "    return_error_message \u003d return_error_message[\"message\"];\r",
+                  "  }\r",
+                  "  if (return_error_message !\u003d null \u0026\u0026 !valuesToConsiderAsNull.includes(return_error_message)) {\r",
+                  "    pm.expect(return_error_message).to.have.length(18);\r",
+                  "  }\r",
+                  "});\r"
                 ],
                 "type": "text/javascript",
                 "packages": {}
@@ -199,6 +437,86 @@
           "protocolProfileBehavior": {
             "disableBodyPruning": true
           }
+        },
+        {
+          "name": "createPlaylist_400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "\u0027use strict\u0027;\r",
+                  "input_user_id \u003d pm.request.url.path[2];\r",
+                  "if (input_user_id !\u003d null) {\r",
+                  "  input_user_id \u003d decodeURIComponent(input_user_id);\r",
+                  "}\r",
+                  "input_Accept \u003d pm.request.headers.find(header \u003d\u003e !header.disabled \u0026\u0026 header.key \u003d\u003d \"Accept\");\r",
+                  "if (input_Accept !\u003d null) {\r",
+                  "  input_Accept \u003d input_Accept.value;\r",
+                  "}\r",
+                  "if (input_Accept !\u003d null) {\r",
+                  "  input_Accept \u003d decodeURIComponent(input_Accept);\r",
+                  "}\r",
+                  "let request_body \u003d JSON.parse(pm.request.body.raw);\r",
+                  "input_name \u003d request_body[\"name\"];\r",
+                  "input_description \u003d request_body[\"description\"];\r",
+                  "input_public \u003d request_body[\"public\"];\r",
+                  "input_collaborative \u003d request_body[\"collaborative\"];\r",
+                  "valuesToConsiderAsNull \u003d [];\r",
+                  "response \u003d pm.response.json();\r",
+                  "pm.test(\"return.error.status \\x3d\\x3d 400\", () \u003d\u003e {\r",
+                  "  return_error_status \u003d response[\"error\"];\r",
+                  "  if (return_error_status !\u003d null) {\r",
+                  "    return_error_status \u003d return_error_status[\"status\"];\r",
+                  "  }\r",
+                  "  if (return_error_status !\u003d null \u0026\u0026 !valuesToConsiderAsNull.includes(return_error_status)) {\r",
+                  "    pm.expect([400].includes(return_error_status)).to.be.true;\r",
+                  "  }\r",
+                  "});\r"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "",
+                "type": "",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "https://api.spotify.com/v1/users/{user_id}/playlists",
+              "protocol": "https",
+              "host": [
+                "api",
+                "spotify",
+                "com"
+              ],
+              "path": [
+                "v1",
+                "users",
+                ":user_id",
+                "playlists"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "user_id",
+                  "value": ""
+                }
+              ]
+            },
+            "body": {}
+          },
+          "response": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
         }
       ]
     },
@@ -255,6 +573,224 @@
                   "  }\r",
                   "}\r",
                   ";\r"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.spotify.com/v1/albums/{id}/tracks",
+              "protocol": "https",
+              "host": [
+                "api",
+                "spotify",
+                "com"
+              ],
+              "path": [
+                "v1",
+                "albums",
+                ":id",
+                "tracks"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "offset",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "market",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            },
+            "body": {}
+          },
+          "response": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "name": "getAlbumTracks_400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "\u0027use strict\u0027;\r",
+                  "input_id \u003d pm.request.url.path[2];\r",
+                  "if (input_id !\u003d null) {\r",
+                  "  input_id \u003d decodeURIComponent(input_id);\r",
+                  "}\r",
+                  "input_limit \u003d pm.request.url.query.get(\"limit\");\r",
+                  "if (input_limit !\u003d null) {\r",
+                  "  input_limit \u003d decodeURIComponent(input_limit);\r",
+                  "  input_limit \u003d parseInt(input_limit);\r",
+                  "}\r",
+                  "input_offset \u003d pm.request.url.query.get(\"offset\");\r",
+                  "if (input_offset !\u003d null) {\r",
+                  "  input_offset \u003d decodeURIComponent(input_offset);\r",
+                  "  input_offset \u003d parseInt(input_offset);\r",
+                  "}\r",
+                  "input_market \u003d pm.request.url.query.get(\"market\");\r",
+                  "if (input_market !\u003d null) {\r",
+                  "  input_market \u003d decodeURIComponent(input_market);\r",
+                  "}\r",
+                  "valuesToConsiderAsNull \u003d [];\r",
+                  "response \u003d pm.response.json();\r",
+                  "pm.test(\"return.error.status \\x3d\\x3d 400\", () \u003d\u003e {\r",
+                  "  return_error_status \u003d response[\"error\"];\r",
+                  "  if (return_error_status !\u003d null) {\r",
+                  "    return_error_status \u003d return_error_status[\"status\"];\r",
+                  "  }\r",
+                  "  if (return_error_status !\u003d null \u0026\u0026 !valuesToConsiderAsNull.includes(return_error_status)) {\r",
+                  "    pm.expect([400].includes(return_error_status)).to.be.true;\r",
+                  "  }\r",
+                  "});\r",
+                  "pm.test(\"return.error.message \\x3d\\x3d Invalid base62 id\", () \u003d\u003e {\r",
+                  "  return_error_message \u003d response[\"error\"];\r",
+                  "  if (return_error_message !\u003d null) {\r",
+                  "    return_error_message \u003d return_error_message[\"message\"];\r",
+                  "  }\r",
+                  "  if (return_error_message !\u003d null \u0026\u0026 !valuesToConsiderAsNull.includes(return_error_message)) {\r",
+                  "    pm.expect([\"Invalid base62 id\"].includes(return_error_message)).to.be.true;\r",
+                  "  }\r",
+                  "});\r",
+                  "pm.test(\"LENGTH(return.error.message)\\x3d\\x3d17\", () \u003d\u003e {\r",
+                  "  return_error_message \u003d response[\"error\"];\r",
+                  "  if (return_error_message !\u003d null) {\r",
+                  "    return_error_message \u003d return_error_message[\"message\"];\r",
+                  "  }\r",
+                  "  if (return_error_message !\u003d null \u0026\u0026 !valuesToConsiderAsNull.includes(return_error_message)) {\r",
+                  "    pm.expect(return_error_message).to.have.length(17);\r",
+                  "  }\r",
+                  "});\r"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.spotify.com/v1/albums/{id}/tracks",
+              "protocol": "https",
+              "host": [
+                "api",
+                "spotify",
+                "com"
+              ],
+              "path": [
+                "v1",
+                "albums",
+                ":id",
+                "tracks"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "offset",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "market",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            },
+            "body": {}
+          },
+          "response": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "name": "getAlbumTracks_404",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "\u0027use strict\u0027;\r",
+                  "input_id \u003d pm.request.url.path[2];\r",
+                  "if (input_id !\u003d null) {\r",
+                  "  input_id \u003d decodeURIComponent(input_id);\r",
+                  "}\r",
+                  "input_limit \u003d pm.request.url.query.get(\"limit\");\r",
+                  "if (input_limit !\u003d null) {\r",
+                  "  input_limit \u003d decodeURIComponent(input_limit);\r",
+                  "  input_limit \u003d parseInt(input_limit);\r",
+                  "}\r",
+                  "input_offset \u003d pm.request.url.query.get(\"offset\");\r",
+                  "if (input_offset !\u003d null) {\r",
+                  "  input_offset \u003d decodeURIComponent(input_offset);\r",
+                  "  input_offset \u003d parseInt(input_offset);\r",
+                  "}\r",
+                  "input_market \u003d pm.request.url.query.get(\"market\");\r",
+                  "if (input_market !\u003d null) {\r",
+                  "  input_market \u003d decodeURIComponent(input_market);\r",
+                  "}\r",
+                  "valuesToConsiderAsNull \u003d [];\r",
+                  "response \u003d pm.response.json();\r",
+                  "pm.test(\"return.error.status \\x3d\\x3d 404\", () \u003d\u003e {\r",
+                  "  return_error_status \u003d response[\"error\"];\r",
+                  "  if (return_error_status !\u003d null) {\r",
+                  "    return_error_status \u003d return_error_status[\"status\"];\r",
+                  "  }\r",
+                  "  if (return_error_status !\u003d null \u0026\u0026 !valuesToConsiderAsNull.includes(return_error_status)) {\r",
+                  "    pm.expect([404].includes(return_error_status)).to.be.true;\r",
+                  "  }\r",
+                  "});\r",
+                  "pm.test(\"return.error.message \\x3d\\x3d Resource not found\", () \u003d\u003e {\r",
+                  "  return_error_message \u003d response[\"error\"];\r",
+                  "  if (return_error_message !\u003d null) {\r",
+                  "    return_error_message \u003d return_error_message[\"message\"];\r",
+                  "  }\r",
+                  "  if (return_error_message !\u003d null \u0026\u0026 !valuesToConsiderAsNull.includes(return_error_message)) {\r",
+                  "    pm.expect([\"Resource not found\"].includes(return_error_message)).to.be.true;\r",
+                  "  }\r",
+                  "});\r",
+                  "pm.test(\"LENGTH(return.error.message)\\x3d\\x3d18\", () \u003d\u003e {\r",
+                  "  return_error_message \u003d response[\"error\"];\r",
+                  "  if (return_error_message !\u003d null) {\r",
+                  "    return_error_message \u003d return_error_message[\"message\"];\r",
+                  "  }\r",
+                  "  if (return_error_message !\u003d null \u0026\u0026 !valuesToConsiderAsNull.includes(return_error_message)) {\r",
+                  "    pm.expect(return_error_message).to.have.length(18);\r",
+                  "  }\r",
+                  "});\r"
                 ],
                 "type": "text/javascript",
                 "packages": {}
