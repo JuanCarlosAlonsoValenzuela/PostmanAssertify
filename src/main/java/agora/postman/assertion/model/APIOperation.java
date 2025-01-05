@@ -139,20 +139,11 @@ public class APIOperation {
         // Get values of the body parameters
         RequestBody requestBody = this.requestBody;
         if(requestBody != null) {
-
-            // Get the request body itself
-            res += "let request_body = JSON.parse(pm.request.body.raw);\n";
-
-            if(DEBUG_MODE) {
-                res += printVariableValueScript("request_body");
-            }
-
             // Generates the code that obtains the value of all the body parameters (first nesting level) specified in
             // the OAS
             res += generateBodyParametersScript(requestBody);
 
         }
-
 
         return res;
     }

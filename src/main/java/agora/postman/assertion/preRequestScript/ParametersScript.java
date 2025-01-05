@@ -1,6 +1,7 @@
 package agora.postman.assertion.preRequestScript;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 
 import java.net.MalformedURLException;
@@ -35,7 +36,7 @@ public class ParametersScript {
                     "if(" + inputVariableName + " != null){\n" +
                     inputVariableName + " = " + inputVariableName + ".value;\n" +
                     "}\n";
-
+            case "formData" -> inputVariableName + " = (pm.request.body.urlencoded.find(param => param.key === \"" + parameterName + "\") || {}).value || null;\n";
             default -> throw new RuntimeException("Unexpected value for parameter source, got: " + parameterIn);
         };
 
@@ -68,11 +69,16 @@ public class ParametersScript {
 
     // Generates the Postman code necessary to cast an input parameter to its corresponding datatype
     public static String generateCastingVariableScript(Parameter parameter) {
+        return generateCastingVariableScript(parameter.getName(), parameter.getSchema());
+    }
 
-        String parameterType = parameter.getSchema().getType();
+    // Generates the Postman code necessary to cast an input parameter to its corresponding datatype
+    public static String generateCastingVariableScript(String parameterName, Schema parameterSchema) {
+
+        String parameterType = parameterSchema.getType();
 
         // Get variable name in the Postman script
-        String inputVariableName = getInputVariableName(parameter);
+        String inputVariableName = getInputVariableName(parameterName, parameterType);
 
         String res = "if (" + inputVariableName + " != null) { \n";
 
@@ -86,7 +92,7 @@ public class ParametersScript {
             case "array" -> {
 
                 String separator = ",";
-                String itemsDatatype = ((ArraySchema) parameter.getSchema()).getItems().getType();
+                String itemsDatatype = ((ArraySchema) parameterSchema).getItems().getType();
 
                 // Check items datatype and convert them
                 res+= switch (itemsDatatype) {

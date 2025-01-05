@@ -22,7 +22,7 @@ public class VariableNames {
 
     // Used to get an input variable name in the pre-request script
     // Must be consistent with getPostmanVariableName method
-    private static String getInputVariableName(String parameterName, String parameterType) {
+    public static String getInputVariableName(String parameterName, String parameterType) {
 
         String inputVariableName = "input_" + parameterName;
         if(parameterType.equals("array")) {
