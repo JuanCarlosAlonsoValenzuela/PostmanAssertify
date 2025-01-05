@@ -1,7 +1,15 @@
 package agora.postman.assertion.model;
 
+import io.swagger.v3.oas.models.media.MediaType;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.RequestBody;
+
+import java.sql.ParameterMetaData;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import static agora.postman.assertion.GeneratePostmanCollection.DEBUG_MODE;
 import static agora.postman.assertion.debug.DebugUtils.printVariableValueScript;
@@ -68,7 +76,8 @@ public class Variable {
 
 
     // TODO: Split into multiple methods
-    public String getPostmanVariableValueCode(String parentBaseVariable, boolean isArrayNestingPpt) {
+    public String getPostmanVariableValueCode(String parentBaseVariable, boolean isArrayNestingPpt,
+                                              List<Parameter> parameters, RequestBody requestBody) {
 
         String postmanVariableName = getPostmanVariableName(this.variableName);
 
@@ -161,11 +170,55 @@ public class Variable {
 
             if(this.arrayElementIndex != null) {    // If the array element is an index
 
-                res+= postmanVariableName + " = " + postmanVariableName + "[" + this.arrayElementIndex + "];\n";
+                // TODO: START CONVERT INTO FUNCTION AND REFACTOR
+                // TODO: In the future, refactor to handle input.marketing_features[0][name]
+                // Despite having a numerical index, the parameter may not be an array. For instance, in the Stripe API,
+                // the parameter images[0] is of type string, the following snippet of code checks whether the parameter
+                // is of type array, and PostmanAssertify only generates code to access the array index if the parameter
+                // is an array
+                boolean accessArrayElement = true;
+                if (!this.isReturn && (parameters != null || requestBody != null)) {
+
+                    String lastHierarchyElement = this.variableHierarchyList.get(this.variableHierarchyList.size()-1) + "[" + this.arrayElementIndex + "]";
+
+                    if (parameters != null) {
+                        Parameter inputParameter = parameters.stream()
+                                .filter(x->x.getName().equals(lastHierarchyElement))
+                                .findFirst()
+                                .orElse(null);
+                        if (inputParameter != null) {
+                            // Determine whether the input parameter is an array
+                            accessArrayElement = inputParameter.getSchema().getType().equals("array");
+                        }
+
+                    }
+
+                    if (requestBody != null && accessArrayElement) {
+                        // Again, only the first schema
+                        Collection<MediaType> mediaTypes = requestBody.getContent().values();
+                        if(!mediaTypes.isEmpty()) {
+                            Schema requestSchema = mediaTypes.iterator().next().getSchema();
+                            Map<String, Schema> requestSchemaDictionary = requestSchema.getProperties();
+
+                            // Find the corresponding schema
+                            if(requestSchemaDictionary.containsKey(lastHierarchyElement)) {
+                                // Determine whether the input parameter is an array
+                                accessArrayElement = requestSchemaDictionary.get(lastHierarchyElement).getType().equals("array");
+                            }
+                        }
+                    }
+                }
+
+                if (accessArrayElement) {
+                    // Access array element by index if the parameter is of type array or if the variable is part of the response
+                    res+= postmanVariableName + " = " + postmanVariableName + "[" + this.arrayElementIndex + "];\n";
+                }
+                // TODO: END CONVERT INTO FUNCTION AND REFACTOR
 
             } else { // If the array element is another variable
                 // Add code used to access the array element variable
-                res += this.arrayElementVariable.getPostmanVariableValueCode(parentBaseVariable, isArrayNestingPpt);
+                res += this.arrayElementVariable.getPostmanVariableValueCode(parentBaseVariable, isArrayNestingPpt,
+                        parameters, requestBody);
 
                 String arrayElementVariableName = getPostmanVariableName(this.arrayElementVariable.getVariableName());
 
@@ -278,16 +331,24 @@ public class Variable {
 
             if(arrayElementVariableName.matches("^[0-9]+$")) {  // if the array element is a number (e.g., return.data.results[1])
                 this.arrayElementIndex = Integer.valueOf(arrayElementVariableName);
-            } else {    // if the array element is another variable (e.g., return.data.results[return.data.offset])
+
+                // Remove the array index variable from variableHierarchyString
+                // (to avoid it being part of the variableHierarchyList
+                variableHierarchyString = variableHierarchyString.substring(0, firstBracketIndex) + variableHierarchyString.substring(lastBracketIndex+1);
+
+            } else if (arrayElementVariableName.startsWith("input.") ||
+                    arrayElementVariableName.startsWith("return.") ||
+                    arrayElementVariableName.startsWith("size(")) {    // if the array element is another variable (e.g., return.data.results[return.data.offset])
+
                 // Create a Variable object and assign it to the "arrayElementVariable" attribute
                 this.arrayElementVariable = new Variable(arrayElementVariableName);
+
+                // Remove the array index variable from variableHierarchyString
+                // (to avoid it being part of the variableHierarchyList
+                variableHierarchyString = variableHierarchyString.substring(0, firstBracketIndex) +
+                        variableHierarchyString.substring(lastBracketIndex+1);
+
             }
-
-            // Remove the array index variable from variableHierarchyString
-            // (to avoid it being part of the variableHierarchyList
-            variableHierarchyString = variableHierarchyString.substring(0, firstBracketIndex) +
-                    variableHierarchyString.substring(lastBracketIndex+1);
-
         }
 
         List<String> variableHierarchyList;

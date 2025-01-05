@@ -1,6 +1,8 @@
 package agora.postman.assertion.testScript;
 
 import agora.postman.assertion.testScript.nestingLevelTree.Tree;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +13,11 @@ import java.util.List;
 public class DepthSearch {
 
 
-    public static String programPointDepthSearch(Tree<String> tree, List<String> parents, String parentBaseVariable, String response) {
+    public static String programPointDepthSearch(Tree<String> tree, List<String> parents, String parentBaseVariable,
+                                                 String response, List<Parameter> parameters, RequestBody requestBody) {
 
-        NestingLevelTestScript nLTS = new NestingLevelTestScript(tree, parents, parentBaseVariable, response);
+        NestingLevelTestScript nLTS = new NestingLevelTestScript(tree, parents, parentBaseVariable,
+                response, parameters, requestBody);
 
         String res = nLTS.getInitialLines();
 
@@ -26,7 +30,7 @@ public class DepthSearch {
 
         // Generate children test scripts
         for(Tree<String> child: tree.getChildren()) {
-            res += programPointDepthSearch(child, updatedParents, parentBaseVariable, response);
+            res += programPointDepthSearch(child, updatedParents, parentBaseVariable, response, parameters, requestBody);
         }
 
         // Add closing lines (i.e., closing if/for brackets)

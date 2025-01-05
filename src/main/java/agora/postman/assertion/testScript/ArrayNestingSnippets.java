@@ -1,8 +1,11 @@
 package agora.postman.assertion.testScript;
 
 import agora.postman.assertion.model.ProgramPoint;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.RequestBody;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import static agora.postman.assertion.GeneratePostmanCollection.DEBUG_MODE;
@@ -16,7 +19,8 @@ public class ArrayNestingSnippets {
 
 
     public static ScriptSnippet generateRootArrayNestingSnippet(
-            Map<Integer, ProgramPoint> arrayNestingProgramPoints, String parentBaseVariable
+            Map<Integer, ProgramPoint> arrayNestingProgramPoints, String parentBaseVariable,
+            List<Parameter> parameters, RequestBody requestBody
     ) {
 
         String snippet = "";
@@ -32,7 +36,8 @@ public class ArrayNestingSnippets {
             }
 
             // Generate test cases of this nesting level
-            snippet += generateProgramPointTestCases(arrayNestingProgramPoints.get(i), parentBaseVariable);
+            snippet += generateProgramPointTestCases(arrayNestingProgramPoints.get(i), parentBaseVariable,
+                    parameters, requestBody);
 
             snippet += "// Access to the next nesting level\n";
 

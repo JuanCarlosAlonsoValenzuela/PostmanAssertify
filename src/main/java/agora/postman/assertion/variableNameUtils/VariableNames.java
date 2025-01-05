@@ -27,6 +27,10 @@ public class VariableNames {
         String inputVariableName = "input_" + parameterName;
         if(parameterType.equals("array")) {
             inputVariableName = inputVariableName + "_array";
+        } else {
+            // Replace array characters
+            inputVariableName = inputVariableName.replace("[", "_");
+            inputVariableName = inputVariableName.replace("]", "");
         }
 
         // Kebab case is not supported in JS

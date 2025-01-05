@@ -168,7 +168,7 @@ public class APIOperation {
         // Prints the program point hierarchy tree
 //        programPointHierarchy.accept(new PrintIndentedVisitor(0));
 
-        res += programPointDepthSearch(programPointHierarchy, new ArrayList<>(), null, response);
+        res += programPointDepthSearch(programPointHierarchy, new ArrayList<>(), null, response, this.parameters, this.requestBody);
 
         return res;
 

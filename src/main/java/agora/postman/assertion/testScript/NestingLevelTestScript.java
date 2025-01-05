@@ -3,6 +3,8 @@ package agora.postman.assertion.testScript;
 import agora.postman.assertion.model.ProgramPoint;
 import agora.postman.assertion.testScript.nestingLevelTree.NestingType;
 import agora.postman.assertion.testScript.nestingLevelTree.Tree;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.RequestBody;
 
 import java.util.Collections;
 import java.util.List;
@@ -26,9 +28,11 @@ public class NestingLevelTestScript {
     private String closingLines;
 
 
-    public NestingLevelTestScript(Tree<String> tree, List<String> parents, String parentBaseVariable, String response) {
+    public NestingLevelTestScript(Tree<String> tree, List<String> parents, String parentBaseVariable,
+                                  String response, List<Parameter> parameters, RequestBody requestBody) {
         // This method also sets the value of this.childrenParentBaseVariable
-        this.initialLines = generateInitialLinesScript(tree, parents, parentBaseVariable, response);
+        this.initialLines = generateInitialLinesScript(tree, parents, parentBaseVariable,
+                response, parameters, requestBody);
 
         this.closingLines = generateClosingLinesScript(tree, parents, parentBaseVariable);
     }
@@ -48,7 +52,8 @@ public class NestingLevelTestScript {
 
     // TODO: Split into multiple methods
     // Returns initial lines test scripts and sets the value of the next parentBaseVariable
-    private String generateInitialLinesScript(Tree<String> tree, List<String> parents, String parentBaseVariable, String response) {
+    private String generateInitialLinesScript(Tree<String> tree, List<String> parents, String parentBaseVariable,
+                                              String response, List<Parameter> parameters, RequestBody requestBody) {
 
         // Print current nesting level (e.g., 200&data)
         String res = "// " + String.join(HIERARCHY_SEPARATOR, parents) + HIERARCHY_SEPARATOR + tree.getData() + "\n";
@@ -66,14 +71,15 @@ public class NestingLevelTestScript {
             // Invariants of nested arrays in root (e.g., 200%array%array)
             Map<Integer, ProgramPoint> arrayNestingProgramPoints = tree.getArrayNestingProgramPoints();
             if(!arrayNestingProgramPoints.isEmpty()) {
-                ScriptSnippet rootArrayNestingSnippet = generateRootArrayNestingSnippet(arrayNestingProgramPoints, parentBaseVariable);
+                ScriptSnippet rootArrayNestingSnippet = generateRootArrayNestingSnippet(arrayNestingProgramPoints,
+                        parentBaseVariable, parameters, requestBody);
 
                 parentBaseVariable = rootArrayNestingSnippet.newParentBaseVariable();
                 res += rootArrayNestingSnippet.snippet();
             }
 
             // Get invariants of this nesting level
-            res += generateProgramPointTestCases(tree.getProgramPoint(), parentBaseVariable);
+            res += generateProgramPointTestCases(tree.getProgramPoint(), parentBaseVariable, parameters, requestBody);
 
         } else {    // If we are in a deeper nesting level
 
@@ -91,7 +97,8 @@ public class NestingLevelTestScript {
                 Map<Integer, ProgramPoint> arrayNestingProgramPoints = tree.getArrayNestingProgramPoints();
                 if(!arrayNestingProgramPoints.isEmpty()) {
                     // Generate code to access to all the nested arrays program points
-                    ScriptSnippet propertyArrayNestingSnippet = generateRootArrayNestingSnippet(arrayNestingProgramPoints, parentBaseVariable);
+                    ScriptSnippet propertyArrayNestingSnippet = generateRootArrayNestingSnippet(
+                            arrayNestingProgramPoints, parentBaseVariable, parameters, requestBody);
 
                     parentBaseVariable = propertyArrayNestingSnippet.newParentBaseVariable();
                     res += propertyArrayNestingSnippet.snippet();
@@ -108,7 +115,7 @@ public class NestingLevelTestScript {
 
             }
 
-            res += generateProgramPointTestCases(tree.getProgramPoint(), parentBaseVariable);
+            res += generateProgramPointTestCases(tree.getProgramPoint(), parentBaseVariable, parameters, requestBody);
 
         }
 

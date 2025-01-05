@@ -1,5 +1,8 @@
 package agora.postman.assertion.model;
 
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.RequestBody;
+
 import java.util.ArrayList;
 
 import java.util.List;
@@ -56,7 +59,7 @@ public class Invariant {
 
     public String getPostmanAssertion() { return postmanAssertion; }
 
-    public String getPostmanTestCase(String parentBaseVariable) {
+    public String getPostmanTestCase(String parentBaseVariable, List<Parameter> parameters, RequestBody requestBody) {
 
         StringBuilder res = new StringBuilder("// " + this.invariant + "\n");
 
@@ -65,7 +68,8 @@ public class Invariant {
 
         // Generate code to access to variable value
         for(Variable variable: this.variables) {
-            res.append(variable.getPostmanVariableValueCode(parentBaseVariable, this.isArrayNestingPpt));
+            res.append(variable.getPostmanVariableValueCode(parentBaseVariable, this.isArrayNestingPpt,
+                    parameters, requestBody));
         }
 
         // Check that none of the invariants variables is null or one of the values to consider as null
