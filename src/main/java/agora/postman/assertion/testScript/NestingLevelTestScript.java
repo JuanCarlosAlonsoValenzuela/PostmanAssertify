@@ -96,12 +96,33 @@ public class NestingLevelTestScript {
             if(tree.getNestingType().equals(NestingType.ARRAY)) {
                 Map<Integer, ProgramPoint> arrayNestingProgramPoints = tree.getArrayNestingProgramPoints();
                 if(!arrayNestingProgramPoints.isEmpty()) {
-                    // Generate code to access to all the nested arrays program points
-                    ScriptSnippet propertyArrayNestingSnippet = generateRootArrayNestingSnippet(
-                            arrayNestingProgramPoints, parentBaseVariable, parameters, requestBody);
+                    // TODO: HOT FIX HERE
+                    if (arrayNestingProgramPoints.get(1).getOperationId().equals("checkText")) {
+                        // TODO: Hot fix for LanguageTool, refactor in the future
+                        ScriptSnippet accessNextArrayNestingLevelSnippet = generateAccessNextArrayNestingLevelSnippet(parentBaseVariable);
 
-                    parentBaseVariable = propertyArrayNestingSnippet.newParentBaseVariable();
-                    res += propertyArrayNestingSnippet.snippet();
+                        parentBaseVariable = accessNextArrayNestingLevelSnippet.newParentBaseVariable();
+                        res += accessNextArrayNestingLevelSnippet.snippet();
+
+                        res += "if(" + parentBaseVariable + " != null) {\n";
+
+                        // Generate test cases of this nesting level
+                        // Only first nesting level (1), because it is a hot fix
+                        res += generateProgramPointTestCases(arrayNestingProgramPoints.get(1), parentBaseVariable,
+                                parameters, requestBody);
+
+                        // Add closing brackets
+                        res += "}\n";
+
+                    } else {
+                        // TODO: Normal behavior. Problem: only works if the nesting is of objects, fix in the future
+                        // Generate code to access to all the nested arrays program points
+                        ScriptSnippet propertyArrayNestingSnippet = generateRootArrayNestingSnippet(
+                                arrayNestingProgramPoints, parentBaseVariable, parameters, requestBody);
+
+                        parentBaseVariable = propertyArrayNestingSnippet.newParentBaseVariable();
+                        res += propertyArrayNestingSnippet.snippet();
+                    }
                 }
 
                 // Generate the code to access to the next nesting level
