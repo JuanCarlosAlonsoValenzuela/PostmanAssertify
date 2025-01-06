@@ -53,6 +53,7 @@ public class ItemRequest implements Serializable
                 mutatedTestCase.getHeaderParameters(),
                 mutatedTestCase.getQueryParameters(),
                 mutatedTestCase.getPathParameters(),
+                mutatedTestCase.getFormParameters(),
                 mutatedTestCase.getBodyParameter()
         );
 

@@ -49,12 +49,13 @@ public class Request implements Serializable
             Map<String, String> headerParameters,
             Map<String, String> queryParameters,
             Map<String, String> pathParameters,
+            Map<String, String> formParameters,
             String bodyParameter
     ) {
         this.method = apiOperation.getMethod();
         this.header = getAllHeaders(headerParameters);
         this.url = new Url(apiOperation, queryParameters, pathParameters);
-        this.body = new Body(bodyParameter);
+        this.body = new Body(formParameters, bodyParameter);
 
     }
 
