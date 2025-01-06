@@ -97,7 +97,7 @@ public class NestingLevelTestScript {
                 Map<Integer, ProgramPoint> arrayNestingProgramPoints = tree.getArrayNestingProgramPoints();
                 if(!arrayNestingProgramPoints.isEmpty()) {
                     // TODO: HOT FIX HERE
-                    if (arrayNestingProgramPoints.get(1).getOperationId().equals("checkText")) {
+                    if (arrayNestingProgramPoints.get(1) != null && arrayNestingProgramPoints.get(1).getOperationId().equals("checkText")) {
                         // TODO: Hot fix for LanguageTool, refactor in the future
                         ScriptSnippet accessNextArrayNestingLevelSnippet = generateAccessNextArrayNestingLevelSnippet(parentBaseVariable);
 
